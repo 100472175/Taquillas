@@ -15,21 +15,8 @@ st.write("Esta aplicación permite reservar las taquillas de la UC3M del campus 
          " Una vez se haya realizado la reserva, se enviará un correo electrónico a la persona"
          " que ha realizado la reserva con los datos de la misma (o no :)).")
 st.write("Para más información ve a la [página de delegación](https://delegacion.uc3m.es/home/eps/).")
+st.write("---")
 
-# Load assets
-lottie_coding = "https://assets7.lottiefiles.com/packages/lf20_8yjzqz.json"
-
-# ---- About Us ----
-with st.container():
-    st.write("---")
-    left_column, right_column = st.columns(2)
-    with left_column:
-        st.image("https://delegacion.uc3m.es/home/wp-content/uploads/2023/08/Untitled-1-768x319.jpg", width=300)
-        st.write("##")
-        st.write("##")
-        st.write("##")
-    with right_column:
-        st.title("Columna derecha")
 
 with open("disponibles_base.json", "r") as f:
     taquillas_disponibles = json.load(f)
@@ -97,6 +84,17 @@ with st.container():
 
 st.write("Esta va a ser tu taquilla: ", taquilla)
 st.write("NIA: ", NIA)
+
+# ---- About Us ----
+with st.container():
+    st.write("---")
+    left_column, right_column = st.columns(2)
+    with left_column:
+        st.image("https://delegacion.uc3m.es/home/wp-content/uploads/2023/08/Untitled-1-768x319.jpg", width=300)
+        st.write("##")
+        st.write("##")
+    with right_column:
+        st.title("Columna derecha")
 
 
 st.write("This is :blue[test]")
