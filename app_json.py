@@ -108,3 +108,10 @@ with st.container():
     with right_column:
         st.title("Taquillas no Disponibles:")
         st.write(taquillas_reservadas)
+
+if st.button("Reset"):
+    with open("disponibles_base.json", "w") as f:
+        json.dump(BASE_DISPONIBLE, f)
+    with open("reservadas_base.json", "w") as f:
+        json.dump(BASE_RESERVADA, f)
+    st.success("Reseteado con éxito")
