@@ -36,6 +36,7 @@ bloque = None
 numero = None
 NIA = None
 
+
 with st.container():
     st.title("Reserva tu taquilla:")
     col_edificio, col_planta, col_bloque, col_numero, col_NIA = st.columns(5)
@@ -105,7 +106,7 @@ with st.container():
 
 
     st.write(lista_numeros)
-    print(lista_numeros)
+    #print(lista_numeros)
 
     with col_numero:
         numero = st.selectbox("Selecciona el número de taquilla", lista_numeros)
