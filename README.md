@@ -16,7 +16,7 @@ pip install requirements.txt
 ## Uso
 Para usar esta aplicación, simplemente hay que ejecutar el archivo 'app.py' con streamlit:
 ```bash
-streamlit run app.py
+streamlit run Reserva_Taquillas.py
 ```
 
 ## Contribución

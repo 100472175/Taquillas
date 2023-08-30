@@ -51,7 +51,9 @@ elif st.session_state["authentication_status"]:
     with open("reservadas.json", "r") as f:
         taquillas_reservadas = json.load(f)
 
-    with st.container():
+    estado_tab, mod_tab, del_tab = st.tabs(["Cambiar estado", "Modificar Reserva", "Eliminar Reserva"])
+
+    with estado_tab:
         st.title("Cambia el estado de la taquilla:")
         st.subheader("Comprueba que han pagado la taquilla antes de darles el status de ocupada")
         nia_estado_col, taquilla_estado_col = st.columns(2)
@@ -76,16 +78,16 @@ elif st.session_state["authentication_status"]:
         else:
             st.error("No se ha encontrado tu reserva")
 
-    with st.container():
+    with mod_tab:
         st.title("Cambia otro dato de la taquilla:")
+        st.warning("""Recuerda no cambiar la taquilla reservada, solo el NIA, el estado, el nombre o los apellidos.  
+                           Si se quiere cambiar la taquilla, pasa al siguiente apartado\n""")
         nia_mod_col, taquilla_mod_col = st.columns(2)
         with nia_mod_col:
             nia_mod_estado = st.text_input("Introduce el NIA a consultar", key="NIA_mod")
         with taquilla_mod_col:
             taquilla_mod_estado = st.text_input("Introduce el nombre de la taquilla a consultar", key="taquilla_mod")
 
-        st.warning("""Recuerda no cambiar la taquilla reservada, solo el NIA, el estado, el nombre o los apellidos.  
-                   Si se quiere cambiar la taquilla, pasa al siguiente apartado\n""")
         taquilla_mod_index = get_taquilla_info_nia(nia_mod_estado)
         if taquilla_mod_index is None:
             taquilla_mod_index = get_taquilla_info_name(taquilla_estado)
@@ -111,12 +113,6 @@ elif st.session_state["authentication_status"]:
             if st.button("Cambiar"):
                 with open("reservadas.json", "w") as f:
                     json.dump(taquillas_reservadas, f, indent=4)
-                with open("NIAS.json", "r") as f:
-                    NIAS = json.load(f)
-                    NIAS.remove(taquilla_mod[1])
-                    NIAS.append(new_nia)
-                with open("NIAS.json", "w") as f:
-                    json.dump(NIAS, f, indent=4)
                 print(taquilla_mod)
                 if taquilla_mod[1] in str(taquillas_reservadas):
                     st.success("Cambiado")
@@ -125,20 +121,54 @@ elif st.session_state["authentication_status"]:
             st.error("No se ha encontrado tu reserva")
 
 
-    with st.container():
+    with del_tab:
         st.title("Elimina una reserva")
-        nia = st.text_input("Introduce el NIA de la reserva", key="NIA_delete")
-        taquilla_delete = get_taquilla_info_nia(nia)
-        if taquilla_delete is not None:
+
+        nia_del_col, taquilla_del_col = st.columns(2)
+        with nia_del_col:
+            nia_del_estado = st.text_input("Introduce el NIA de la reserva a eliminar", key="NIA_del")
+        with taquilla_del_col:
+            taquilla_del_estado = st.text_input("Introduce el nombre de la taquilla a consultar", key="taquilla_del")
+
+        taquilla_del_index = get_taquilla_info_nia(nia_del_estado)
+        if taquilla_del_index is None:
+            taquilla_del_index = get_taquilla_info_name(taquilla_del_estado)
+        if taquilla_del_index is not None:
+            taquilla_delete = taquillas_reservadas[taquilla_del_index[0]][taquilla_del_index[1]][taquilla_del_index[2]][taquilla_del_index[3]]
+
             taquilla_col, nia_col, estado_col, nombre_col, apellidos_col = st.columns(5)
             with taquilla_col:
                 st.write("Taquilla", value=taquilla_delete[0], key=taquilla_delete[0])
+                st.write(taquilla_delete[0])
             with nia_col:
                 st.write("NIA", value=taquilla_delete[1], key=taquilla_delete[1])
+                st.write(taquilla_delete[1])
             with estado_col:
                 st.write("Estado", value=taquilla_delete[2], key=taquilla_delete[2])
+                st.write(taquilla_delete[2])
             with nombre_col:
                 st.write("Nombre", value=taquilla_delete[3], key=taquilla_delete[3])
+                st.write(taquilla_delete[3])
             with apellidos_col:
                 st.write("Apellidos", value=taquilla_delete[4], key=taquilla_delete[4])
+                st.write(taquilla_delete[4])
+        else:
+            st.error("No se ha encontrado tu reserva")
 
+        if st.button("Eliminar"):
+            edificio = taquilla_del_index[0]
+            planta = taquilla_del_index[1]
+            bloque = taquilla_del_index[2]
+            st.write(edificio, planta, bloque)
+            st.write(taquilla_delete[0])
+            taquillas_reservadas[edificio][planta][bloque].remove(taquilla_delete)
+            with open("reservadas.json", "w") as f:
+                json.dump(taquillas_reservadas, f, indent=4)
+            st.success("Eliminado")
+            with open("disponibles.json", "r") as f:
+                taquillas_disponibles = json.load(f)
+            taquillas_disponibles[edificio][planta][bloque].append(taquilla_delete[0])
+            taquillas_disponibles[edificio][planta][bloque] = sorted(taquillas_disponibles[edificio][planta][bloque],
+                                                                     key=lambda num: num[-3:])
+            with open("disponibles.json", "w") as f:
+                json.dump(taquillas_disponibles, f, indent=4)

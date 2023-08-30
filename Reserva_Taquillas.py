@@ -2,8 +2,12 @@ import streamlit as st
 import json
 import re
 
-st.set_page_config(page_title="Reserva Taquillas UC3M", page_icon=":smiley:", layout="wide")
-
+st.set_page_config(
+    page_title="Reserva Taquillas UC3M",
+	layout="wide",  # Can be "centered" or "wide". In the future also "dashboard", etc.
+	initial_sidebar_state="collapsed",  # Can be "auto", "expanded", "collapsed"
+	page_icon=None,  # String, anything supported by st.image, or None.
+)
 # Notas para mañana, no de puede trabajar como diccionario, así que hay probar a hacerlo con
 # dataframes, como lo hace en el formulario
 # Y mirarse esto: https://docs.streamlit.io/library/advanced-features/session-state
@@ -112,17 +116,10 @@ with st.container():
         st.success("Apellidos: " + apellidos)
         st.balloons()
 
-# ---- About Us ----
-with st.container():
-    st.write("---")
-    left_column, right_column = st.columns(2)
-    with left_column:
-
-        st.write("##")
-        st.write("##")
-    with right_column:
-        st.title("Columna derecha")
-
+st.write("---")
+st.write("---")
+st.write("---")
+st.write("Esto no aparecería en la versión final, ha sido solo para testeo")
 
 if st.button("Reset"):
     with open("base/disponibles.json", "r") as f:
