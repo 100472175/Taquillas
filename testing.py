@@ -1,7 +1,8 @@
 import json
 
-with open("disponibles_base.json", "r") as f:
-    taquillas_disponibles = json.load(f)
-print(type(taquillas_disponibles))
-print(taquillas_disponibles.keys())
-
+with open("reservadas.json", "r") as f:
+    taquillas = json.load(f)
+for i in taquillas.values():
+    for j in i
+    print(i)
+    break
