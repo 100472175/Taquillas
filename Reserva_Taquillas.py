@@ -16,13 +16,16 @@ st.set_page_config(
 # ---- HEADER ----
 st.image("https://delegacion.uc3m.es/home/wp-content/uploads/2023/08/Untitled-1-768x319.jpg", width=300)
 st.subheader("Reserva Taquillas UC3M")
-st.title("Aplicación para reservar las taquillas de la UC3M del campus de Leganés")
-st.write("Esta aplicación permite reservar las taquillas de la UC3M del campus de Leganés."
-         " Para ello, se debe seleccionar la taquilla e indicar el NIA. Además, se debe"
-         " introducir el nombre y el correo electrónico de la persona que reserva la taquilla."
-         " Una vez se haya realizado la reserva, se enviará un correo electrónico a la persona"
-         " que ha realizado la reserva con los datos de la misma (o no :)).")
-st.write("Para más información ve a la [página de delegación](https://delegacion.uc3m.es/home/eps-taquillas/).")
+st.title("Aplicación para la reserva de taquillas del campus de leganes de la UC3M")
+st.write("Esta aplicación permite reservar las taquillas del campus de leganes de la UC3M.")
+st.subheader("Instrucciones:")
+st.write("Seleccionar la taquilla e introducir el NIA del solicitante; además, se debe"
+         " introducir el nombre y el apellido del solicitante.  \n"
+         " Una realizada la reserva, se enviará un correo electrónico al solicitante"
+         " con los datos asociados y el método de pago :red[**(o no :)**]).")
+
+
+st.write("Para más información ve a la [página de Delegación](https://delegacion.uc3m.es/home/eps-taquillas/).")
 st.write("---")
 
 with open("disponibles.json", "r") as f:
@@ -36,21 +39,14 @@ with open("reservadas.json", "r") as f:
 nia = 0
 reservable = False
 reservableNIA = False
-images = {'Edificio 1':{'Planta 0': "1.0.jpg", 'Planta 1': "1.1.jpg"},'Edificio 2':{'Planta 2': "2.2.jpg", 'Planta 3': "2.3.jpg"},'Edificio 4':{'Planta 0': "4.0.jpg", 'Planta 1': "4.1.jpg", 'Planta 2': "4.2.jpg"},'Edificio 7':{'Planta 0': "7.0.jpg", 'Planta 1': "7.1.jpg", 'Planta 2': "7.2.jpg"}}
+images = {'Edificio 1': {'Planta 0': "1.0.jpg", 'Planta 1': "1.1.jpg"},'Edificio 2':{'Planta 2': "2.2.jpg", 'Planta 3': "2.3.jpg"},'Edificio 4':{'Planta 0': "4.0.jpg", 'Planta 1': "4.1.jpg", 'Planta 2': "4.2.jpg"},'Edificio 7':{'Planta 0': "7.0.jpg", 'Planta 1': "7.1.jpg", 'Planta 2': "7.2.jpg"}}
 
 with st.container():
     st.title("Reserva tu taquilla:")
-    st.markdown("Ten en cuenta que la **P** quiere decir que es pequeña y la **G** que es grande")
-    col1, _ = st.columns(2)
-    with col1:
-        text = ("""Acepto el tratamiento de mis datos por la Delegación de Estudiantes únicamente
-                   con fines estadísticos y recopilación de información genérica, no siendo cedidos
-                   a terceros en ningún caso.""")
-        proteccion_datos = st.checkbox(text)
+    st.markdown("Ten en cuenta que las letras **P** y **G** indican el tamaño **P**equeño o **G**rande respectivamente.")
+
 
     col_edificio, col_planta, col_bloque, col_numero = st.columns(4)
-
-
     # EDIFICIO SELECTOR
     with col_edificio:
         edificio = st.selectbox("Selecciona el edificio", taquillas_disponibles.keys())
@@ -86,16 +82,21 @@ with st.container():
         else:
             with col_warning:
                 st.write("NIA no válido")
-    # st.write("reservableNIA: ", reservableNIA, "proteccion_datos: ", proteccion_datos, "nombre: ", nombre, "apellidos: ", apellidos)
 
-if proteccion_datos and reservableNIA and nombre and apellidos:
+    col1, _ = st.columns(2)
+    with col1:
+        text = ("""Acepto el tratamiento de mis datos por la Delegación de Estudiantes únicamente
+                       con fines estadísticos y recopilación de información genérica, no siendo cedidos
+                       a terceros en ningún caso.""")
+        proteccion_datos = st.checkbox(text)
+
+if proteccion_datos and reservableNIA and nombre and apellidos and edificio and planta and bloque and taquilla:
     reservable = True
     st.write("Reservable")
 else:
-    st.write("No reservable. Por favor, rellena todos los campos (NIA + Nombre + Apellido)"
-             " y acepta la protección de datos")
-    if st.checkbox("Mostrar guía de bloques por planta", key="guia", value=True):
-        st.image("images/"+images[edificio][planta])
+    st.write("Por favor, rellena todos los campos (NIA + Nombre + Apellido)"
+             " y acepta la política de protección de datos")
+
 
 with st.container():
     if st.button("Reservar", disabled=not(reservable)):
@@ -116,17 +117,24 @@ with st.container():
         with open("disponibles.json", "w") as f:
             json.dump(taquillas_disponibles, f)
 
-        st.success("Reserva realizada con éxito  :partying_face:")
-        st.success("Taquilla: " + taquilla)
-        st.success("NIA: " + nia)
-        st.success("Nombre: " + nombre)
-        st.success("Apellidos: " + apellidos)
+        # Mostramos la información de la reserva
+        content = f"Reserva realizada con éxito :partying_face:  \n" \
+                    f"Taquilla: {taquilla}  \n" \
+                    f"NIA: {nia}  \n" \
+                    f"Nombre: {nombre}  \n" \
+                    f"Apellidos: {apellidos}  \n"
+
+
+        st.success(content)
         st.balloons()
 
+    if st.checkbox("Mostrar guía de bloques por planta", key="guia", value=True):
+        st.image("images/"+images[edificio][planta])
 st.write("---")
 st.write("---")
 st.write("---")
 st.write("Esto no aparecería en la versión final, ha sido solo para testeo")
+
 
 if st.button("Reset"):
     with open("base/disponibles.json", "r") as f:
