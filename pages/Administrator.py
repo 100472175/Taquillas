@@ -7,18 +7,24 @@ import yaml
 from yaml.loader import SafeLoader
 import re
 
-with open('pages/config.yaml') as file:
-    config = yaml.load(file, Loader=SafeLoader)
 
-authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days'],
-    config['preauthorized']
-)
+# with open('pages/config.yaml') as file:
+#     config = yaml.load(file, Loader=SafeLoader)
+#
+# authenticator = stauth.Authenticate(
+#     config['credentials'],
+#     config['cookie']['name'],
+#     config['cookie']['key'],
+#     config['cookie']['expiry_days'],
+#     config['preauthorized']
+# )
+#
+# name, authentication_status, username = authenticator.login('Login', 'main')
 
-name, authentication_status, username = authenticator.login('Login', 'main')
+
+
+st.title("Administrador de taquillas")
+st.subheader("Esto está protegido por contraseña, pero ahora mismo no, para que se pueda ver en la web")
 
 def get_taquilla_info_nia(nia):
     with open("reservadas.json", "r") as f:
@@ -42,14 +48,18 @@ def get_taquilla_info_name(nombre):
                         return edificio_key, planta_key, bloque_key, reserva_key
     return None
 
-if st.session_state["authentication_status"] == False:
-    st.error('Username/password is incorrect')
-elif st.session_state["authentication_status"] == None:
-    st.warning('Please enter your username and password')
-elif st.session_state["authentication_status"]:
-    authenticator.logout('Logout', 'main')
-    st.write(f'Bienvenido *{st.session_state["name"]}*')
-    st.write(":red[Desde aqui podemos cambiar las cosas para que se vean en la página web quien ha pagado y quien no.]")
+# if st.session_state["authentication_status"] == False:
+#     st.error('Username/password is incorrect')
+# elif st.session_state["authentication_status"] == None:
+#     st.warning('Please enter your username and password')
+# elif st.session_state["authentication_status"]:
+#     authenticator.logout('Logout', 'main')
+# Esto de arriba reeplaza el with de abajo
+
+with st.container():
+    # st.write(f'Bienvenido *{st.session_state["name"]}*')
+    st.write(f'Bienvenido *{"tu_username"}*')
+    st.write(":red[Desde aquí podemos cambiar las cosas para que se vean en la página web quien ha pagado y quien no. QUITAME]")
 
     with open("reservadas.json", "r") as f:
         taquillas_reservadas = json.load(f)
@@ -67,8 +77,8 @@ elif st.session_state["authentication_status"]:
     st.markdown(css, unsafe_allow_html=True)
 
     with estado_tab:
-        st.title("Cambio del estado de la taquilla")
-        st.warning("¡Comprueba que han pagado la taquilla antes de darles el status de ocupada!")
+        st.title("Cambio del estado de la reserva")
+        st.warning("¡Comprueba que han pagado la reserva antes de darles el status de ocupada!")
         nia_estado_col, taquilla_estado_col = st.columns(2)
         with nia_estado_col:
             nia_estado = st.text_input("NIA")
@@ -110,8 +120,9 @@ elif st.session_state["authentication_status"]:
             st.error("No se ha encontrado tu reserva")
 
     with mod_tab:
-        st.title("Cambia otro dato de la taquilla:")
+        st.title("Cambia datos de la reserva:")
         st.warning("Para cambiar la taquilla, es necesario borrar la reserva y realizar otra")
+
         # Para que no se quede sin taquilla, primero que haga otra reserva con un NIA bogus y luego borramos
         nia_mod_col, taquilla_mod_col = st.columns(2)
         with nia_mod_col:
@@ -242,3 +253,6 @@ elif st.session_state["authentication_status"]:
             st.error("No se ha encontrado tu reserva")
 
 ################################################################################################################
+
+# Dudas
+st.write("Si tienes alguna duda, consulta el manual de usuario en la [carpeta de Google Drive](https://drive.google.com/drive/folders/15tOcC8FqSK1vdOcjEdqS7Rf1iDFpjzNc?usp=share_link)")
