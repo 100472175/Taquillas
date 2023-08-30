@@ -16,7 +16,7 @@ st.set_page_config(
 # ---- HEADER ----
 st.image("https://delegacion.uc3m.es/home/wp-content/uploads/2023/08/Untitled-1-768x319.jpg", width=300)
 st.subheader("Reserva Taquillas UC3M")
-st.title("Aplicaión para reservar las taquillas de la UC3M del capus de Leganés")
+st.title("Aplicación para reservar las taquillas de la UC3M del campus de Leganés")
 st.write("Esta aplicación permite reservar las taquillas de la UC3M del campus de Leganés."
          " Para ello, se debe seleccionar la taquilla e indicar el NIA. Además, se debe"
          " introducir el nombre y el correo electrónico de la persona que reserva la taquilla."
@@ -36,16 +36,20 @@ with open("reservadas.json", "r") as f:
 nia = 0
 reservable = False
 reservableNIA = False
+images = {'Edificio 1':{'Planta 0': "1.0.jpg", 'Planta 1': "1.1.jpg"},'Edificio 2':{'Planta 2': "2.2.jpg", 'Planta 3': "2.3.jpg"},'Edificio 4':{'Planta 0': "4.0.jpg", 'Planta 1': "4.1.jpg", 'Planta 2': "4.2.jpg"},'Edificio 7':{'Planta 0': "7.0.jpg", 'Planta 1': "7.1.jpg", 'Planta 2': "7.2.jpg"}}
 
 with st.container():
     st.title("Reserva tu taquilla:")
     st.markdown("Ten en cuenta que la **P** quiere decir que es pequeña y la **G** que es grande")
-    st.text("""Tratamiento de datos: \n
-            Acepto el tratamiento de mis datos por la Delegación de Estudiantes únicamente
-            con fines estadísticos y recopilación de información genérica, no siendo cedidos
-            a terceros en ningún caso.""")
-    proteccion_datos = st.checkbox("Acepto el tratamiento de mis datos")
+    col1, _ = st.columns(2)
+    with col1:
+        text = ("""Acepto el tratamiento de mis datos por la Delegación de Estudiantes únicamente
+                   con fines estadísticos y recopilación de información genérica, no siendo cedidos
+                   a terceros en ningún caso.""")
+        proteccion_datos = st.checkbox(text)
+
     col_edificio, col_planta, col_bloque, col_numero = st.columns(4)
+
 
     # EDIFICIO SELECTOR
     with col_edificio:
@@ -90,6 +94,9 @@ if proteccion_datos and reservableNIA and nombre and apellidos:
 else:
     st.write("No reservable. Por favor, rellena todos los campos (NIA + Nombre + Apellido)"
              " y acepta la protección de datos")
+    if st.checkbox("Mostrar guía de bloques por planta", key="guia", value=True):
+        st.image("images/"+images[edificio][planta])
+
 with st.container():
     if st.button("Reservar", disabled=not(reservable)):
         # Aquí pondriamos la llamada a la base de datos para que se reservase la taquilla y
