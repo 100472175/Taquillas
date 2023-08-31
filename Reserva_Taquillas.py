@@ -8,9 +8,6 @@ st.set_page_config(
 	initial_sidebar_state="collapsed",  # Can be "auto", "expanded", "collapsed"
 	page_icon=None,  # String, anything supported by st.image, or None.
 )
-# Notas para mañana, no de puede trabajar como diccionario, así que hay probar a hacerlo con
-# dataframes, como lo hace en el formulario
-# Y mirarse esto: https://docs.streamlit.io/library/advanced-features/session-state
 
 
 # ---- HEADER ----
