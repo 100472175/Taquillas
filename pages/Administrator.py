@@ -1,11 +1,12 @@
 import streamlit as st
-# import streamlit_authenticator as stauth
 from streamlit_modal import Modal
 import json
 import yaml
 from yaml.loader import SafeLoader
 import re
+# import streamlit_authenticator as stauth
 
+# Hay 3 cosas que descomentar, el import, el bloque de código de abajo y el de if session_state...
 
 # with open('pages/config.yaml') as file:
 #     config = yaml.load(file, Loader=SafeLoader)
