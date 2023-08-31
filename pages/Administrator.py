@@ -1,6 +1,5 @@
 import streamlit as st
-import streamlit_authenticator as stauth
-import streamlit.components.v1 as components
+# import streamlit_authenticator as stauth
 from streamlit_modal import Modal
 import json
 import yaml
