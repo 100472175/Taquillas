@@ -1,14 +1,20 @@
-import streamlit as st
-from streamlit_modal import Modal
 import json
-import yaml
-from yaml.loader import SafeLoader
 import re
+import streamlit as st
 import streamlit_authenticator as stauth
+import yaml
+from streamlit_modal import Modal
+from yaml.loader import SafeLoader
 
 # Hay 3 cosas que descomentar, el import, el bloque de código de abajo y el de if session_state...
 
-with open('pages/config.yaml') as file:
+config_path = "pages/config.yaml"
+reservadas_path = "reservadas.json"
+disponibles_path = "disponibles.json"
+
+
+
+with open(config_path) as file:
     config = yaml.load(file, Loader=SafeLoader)
 
 authenticator = stauth.Authenticate(
@@ -21,29 +27,65 @@ authenticator = stauth.Authenticate(
 me, authentication_status, username = authenticator.login('Login', 'main')
 
 
+def get_taquilla_info(data, option) -> tuple:
+    """
+    Función que devuelve la información de una taquilla a partir de un NIA o un nombre
+    :param data: El dato, NIA o nombre de la taquilla (ej.: 100000000/1.0.E.P001)
+    :param option: Opción para saber si es un NIA o un nombre
+    :return: Una tupla con la información de la taquilla o None si no se encuentra
+    """
+    if option.upper() == "NIA":
+        option = 1
+    elif option.upper() == "NOMBRE":
+        option = 0
+    with open(reservadas_path, "r") as f:
+        taquillas_reservadas = json.load(f)
+    for edificio_key, edificio in taquillas_reservadas.items():
+        for planta_key, planta in edificio.items():
+            for bloque_key, bloque in planta.items():
+                for reserva_key in range(len(bloque)):
+                    if bloque[reserva_key][option] == data:
+                        return edificio_key, planta_key, bloque_key, reserva_key
+    return None
 
 
 def get_taquilla_info_nia(nia):
-    with open("reservadas.json", "r") as f:
-        taquillas_reservadas = json.load(f)
-    for edificio_key, edificio in taquillas_reservadas.items():
-        for planta_key, planta in edificio.items():
-            for bloque_key, bloque in planta.items():
-                for reserva_key in range(len(bloque)):
-                    if bloque[reserva_key][1] == nia:
-                        return edificio_key, planta_key, bloque_key, reserva_key
-    return None
+    """
+    Función auxiliar para obtener la información de una taquilla a partir de un NIA
+    :param nia:
+    :return:
+    """
+    return get_taquilla_info(nia, "NIA")
+
+    # Si lo ahcemos con la priemra está más centralizado y es más fácil de mantener
+    # with open(reservadas_path, "r") as f:
+    #     taquillas_reservadas = json.load(f)
+    # for edificio_key, edificio in taquillas_reservadas.items():
+    #     for planta_key, planta in edificio.items():
+    #         for bloque_key, bloque in planta.items():
+    #             for reserva_key in range(len(bloque)):
+    #                 if bloque[reserva_key][1] == nia:
+    #                     return edificio_key, planta_key, bloque_key, reserva_key
+    #
+    # return None
 
 def get_taquilla_info_name(nombre):
-    with open("reservadas.json", "r") as f:
-        taquillas_reservadas = json.load(f)
-    for edificio_key, edificio in taquillas_reservadas.items():
-        for planta_key, planta in edificio.items():
-            for bloque_key, bloque in planta.items():
-                for reserva_key in range(len(bloque)):
-                    if bloque[reserva_key][0] == nombre:
-                        return edificio_key, planta_key, bloque_key, reserva_key
-    return None
+    """
+    Función auxiliar para obtener la información de una taquilla a partir del nombre de la taquilla
+    :param nombre:
+    :return:
+    """
+    return get_taquilla_info(nombre, "nombre")
+
+    # with open(reservadas_path, "r") as f:
+    #     taquillas_reservadas = json.load(f)
+    # for edificio_key, edificio in taquillas_reservadas.items():
+    #     for planta_key, planta in edificio.items():
+    #         for bloque_key, bloque in planta.items():
+    #             for reserva_key in range(len(bloque)):
+    #                 if bloque[reserva_key][0] == nombre:
+    #                     return edificio_key, planta_key, bloque_key, reserva_key
+    # return None
 
 if st.session_state["authentication_status"] == False:
     st.error('Username/password is incorrect')
@@ -60,7 +102,7 @@ with st.container():
     st.write(f'Bienvenido *{st.session_state["name"]}*')
     st.write(":red[Desde aquí podemos cambiar las cosas para que se vean en la página web quien ha pagado y quien no. QUITAME]")
 
-    with open("reservadas.json", "r") as f:
+    with open(reservadas_path, "r") as f:
         taquillas_reservadas = json.load(f)
 
     estado_tab, mod_tab, del_tab = st.tabs([":blue[**Cambiar estado**]", ":blue[**Modificar Reserva**]", ":blue[**Eliminar Reserva**]"])
@@ -112,9 +154,10 @@ with st.container():
             #st.write(taquilla) - Alternativa fea
             if st.button("Cambiar estado"):
                 taquilla[2] = new_state
-                with open("reservadas.json", "w") as f:
+                with open(reservadas_path, "w") as f:
                     json.dump(taquillas_reservadas, f, indent=4)
                 st.success("Cambiado a " + new_state.lower())
+                st.toast("Cambiado a " + new_state.lower(), icon='🎉')
         else:
             st.error("No se ha encontrado tu reserva")
 
@@ -157,10 +200,11 @@ with st.container():
             if st.button("Cambiar"):
                 if re.match(r"100[0-9]{6}", new_nia):
                     taquilla_mod[2] = new_state
-                    with open("reservadas.json", "w") as f:
+                    with open(reservadas_path, "w") as f:
                         json.dump(taquillas_reservadas, f, indent=4)
                     if taquilla_mod[1] in str(taquillas_reservadas):
                         st.success("Cambiado")
+                        st.toast("Cambiado", icon='🎉')
 
         else:
             st.error("No se ha encontrado tu reserva")
@@ -202,6 +246,40 @@ with st.container():
             modal = Modal(key="Demo Modal", title="")
             auth = False
             message_success = None
+            show_confirmation = False
+            if st.button(":red[Eliminar_new]", key="confirmation_button_eliminar"):
+                show_confirmation = True
+
+            if show_confirmation:
+                st.error("¡El borrado de una reserva no se puede deshacer!  \n Estás seguro de que quieres borrar la reserva de " + taquilla_delete[3] + " " + taquilla_delete[4] + ": " + taquilla_delete[0] + " ?")
+                cancel_column,_,_,_,_,_,_,del_column = st.columns(8)
+                with cancel_column:
+                    if st.button("Cancelar"):
+                        print("Close button clicked")
+                        show_confirmation = False
+                with del_column:
+                    if st.button(":red[Delete]"):
+                        print("Delete button clicked")
+                        edificio = taquilla_del_index[0]
+                        planta = taquilla_del_index[1]
+                        bloque = taquilla_del_index[2]
+                        st.write(edificio, planta, bloque)
+                        st.write(taquilla_delete[0])
+                        taquillas_reservadas[edificio][planta][bloque].remove(taquilla_delete)
+                        with open(reservadas_path, "w") as f:
+                            json.dump(taquillas_reservadas, f, indent=4)
+                        with open(disponibles_path, "r") as f:
+                            taquillas_disponibles = json.load(f)
+                        taquillas_disponibles[edificio][planta][bloque].append(taquilla_delete[0])
+                        taquillas_disponibles[edificio][planta][bloque] = sorted(
+                            taquillas_disponibles[edificio][planta][bloque],
+                            key=lambda num: num[-3:])
+                        with open(disponibles_path, "w") as f:
+                            json.dump(taquillas_disponibles, f, indent=4)
+                        st.success("Eliminado")
+                        st.toast("Eliminado", icon='🎉')
+
+
             open_modal = st.button(":red[Eliminar]", key="confirmation_button")
             if open_modal:
                 modal.open()
@@ -235,17 +313,18 @@ with st.container():
                             st.write(edificio, planta, bloque)
                             st.write(taquilla_delete[0])
                             taquillas_reservadas[edificio][planta][bloque].remove(taquilla_delete)
-                            with open("reservadas.json", "w") as f:
+                            with open(reservadas_path, "w") as f:
                                 json.dump(taquillas_reservadas, f, indent=4)
-                            st.success("Eliminado")
-                            with open("disponibles.json", "r") as f:
+                            with open(disponibles_path, "r") as f:
                                 taquillas_disponibles = json.load(f)
                             taquillas_disponibles[edificio][planta][bloque].append(taquilla_delete[0])
                             taquillas_disponibles[edificio][planta][bloque] = sorted(
                                 taquillas_disponibles[edificio][planta][bloque],
                                 key=lambda num: num[-3:])
-                            with open("disponibles.json", "w") as f:
+                            with open(disponibles_path, "w") as f:
                                 json.dump(taquillas_disponibles, f, indent=4)
+                            st.success("Eliminado")
+                            st.toast("Eliminado", icon='🎉')
                             modal.close()
 
         else:
@@ -255,3 +334,13 @@ with st.container():
 
 # Dudas
 st.write("Si tienes alguna duda, consulta el manual de usuario en la [carpeta de Google Drive](https://drive.google.com/drive/folders/15tOcC8FqSK1vdOcjEdqS7Rf1iDFpjzNc?usp=share_link)")
+
+
+with st.expander("Configuración para Developer:"):
+    st.write("Para el indepentiende, hay que poner estos configs:")
+    st.code("""
+    config_path = "config.yaml"
+    reservadas_path = "../reservadas.json"
+    disponibles_path = "../disponibles.json"
+    """)
+    st.write("Y comentar las partes de las autorizaciones y logins:")
