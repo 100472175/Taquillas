@@ -98,7 +98,8 @@ with st.container():
     st.title("Administrador de taquillas")
 
     with st.container():
-        st.write(f'Bienvenido *{st.session_state["name"]}*')
+        #st.write(f'Bienvenido *{st.session_state["name"]}*')
+        st.write(f'Bienvenido *{"tu_nombre"}*')
         st.write(":red[Desde aquí podemos cambiar las cosas para que se vean en la página web quien ha pagado y quien no. QUITAME]")
 
         with open(reservadas_path, "r") as f:
