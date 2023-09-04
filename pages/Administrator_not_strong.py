@@ -11,7 +11,7 @@ from Reserva_Taquillas import IMAGES
 
 config_path = "config.yaml"
 reservadas_path = "reservadas.json"
-disponibles_path = "../disponibles.json"
+disponibles_path = "disponibles.json"
 
 # with open(config_path) as file:
 #     config = yaml.load(file, Loader=SafeLoader)
