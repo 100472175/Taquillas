@@ -10,7 +10,7 @@ from Reserva_Taquillas import IMAGES
 # Hay 3 cosas que descomentar, el import, el bloque de código de abajo y el de if session_state...
 
 config_path = "config.yaml"
-reservadas_path = "../reservadas.json"
+reservadas_path = "reservadas.json"
 disponibles_path = "../disponibles.json"
 
 # with open(config_path) as file:
