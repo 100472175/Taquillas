@@ -1,32 +1,30 @@
 import json
 import re
 import streamlit as st
-import streamlit_authenticator as stauth
+#import streamlit_authenticator as stauth
 import yaml
-from streamlit_modal import Modal
-from yaml.loader import SafeLoader
+## from streamlit_modal import Modal
+#from yaml.loader import SafeLoader
 from Reserva_Taquillas import IMAGES
 
 # Hay 3 cosas que descomentar, el import, el bloque de código de abajo y el de if session_state...
 
-config_path = "pages/config.yaml"
-reservadas_path = "reservadas.json"
-disponibles_path = "disponibles.json"
+config_path = "config.yaml"
+reservadas_path = "../reservadas.json"
+disponibles_path = "../disponibles.json"
 
-
-
-with open(config_path) as file:
-    config = yaml.load(file, Loader=SafeLoader)
-
-authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days'],
-    config['preauthorized']
-)
-me, authentication_status, username = authenticator.login('Login', 'main')
-
+# with open(config_path) as file:
+#     config = yaml.load(file, Loader=SafeLoader)
+#
+# authenticator = stauth.Authenticate(
+#     config['credentials'],
+#     config['cookie']['name'],
+#     config['cookie']['key'],
+#     config['cookie']['expiry_days'],
+#     config['preauthorized']
+# )
+# me, authentication_status, username = authenticator.login('Login', 'main')
+#
 
 def get_taquilla_info(data, option) -> tuple:
     """
@@ -88,14 +86,15 @@ def get_taquilla_info_name(nombre):
     # return None
 
 
-if st.session_state["authentication_status"] == False:
-    st.error('Username/password is incorrect')
-elif st.session_state["authentication_status"] == None:
-    st.warning('Please enter your username and password')
-elif st.session_state["authentication_status"]:
-    authenticator.logout('Logout', 'main')
-# Esto de arriba reeplaza el with de abajo
-
+# if st.session_state["authentication_status"] == False:
+#     st.error('Username/password is incorrect')
+# elif st.session_state["authentication_status"] == None:
+#     st.warning('Please enter your username and password')
+# elif st.session_state["authentication_status"]:
+#     authenticator.logout('Logout', 'main')
+# # Esto de arriba reeplaza el with de abajo
+#
+with st.container():
     st.title("Administrador de taquillas")
 
     with st.container():
