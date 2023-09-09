@@ -175,7 +175,7 @@ with st.container():
 
     # Toggle para mostrar la guía en imágenes de la localización de bloques por planta
     if st.toggle("Mostrar guía de bloques por planta", key="guia", value=True):
-        st.image("images/" + IMAGES[edificio][planta])
+        st.image("images/" + IMAGES[edificio][planta], width=500)
 st.write("---")
 st.write("---")
 st.write("---")

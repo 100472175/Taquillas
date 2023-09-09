@@ -154,6 +154,7 @@ with st.container():
                 #st.write(taquilla) - Alternativa fea
                 if st.button("Cambiar estado"):
                     taquilla[2] = new_state
+                    taquillas_reservadas[taquilla_index[0]][taquilla_index[1]][taquilla_index[2]][taquilla_index[3]] = taquilla
                     with open(reservadas_path, "w") as f:
                         json.dump(taquillas_reservadas, f, indent=4)
                     st.success("Cambiado a " + new_state.lower())
@@ -200,6 +201,8 @@ with st.container():
                 if st.button("Cambiar"):
                     if re.match(r"100[0-9]{6}", new_nia):
                         taquilla_mod[2] = new_state
+                        print(taquilla_mod)
+                        print(taquillas_reservadas)
                         with open(reservadas_path, "w") as f:
                             json.dump(taquillas_reservadas, f, indent=4)
                         if taquilla_mod[1] in str(taquillas_reservadas):
