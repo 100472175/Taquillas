@@ -107,8 +107,8 @@ elif st.session_state["authentication_status"]:
         with open(reservadas_path, "r") as f:
             taquillas_reservadas = json.load(f)
 
-        estado_tab, mod_tab, del_tab, add_tab = st.tabs(
-            [":blue[**Cambiar estado**]", ":blue[**Modificar Reserva**]", ":blue[**Eliminar Reserva**]",
+        estado_tab, mod_data_tab, del_tab, add_tab = st.tabs(
+            [":blue[**Cambiar estado**]", ":blue[**Modificar Datos Reserva**]", ":blue[**Eliminar Reserva**]",
              ":blue[**Añadir Bloque**]"])
 
         css = '''
@@ -167,7 +167,7 @@ elif st.session_state["authentication_status"]:
             else:
                 st.error("No se ha encontrado tu reserva")
 
-        with mod_tab:
+        with mod_data_tab:
             st.title("Cambia datos de la reserva:")
             st.warning("Para cambiar la taquilla, es necesario borrar la reserva y realizar otra")
 

@@ -9,3 +9,4 @@ for edificio_key, edificio in taquillas_disponibles.items():
             taquillas_disponibles[edificio_key][planta_key][bloque_key] = []
 with open("reservadas.json", "w") as f:
     json.dump(taquillas_disponibles, f)
+
