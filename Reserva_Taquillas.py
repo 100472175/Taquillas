@@ -1,6 +1,8 @@
 import streamlit as st
 import json
+import random
 import re
+from email_send import send_email_verification
 
 # Configuración de la página, título, icono, estado de la sidebar(que posiblemente quitaremos), etc.
 st.set_page_config(
@@ -11,12 +13,11 @@ st.set_page_config(
 )
 
 # TODO:
-# 1. Añadir la función que envie el correo electrónico, si se aprueba en la reunión de CTS
-#    Se puede hacer con python y https://realpython.com/python-send-email/
 
 # DONE:
 # Añadir el script que genere un json sin taquillas, a base del json con taquillas
 # Añadir la función que busque los NIAS para que podamos reservar más de una taquilla
+# Creada la función que envia el correo, falta implementarla
 
 # ---- HEADER ----
 st.image("images/eps_logo.png", width=100)
@@ -27,7 +28,7 @@ st.subheader("Instrucciones:", divider=True)
 st.write("Seleccionar la taquilla e introducir el NIA del solicitante; además, se debe"
          " introducir el nombre y el apellido del solicitante.  \n"
          " Una realizada la reserva, se enviará un correo electrónico al solicitante"
-         " con los datos asociados y el método de pago :red[**(o no :)**]).")
+         " con los datos asociados y el :red[código de verificación].")
 st.write("Para más información ve a la [página de Delegación](https://delegacion.uc3m.es/home/eps-taquillas/).")
 st.write("---")
 
@@ -65,6 +66,14 @@ def nia_counter(nia) -> int:
                     if bloque[reserva_key][1] == nia:
                         counter += 1
     return counter
+
+def generate_code() -> str:
+    code = str(random.randint(100000, 999999))
+    number = 0
+    for digit in str(code):
+        number += int(digit)
+    letter = chr(number % 26 + 65)
+    return code[3:] + "-" + code[:3] + letter
 
 with st.container():
     st.title("Reserva tu taquilla:")
@@ -145,22 +154,25 @@ else:
 # Si se puede reservar, habilitamos el botón de reservar
 with st.container():
     if st.button("Reservar", disabled=not(reservable)):
-        # Aquí pondriamos la llamada a la base de datos para que se reservase la taquilla y
-        # las comprombaciones las haría la base de datos. Pero es esto realmente necesario?
-        # No se puede hacer todas las cosas con python y jsons?
-        # se envia el correo electrónico ?? Se puede hacer con python y https://realpython.com/python-send-email/
+        # Generamos un código de verificación aleatorio
+        codigo = generate_code()
+
+
+
 
         # Añadimos a las reservadas la taquilla que se ha solicitado y la guardamos en el json
-        reserva = [taquilla, nia, "Reservada", nombre, apellidos]
+        reserva = [taquilla, nia, "Reservada", nombre, apellidos, codigo]
         taquillas_reservadas[edificio][planta][bloque].append(reserva)
         with open("reservadas.json", "w") as f:
             json.dump(taquillas_reservadas, f)
-
 
         # Eliminamos de las disponibles la taquilla que se ha solicitado
         taquillas_disponibles[edificio][planta][bloque].remove(taquilla)
         with open("disponibles.json", "w") as f:
             json.dump(taquillas_disponibles, f)
+
+        # Enviamos el correo electrónico con el código de verificación
+        send_email_verification(nombre, nia, taquilla, codigo)
 
         # Mostramos la información de la reserva, mostramos mensaje temporal y lanzamos los confetis
         content = f"Reserva realizada con éxito :partying_face:  \n" \
@@ -176,41 +188,3 @@ with st.container():
     # Toggle para mostrar la guía en imágenes de la localización de bloques por planta
     if st.toggle("Mostrar guía de bloques por planta", key="guia", value=True):
         st.image("images/" + IMAGES[edificio][planta], width=500)
-st.write("---")
-st.write("---")
-st.write("---")
-st.write("Esto no aparecería en la versión final, ha sido solo para testeo")
-
-
-# Botón para resetear los jsons, utiliza otros jsons y los copia. Por lo tanto,
-# si se quieren cambiar los bloques en un año nuevo, con cambiar los de la carpeta base, y resetear,
-# se cambian.
-# En cambio, si se quiere hacer durante el curso, habría que modificar los jsons
-# tanto de la carpeta base y los de la aplicación.
-
-if st.button("Reset"):
-    with open("base/disponibles.json", "r") as f:
-        taquillas_disponibles = json.load(f)
-        with open("disponibles.json", "w") as g:
-            json.dump(taquillas_disponibles, g)
-
-    with open("base/reservadas.json", "r") as f:
-        taquillas_reservadas = json.load(f)
-        with open("reservadas.json", "w") as g:
-            json.dump(taquillas_reservadas, g)
-
-    st.success("Reseteado con éxito")
-    st.toast("Reseteado con éxito", icon='🎉')
-
-# Para uso interno, para ver los jsons y ver como se estaba almacenando la información
-# Se puede y debe quitar en la versión final
-if st.toggle("Display Raw Data"):
-    st.write("Esto es :blue[azul], como el cielo")
-    with st.container():
-        left_column, right_column = st.columns(2)
-        with left_column:
-            st.title("Taquillas Disponibles:")
-            st.json(taquillas_disponibles)
-        with right_column:
-            st.title("Taquillas no Disponibles:")
-            st.json(taquillas_reservadas)

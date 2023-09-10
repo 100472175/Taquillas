@@ -25,3 +25,5 @@ Poner una progress bar de cada bloque.
 BONUS BONUS:
 Hacer una visión friendly de las cosas reservadas. Hacer una tabla con TODAS las reservas
 
+
+Recursos: https://docs.streamlit.io/knowledge-base/tutorials/deploy/docker
