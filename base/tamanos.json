@@ -1,0 +1,68 @@
+{
+    "Edificio 1": {
+        "Planta 0": {
+            "Bloque 1": [4, 3],
+            "Bloque 2": [4, 3],
+            "Bloque 3": [6, 4],
+            "Bloque 4": [8, 3],
+            "Bloque 5": [8, 4]
+        },
+        "Planta 1": {
+            "Bloque 1": [4, 3],
+            "Bloque 2": [4, 3]
+        }
+    },
+    "Edificio 2": {
+        "Planta 2": {
+            "Bloque 1": [12, 3],
+            "Bloque 2": [12, 3]
+        },
+        "Planta 3": {
+            "Bloque 1": [4, 3],
+            "Bloque 2": [4, 3],
+            "Bloque 3": [4, 3],
+            "Bloque 4": [8, 3],
+            "Bloque 5": [8, 3],
+            "Bloque 6": [8, 3],
+            "Bloque 7": [16, 4]
+        }
+    },
+    "Edificio 4": {
+        "Planta 0": {
+            "Bloque 1": [8, 2],
+            "Bloque 2": [8, 2],
+            "Bloque 3": [16, 2],
+            "Bloque 4": [16, 2],
+            "Bloque 5": [8, 2],
+            "Bloque 6": [8, 2]
+        },
+        "Planta 1": {
+            "Bloque 1": [4, 2],
+            "Bloque 2": [8, 2],
+            "Bloque 3": [8, 2],
+            "Bloque 4": [8, 2],
+            "Bloque 5": [8, 2],
+            "Bloque 6": [8, 2],
+            "Bloque 7": [16, 2]
+        },
+        "Planta 2": {
+            "Bloque 1": [8, 2],
+            "Bloque 2": [16, 2],
+            "Bloque 3": [16, 2],
+            "Bloque 4": [16, 2],
+            "Bloque 5": [8, 2]
+        }
+    },
+    "Edificio 7": {
+        "Planta 0": {
+            "Bloque 1": [9, 2],
+            "Bloque 2": [22, 2]
+        },
+        "Planta 1": {
+            "Bloque 1": [20, 2]
+        },
+        "Planta 2": {
+            "Bloque 1": [19, 2]
+        }
+    }
+}

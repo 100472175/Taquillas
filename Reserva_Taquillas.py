@@ -3,21 +3,16 @@ import json
 import random
 import re
 from email_send import send_email_verification
+from ocupación_por_edificio import ocupación_draw
 
 # Configuración de la página, título, icono, estado de la sidebar(que posiblemente quitaremos), etc.
 st.set_page_config(
     page_title="Reserva Taquillas UC3M",
 	layout="wide",  # Can be "centered" or "wide". In the future also "dashboard", etc.
 	initial_sidebar_state="collapsed",  # Can be "auto", "expanded", "collapsed"
-	page_icon=None,  # String, anything supported by st.image, or None.
+	page_icon="images/eps_logo.png",  # String, anything supported by st.image, or None.
 )
 
-# TODO:
-
-# DONE:
-# Añadir el script que genere un json sin taquillas, a base del json con taquillas
-# Añadir la función que busque los NIAS para que podamos reservar más de una taquilla
-# Creada la función que envia el correo, falta implementarla
 
 # ---- HEADER ----
 st.image("images/eps_logo.png", width=100)
@@ -25,10 +20,16 @@ st.subheader("Reserva Taquillas UC3M", divider=True)
 st.title("Aplicación para la reserva de taquillas del campus de Leganés de la UC3M")
 st.write("Esta aplicación permite reservar las taquillas del campus de Leganés de la UC3M.")
 st.subheader("Instrucciones:", divider=True)
-st.write("Seleccionar la taquilla e introducir el NIA del solicitante; además, se debe"
-         " introducir el nombre y el apellido del solicitante.  \n"
-         " Una realizada la reserva, se enviará un correo electrónico al solicitante"
-         " con los datos asociados y el :red[código de verificación].")
+
+
+st.write("Para reservar una taquilla, elige primero el edificio donde se encuentra la taquilla,"
+         " luego, la planta y el bloque, y, por último, la taquilla que quieres reservar. Además, "
+         "deberás introducir tu nombre, tus apellidos y con el NIA para realizar la reserva."
+         "Una vez enviados los datos, recibirás un correo electrónico con los datos asociados"
+         " y un código de verificación. "
+         "\nPara más información, accede a la página de Delegación.")
+
+
 st.write("Para más información ve a la [página de Delegación](https://delegacion.uc3m.es/home/eps-taquillas/).")
 
 reserva_tab, ocupacion_tab = st.tabs([":blue[**Reservar Taquilla**]", ":blue[**Ocupación**]"])
@@ -73,7 +74,9 @@ with reserva_tab:
         for digit in str(code):
             number += int(digit)
         letter = chr(number % 26 + 65)
-        return code[3:] + "-" + code[:3] + letter
+        if letter == "O" or letter == "I":
+            letter = chr((number + 1) % 26 + 65)
+        return code[3:] + "-" + code[:3] + "-" + letter
 
     with st.container():
         st.title("Reserva tu taquilla:")
@@ -189,6 +192,14 @@ with reserva_tab:
             st.image("images/" + IMAGES[edificio][planta], width=500)
 
 with ocupacion_tab:
-    with open("base/cantidad.json", "r") as cant:
-        cantidad_taquillas = json.load(cant)
-    
+    st.subheader("Consulta la ocupación de los bloques eligiendo un edificio y una planta")
+    with open("disponibles.json", "r") as f:
+        taquillas_disponibles = json.load(f)
+    with open("reservadas.json", "r") as f:
+        taquillas_reservadas = json.load(f)
+    edificio_tab_sel, planta_tab_sel, _ = st.columns(3)
+    with edificio_tab_sel:
+        edificio = st.selectbox("Selecciona el edificio para consultar su disponibilidad", taquillas_disponibles.keys())
+    with planta_tab_sel:
+        planta = st.selectbox("Selecciona la planta para consultar su disponibilidad", list(taquillas_disponibles[edificio].keys()))
+    ocupación_draw(edificio, planta)

@@ -10,7 +10,12 @@ from general_view import generate_dataframe
 
 
 # Hay 3 cosas que descomentar, el import, el bloque de código de abajo y el de if session_state...
-
+st.set_page_config(
+    page_title="Administrador Reservas",
+	layout="wide",  # Can be "centered" or "wide". In the future also "dashboard", etc.
+	initial_sidebar_state="collapsed",  # Can be "auto", "expanded", "collapsed"
+	page_icon="images/eps_logo.png",  # String, anything supported by st.image, or None.
+)
 config_path = "pages/config.yaml"
 reservadas_path = "reservadas.json"
 disponibles_path = "disponibles.json"
@@ -92,8 +97,6 @@ def get_taquilla_info_name(nombre):
     # return None
 
 
-
-
 if st.session_state["authentication_status"] == False:
     st.error('Username/password is incorrect')
 elif st.session_state["authentication_status"] == None:
@@ -106,8 +109,6 @@ elif st.session_state["authentication_status"]:
 
     with st.container():
         st.write(f'Bienvenido *{st.session_state["name"]}*')
-        st.write(
-            ":red[Desde aquí podemos cambiar las cosas para que se vean en la página web quien ha pagado y quien no. QUITAME]")
 
         with open(reservadas_path, "r") as f:
             taquillas_reservadas = json.load(f)

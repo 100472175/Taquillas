@@ -1,1 +1,102 @@
-{"Edificio 1": {"Planta 0": {"Bloque 1": [["1.0.E.P001", "100472175", "Reservada", "Edu", "Alarc\u00f3n", "325-671Y"], ["1.0.E.P002", "100472175", "Reservada", "Edu2", "Alarc\u00f3n2", "361-669F"]], "Bloque 2": [], "Bloque 3": [], "Bloque 4": [], "Bloque 5": []}, "Planta 1": {"Bloque 1": [], "Bloque 2": []}}, "Edificio 2": {"Planta 2": {"Bloque 1": [], "Bloque 2": []}, "Planta 3": {"Bloque 1": [], "Bloque 2": [], "Bloque 3": [], "Bloque 4": [], "Bloque 5": [], "Bloque 6": [], "Bloque 7": []}}, "Edificio 4": {"Planta 0": {"Bloque 1": [], "Bloque 2": [], "Bloque 3": [], "Bloque 4": [], "Bloque 5": [], "Bloque 6": []}, "Planta 1": {"Bloque 1": [], "Bloque 2": [], "Bloque 3": [], "Bloque 4": [], "Bloque 5": [], "Bloque 6": [], "Bloque 7": []}, "Planta 2": {"Bloque 1": [], "Bloque 2": [], "Bloque 3": [], "Bloque 4": [], "Bloque 5": []}}, "Edificio 7": {"Planta 0": {"Bloque 1": [], "Bloque 2": []}, "Planta 1": {"Bloque 1": []}, "Planta 2": {"Bloque 1": []}}}
+{
+    "Edificio 1": {
+        "Planta 0": {
+            "Bloque 1": [
+                [
+                    "1.0.E.P001",
+                    "100472175",
+                    "Reservada",
+                    "Edu",
+                    "Alarc\u00f3n",
+                    "325-671Y"
+                ],
+                [
+                    "1.0.E.P002",
+                    "100472175",
+                    "Reservada",
+                    "Edu2",
+                    "Alarc\u00f3n2",
+                    "361-669F"
+                ],
+                [
+                    "1.0.E.P005",
+                    "100429531",
+                    "Reservada",
+                    "Borja",
+                    "Ayuso",
+                    "515-245W"
+                ]
+            ],
+            "Bloque 2": [
+                [
+                    "1.0.E.G022",
+                    "100472310",
+                    "Reservada",
+                    "Manu",
+                    "G\u00f3mez-Plana",
+                    "473-914C"
+                ]
+            ],
+            "Bloque 3": [],
+            "Bloque 4": [],
+            "Bloque 5": []
+        },
+        "Planta 1": {
+            "Bloque 1": [],
+            "Bloque 2": []
+        }
+    },
+    "Edificio 2": {
+        "Planta 2": {
+            "Bloque 1": [],
+            "Bloque 2": []
+        },
+        "Planta 3": {
+            "Bloque 1": [],
+            "Bloque 2": [],
+            "Bloque 3": [],
+            "Bloque 4": [],
+            "Bloque 5": [],
+            "Bloque 6": [],
+            "Bloque 7": []
+        }
+    },
+    "Edificio 4": {
+        "Planta 0": {
+            "Bloque 1": [],
+            "Bloque 2": [],
+            "Bloque 3": [],
+            "Bloque 4": [],
+            "Bloque 5": [],
+            "Bloque 6": []
+        },
+        "Planta 1": {
+            "Bloque 1": [],
+            "Bloque 2": [],
+            "Bloque 3": [],
+            "Bloque 4": [],
+            "Bloque 5": [],
+            "Bloque 6": [],
+            "Bloque 7": []
+        },
+        "Planta 2": {
+            "Bloque 1": [],
+            "Bloque 2": [],
+            "Bloque 3": [],
+            "Bloque 4": [],
+            "Bloque 5": []
+        }
+    },
+    "Edificio 7": {
+        "Planta 0": {
+            "Bloque 1": [],
+            "Bloque 2": []
+        },
+        "Planta 1": {
+            "Bloque 1": []
+        },
+        "Planta 2": {
+            "Bloque 1": []
+        }
+    }
+}
