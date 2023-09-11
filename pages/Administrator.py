@@ -6,6 +6,7 @@ import yaml
 from streamlit_modal import Modal
 from yaml.loader import SafeLoader
 from Reserva_Taquillas import generate_code
+from general_view import generate_dataframe
 
 
 # Hay 3 cosas que descomentar, el import, el bloque de código de abajo y el de if session_state...
@@ -91,8 +92,6 @@ def get_taquilla_info_name(nombre):
     # return None
 
 
-def real_delete(taquilla_del_index):
-    pass
 
 
 if st.session_state["authentication_status"] == False:
@@ -113,9 +112,9 @@ elif st.session_state["authentication_status"]:
         with open(reservadas_path, "r") as f:
             taquillas_reservadas = json.load(f)
 
-        estado_tab, mod_data_tab, del_tab, add_tab = st.tabs(
+        estado_tab, mod_data_tab, del_tab, general_view_tab, add_tab, reset_tab = st.tabs(
             [":blue[**Cambiar estado**]", ":blue[**Modificar Datos Reserva**]", ":blue[**Eliminar Reserva**]",
-             ":blue[**Añadir Bloque**]"])
+             ":blue[**Vista General**]", ":blue[**Añadir Bloque**]", ":blue[**Reset**]"])
 
         css = '''
         <style>
@@ -228,8 +227,6 @@ elif st.session_state["authentication_status"]:
                                 st.toast("Cambiado", icon='🎉')
 
 
-                # st.write(taquilla_mod)
-                # st.write(taquillas_reservadas)
 
                 if st.button("Cambiar"):
                     if re.match(r"100[0-9]{6}", new_nia):
@@ -325,7 +322,6 @@ elif st.session_state["authentication_status"]:
                             show_confirmation = False
                     with del_column_2:
                         if st.button(":red[Delete]"):
-                            real_delete(taquilla_del_index)
                             print("Fake felete button clicked")
                             nombre_taquilla = taquilla_delete[0]
                             nombre = taquilla_delete[3]
@@ -401,8 +397,9 @@ elif st.session_state["authentication_status"]:
 
             else:
                 st.error("No se ha encontrado tu reserva")
+
         with add_tab:
-            st.subheader("Añadir bloque")
+            st.title("Añadir bloque")
             st.write("Añade un bloque de taquillas a un edificio y planta concretos.")
             st.write(
                 "Utiliza esto como último recurso, si no puedes contactar con el administrador y que no tiene acceso al código fuente.")
@@ -438,9 +435,58 @@ elif st.session_state["authentication_status"]:
                 st.success("Bloque añadido")
                 st.toast("Bloque añadido", icon='🎉')
 
+        with general_view_tab:
+            st.title("Vista general")
+            st.write("Aquí puedes ver las taquillas reservadas y todos lo datos de las reservas.")
+            if st.button("Generate"):
+                df = generate_dataframe()
+                st.dataframe(df)
+            with st.expander("Ver los datos crudos"):
+                st.write("Esto es :blue[azul], como el cielo")
+                with st.container():
+                    left_column, right_column = st.columns(2)
+                    with left_column:
+                        st.title("Taquillas Disponibles:")
+                        st.json(taquillas_disponibles)
+                    with right_column:
+                        st.title("Taquillas no Disponibles:")
+                        st.json(taquillas_reservadas)
+            st.text(" ")
+            st.text(" ")
+            st.text(" ")
+            st.text(" ")
+            st.text(" ")
+            st.text(" ")
+            st.text(" ")
+            st.text(" ")
+            st.text(" ")
+            st.text(" ")
+            st.text(" ")
+            st.text(" ")
+
+        with reset_tab:
+            st.title("Reset de todas las reservas")
+            st.warning("Esto solo se debe ejecutar una vez al año")
+            contraseña = st.text_input("itroduce contraseña")
+            if contraseña == "Apple":
+                if st.button("Borrado definitivo"):
+                    with open("base/disponibles.json", "r") as f:
+                        taquillas_disponibles = json.load(f)
+                        with open("disponibles.json", "w") as g:
+                            json.dump(taquillas_disponibles, g)
+
+                    with open("base/reservadas.json", "r") as f:
+                        taquillas_reservadas = json.load(f)
+                        with open("reservadas.json", "w") as g:
+                            json.dump(taquillas_reservadas, g)
+
+                    st.success("Reseteado con éxito")
+                    st.toast("Reseteado con éxito", icon='🎉')
+
     ################################################################################################################
 
-    # Dudas
+with st.container():
+    # Dudas, acude a delegación
     st.write(
         "Si tienes alguna duda, consulta el manual de usuario en la [carpeta de Google Drive](https://drive.google.com/drive/folders/15tOcC8FqSK1vdOcjEdqS7Rf1iDFpjzNc?usp=share_link)")
 
@@ -452,42 +498,3 @@ with st.expander("Configuración para Devs:"):
     disponibles_path = "../disponibles.json"
     """)
     st.write("Y comentar las partes de las autorizaciones y logins:")
-
-    st.write("---")
-    st.write("---")
-    st.write("---")
-    st.write("Esto no aparecería en la versión final, ha sido solo para testeo")
-
-    # Botón para resetear los jsons, utiliza otros jsons y los copia. Por lo tanto,
-    # si se quieren cambiar los bloques en un año nuevo, con cambiar los de la carpeta base, y resetear,
-    # se cambian.
-    # En cambio, si se quiere hacer durante el curso, habría que modificar los jsons
-    # tanto de la carpeta base y los de la aplicación.
-
-    if st.button("Reset"):
-        with open("base/disponibles.json", "r") as f:
-            taquillas_disponibles = json.load(f)
-            with open("disponibles.json", "w") as g:
-                json.dump(taquillas_disponibles, g)
-
-        with open("base/reservadas.json", "r") as f:
-            taquillas_reservadas = json.load(f)
-            with open("reservadas.json", "w") as g:
-                json.dump(taquillas_reservadas, g)
-
-        st.success("Reseteado con éxito")
-        st.toast("Reseteado con éxito", icon='🎉')
-
-    # Para uso interno, para ver los jsons y ver como se estaba almacenando la información
-    # Se puede y debe quitar en la versión final
-    if st.toggle("Display Raw Data"):
-        st.write("Esto es :blue[azul], como el cielo")
-        with st.container():
-            left_column, right_column = st.columns(2)
-            with left_column:
-                st.title("Taquillas Disponibles:")
-                st.json(taquillas_disponibles)
-            with right_column:
-                st.title("Taquillas no Disponibles:")
-                st.json(taquillas_reservadas)
-

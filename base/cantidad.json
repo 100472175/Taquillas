@@ -1,0 +1,68 @@
+{
+    "Edificio 1": {
+        "Planta 0": {
+            "Bloque 1": 12,
+            "Bloque 2": 12,
+            "Bloque 3": 24,
+            "Bloque 4": 24,
+            "Bloque 5": 32
+        },
+        "Planta 1": {
+            "Bloque 1": 12,
+            "Bloque 2": 12
+        }
+    },
+    "Edificio 2": {
+        "Planta 2": {
+            "Bloque 1": 36,
+            "Bloque 2": 36
+        },
+        "Planta 3": {
+            "Bloque 1": 12,
+            "Bloque 2": 12,
+            "Bloque 3": 12,
+            "Bloque 4": 24,
+            "Bloque 5": 24,
+            "Bloque 6": 24,
+            "Bloque 7": 64
+        }
+    },
+    "Edificio 4": {
+        "Planta 0": {
+            "Bloque 1": 16,
+            "Bloque 2": 16,
+            "Bloque 3": 32,
+            "Bloque 4": 32,
+            "Bloque 5": 16,
+            "Bloque 6": 16
+        },
+        "Planta 1": {
+            "Bloque 1": 8,
+            "Bloque 2": 16,
+            "Bloque 3": 16,
+            "Bloque 4": 16,
+            "Bloque 5": 16,
+            "Bloque 6": 16,
+            "Bloque 7": 32
+        },
+        "Planta 2": {
+            "Bloque 1": 16,
+            "Bloque 2": 32,
+            "Bloque 3": 32,
+            "Bloque 4": 32,
+            "Bloque 5": 16
+        }
+    },
+    "Edificio 7": {
+        "Planta 0": {
+            "Bloque 1": 18,
+            "Bloque 2": 44
+        },
+        "Planta 1": {
+            "Bloque 1": 40
+        },
+        "Planta 2": {
+            "Bloque 1": 38
+        }
+    }
+}
