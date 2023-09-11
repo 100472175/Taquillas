@@ -192,14 +192,20 @@ with reserva_tab:
             st.image("images/" + IMAGES[edificio][planta], width=500)
 
 with ocupacion_tab:
+    refresh = True
     st.subheader("Consulta la ocupación de los bloques eligiendo un edificio y una planta")
     with open("disponibles.json", "r") as f:
         taquillas_disponibles = json.load(f)
     with open("reservadas.json", "r") as f:
         taquillas_reservadas = json.load(f)
-    edificio_tab_sel, planta_tab_sel, _ = st.columns(3)
+    edificio_tab_sel, planta_tab_sel, refresh_tab_sel = st.columns(3)
     with edificio_tab_sel:
         edificio = st.selectbox("Selecciona el edificio para consultar su disponibilidad", taquillas_disponibles.keys())
     with planta_tab_sel:
         planta = st.selectbox("Selecciona la planta para consultar su disponibilidad", list(taquillas_disponibles[edificio].keys()))
-    ocupación_draw(edificio, planta)
+    with refresh_tab_sel:
+        if st.button("Actualizar", key="refresh"):
+            refresh = True
+    if refresh:
+        ocupación_draw(edificio, planta)
+        refresh = False
