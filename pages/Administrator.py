@@ -7,6 +7,7 @@ from streamlit_modal import Modal
 from yaml.loader import SafeLoader
 from Reserva_Taquillas import generate_code
 from general_view import generate_dataframe
+from email_send import send_email_verification
 
 
 # Hay 3 cosas que descomentar, el import, el bloque de código de abajo y el de if session_state...
@@ -113,9 +114,10 @@ elif st.session_state["authentication_status"]:
         with open(reservadas_path, "r") as f:
             taquillas_reservadas = json.load(f)
 
-        estado_tab, mod_data_tab, del_tab, general_view_tab, add_tab, reset_tab = st.tabs(
-            [":blue[**Cambiar estado**]", ":blue[**Modificar Datos Reserva**]", ":blue[**Eliminar Reserva**]",
-             ":blue[**Vista General**]", ":blue[**Añadir Bloque**]", ":blue[**Reset**]"])
+        estado_tab, mod_data_tab, mod_taquilla_tab, del_tab, general_view_tab, add_tab, reset_tab = st.tabs(
+            [":blue[**Cambiar estado**]", ":blue[**Modificar Datos Reserva**]", ":blue[**Modificar Taquilla**]",
+             ":blue[**Eliminar Reserva**]", ":blue[**Vista General**]", ":blue[**Añadir Bloque**]",
+             ":blue[**Reset**]"])
 
         css = '''
         <style>
@@ -139,7 +141,7 @@ elif st.session_state["authentication_status"]:
             taquilla_index = get_taquilla_info_nia(nia_estado)
             if taquilla_index is None:
                 taquilla_index = get_taquilla_info_name(taquilla_estado)
-            if taquilla_index is not None:
+            if taquilla_index:
                 taquilla = taquillas_reservadas[taquilla_index[0]][taquilla_index[1]][taquilla_index[2]][
                     taquilla_index[3]]
 
@@ -191,39 +193,39 @@ elif st.session_state["authentication_status"]:
             taquilla_mod_index = get_taquilla_info_nia(nia_mod_estado)
             if taquilla_mod_index is None:
                 taquilla_mod_index = get_taquilla_info_name(taquilla_mod_estado)
-            if taquilla_mod_index is not None:
-                taquilla_mod = \
+            if taquilla_mod_index:
+                taquilla_del_add = \
                 taquillas_reservadas[taquilla_mod_index[0]][taquilla_mod_index[1]][taquilla_mod_index[2]][
                     taquilla_mod_index[3]]
 
                 taquilla_col, nia_col, estado_col, nombre_col, apellidos_col, codigo_col = st.columns(6)
                 with taquilla_col:
-                    st.write("Taquilla", key="taquilla"+taquilla_mod[0])
-                    st.write(taquilla_mod[0])
+                    st.write("Taquilla", key="taquilla"+taquilla_del_add[0])
+                    st.write(taquilla_del_add[0])
                 with nia_col:
-                    new_nia = st.text_input("NIA", value=taquilla_mod[1], key="nia"+taquilla_mod[1])
+                    new_nia = st.text_input("NIA", value=taquilla_del_add[1], key="nia"+taquilla_del_add[1])
                 with estado_col:
                     # taquilla_mod[2] = st.text_input("Estado", value=taquilla_mod[2], key=taquilla_mod[2]+"mod")
-                    index = ["Reservada", "Ocupada", "No Disponible"].index(taquilla_mod[2])
+                    index = ["Reservada", "Ocupada", "No Disponible"].index(taquilla_del_add[2])
                     new_state = st.selectbox("Estado", options=["Reservada", "Ocupada", "No Disponible"], index=index,
-                                             key=taquilla_mod[2] + "mod_selectbox")
+                                             key=taquilla_del_add[2] + "mod_selectbox")
                 with nombre_col:
-                    taquilla_mod[3] = st.text_input("Nombre", value=taquilla_mod[3], key="nombre"+taquilla_mod[3])
+                    taquilla_del_add[3] = st.text_input("Nombre", value=taquilla_del_add[3], key="nombre"+taquilla_del_add[3])
                 with apellidos_col:
-                    taquilla_mod[4] = st.text_input("Apellidos", value=taquilla_mod[4], key="apellido"+taquilla_mod[4])
+                    taquilla_del_add[4] = st.text_input("Apellidos", value=taquilla_del_add[4], key="apellido"+taquilla_del_add[4])
                 with codigo_col:
                     st.write("Código", key="código_mod")
-                    st.write(taquilla_mod[5])
+                    st.write(taquilla_del_add[5])
                     if st.button("Generar nuevo código"):
-                        taquilla_mod[5] = generate_code()
+                        taquilla_del_add[5] = generate_code()
                         from email_send import send_email_verification
-                        send_email_verification(taquilla_mod[3], taquilla_mod[1], taquilla_mod[0], taquilla_mod[5])
+                        send_email_verification(taquilla_del_add[3], taquilla_del_add[1], taquilla_del_add[0], taquilla_del_add[5])
                         if re.match(r"100[0-9]{6}", new_nia):
-                            taquilla_mod[2] = new_state
-                            taquilla_mod[1] = new_nia
+                            taquilla_del_add[2] = new_state
+                            taquilla_del_add[1] = new_nia
                             with open(reservadas_path, "w") as f:
                                 json.dump(taquillas_reservadas, f, indent=4)
-                            if taquilla_mod[1] in str(taquillas_reservadas):
+                            if taquilla_del_add[1] in str(taquillas_reservadas):
                                 st.success("Cambiado")
                                 st.toast("Cambiado", icon='🎉')
 
@@ -231,11 +233,11 @@ elif st.session_state["authentication_status"]:
 
                 if st.button("Cambiar"):
                     if re.match(r"100[0-9]{6}", new_nia):
-                        taquilla_mod[2] = new_state
-                        taquilla_mod[1] = new_nia
+                        taquilla_del_add[2] = new_state
+                        taquilla_del_add[1] = new_nia
                         with open(reservadas_path, "w") as f:
                             json.dump(taquillas_reservadas, f, indent=4)
-                        if taquilla_mod[1] in str(taquillas_reservadas):
+                        if taquilla_del_add[1] in str(taquillas_reservadas):
                             st.success("Cambiado")
                             st.toast("Cambiado", icon='🎉')
 
@@ -255,7 +257,7 @@ elif st.session_state["authentication_status"]:
             taquilla_del_index = get_taquilla_info_nia(nia_del_estado)
             if taquilla_del_index is None:
                 taquilla_del_index = get_taquilla_info_name(taquilla_del_estado)
-            if taquilla_del_index is not None:
+            if taquilla_del_index:
                 taquilla_delete = \
                 taquillas_reservadas[taquilla_del_index[0]][taquilla_del_index[1]][taquilla_del_index[2]][
                     taquilla_del_index[3]]
@@ -483,6 +485,119 @@ elif st.session_state["authentication_status"]:
 
                     st.success("Reseteado con éxito")
                     st.toast("Reseteado con éxito", icon='🎉')
+
+        with mod_taquilla_tab:
+            with open("disponibles.json", "r") as f:
+                taquillas_disponibles = json.load(f)
+
+            st.title("Modificar taquilla")
+            st.write("Aquí puedes modificar los datos de una taquilla concreta.")
+
+            nia_mod_col, taquilla_mod_col = st.columns(2)
+            with nia_mod_col:
+                nia_mod_estado = st.text_input("Introduce el NIA a consultar", key="NIA_mod_del_add")
+            with taquilla_mod_col:
+                taquilla_mod_estado = st.text_input("Introduce el nombre de la taquilla a consultar",
+                                                    key="taquilla_mod_del_add")
+
+            taquilla_del_add_index = get_taquilla_info_nia(nia_mod_estado)
+            if taquilla_del_add_index is None:
+                taquilla_del_add_index = get_taquilla_info_name(taquilla_mod_estado)
+            if taquilla_del_add_index:
+                taquilla_del_add = \
+                    taquillas_reservadas[taquilla_del_add_index[0]][taquilla_del_add_index[1]][taquilla_del_add_index[2]][
+                        taquilla_del_add_index[3]]
+                taquilla_col, nia_col, estado_col, nombre_col, apellidos_col, codigo_col = st.columns(6)
+                with taquilla_col:
+                    st.write("Taquilla", key=taquilla_del_add[0])
+                    st.write(taquilla_del_add[0])
+                with nia_col:
+                    st.write("NIA", key="nia" + taquilla_del_add[1])
+                    st.write(taquilla_del_add[1])
+                    nia = taquilla_del_add[1]
+                with estado_col:
+                    st.write("Estado", key="estado" + taquilla_del_add[2])
+                    st.write(taquilla_del_add[2])
+                with nombre_col:
+                    st.write("Nombre", key="nombre" + taquilla_del_add[3])
+                    st.write(taquilla_del_add[3])
+                    nombre = taquilla_del_add[3]
+                with apellidos_col:
+                    st.write("Apellidos", key="apellidos" + taquilla_del_add[4])
+                    st.write(taquilla_del_add[4])
+                    apellidos = taquilla_del_add[4]
+                with codigo_col:
+                    st.write("Código", key="código_mod")
+                    st.write(taquilla_del_add[5])
+
+                # Dividimos el espacio en 4 columnas para los desplegables
+                col_edificio, col_planta, col_bloque, col_numero = st.columns(4)
+
+                # Para acceder a los datos, navegamos por el diccionario, utilizando los desplegables como índices
+                # Desplegable de la lista de edificios
+                with col_edificio:
+                    edificio = st.selectbox("Selecciona el edificio", taquillas_disponibles.keys())
+                    lista_plantas = list(taquillas_disponibles[edificio].keys())
+
+                # Desplegable de la lista de plantas del edificio seleccionado
+                with col_planta:
+                    planta = st.selectbox("Selecciona la planta", lista_plantas)
+                    lista_bloques = list(taquillas_disponibles[edificio][planta].keys())
+
+                # Desplegable de la lista de bloques de la planta seleccionada
+                with col_bloque:
+                    bloque = st.selectbox("Selecciona el bloque", lista_bloques)
+                    lista_numeros = taquillas_disponibles[edificio][planta][bloque]
+
+                # Desplegable de la lista de taquillas del bloque seleccionado
+                with col_numero:
+                    taquilla = st.selectbox("Selecciona la taquilla", lista_numeros)
+                st.write(taquilla_del_add)
+
+                # Botón para modificar la taquilla
+                if st.button("Modificar"):
+                    taquillas_reservadas[taquilla_del_add_index[0]][taquilla_del_add_index[1]][taquilla_del_add_index[2]].remove(taquilla_del_add)
+                    with open(reservadas_path, "w") as f:
+                        json.dump(taquillas_reservadas, f, indent=4)
+                    with open(disponibles_path, "r") as f:
+                        taquillas_disponibles = json.load(f)
+                    taquillas_disponibles[taquilla_del_add_index[0]][taquilla_del_add_index[1]][taquilla_del_add_index[2]].append(taquilla_del_add[0])
+                    taquillas_disponibles[taquilla_del_add_index[0]][taquilla_del_add_index[1]][taquilla_del_add_index[2]] = sorted(
+                        taquillas_disponibles[taquilla_del_add_index[0]][taquilla_del_add_index[1]][taquilla_del_add_index[2]],
+                        key=lambda num: num[-3:])
+                    with open(disponibles_path, "w") as f:
+                        json.dump(taquillas_disponibles, f, indent=4)
+
+                    # Reservar taquilla
+                    # Generamos un código de verificación aleatorio
+                    codigo = generate_code()
+
+                    # Añadimos a las reservadas la taquilla que se ha solicitado y la guardamos en el json
+                    reserva = [taquilla, nia, "Reservada", nombre, apellidos, codigo]
+                    taquillas_reservadas[edificio][planta][bloque].append(reserva)
+                    with open("reservadas.json", "w") as f:
+                        json.dump(taquillas_reservadas, f)
+
+                    # Eliminamos de las disponibles la taquilla que se ha solicitado
+                    taquillas_disponibles[edificio][planta][bloque].remove(taquilla)
+                    with open("disponibles.json", "w") as f:
+                        json.dump(taquillas_disponibles, f)
+
+                    # Enviamos el correo electrónico con el código de verificación
+                    send_email_verification(nombre, nia, taquilla, codigo)
+
+                    # Mostramos la información de la reserva, mostramos mensaje temporal y lanzamos los confetis
+                    content = f"Reserva realizada con éxito :partying_face:  \n" \
+                              f"Taquilla: {taquilla}  \n" \
+                              f"NIA: {nia}  \n" \
+                              f"Nombre: {nombre}  \n" \
+                              f"Apellidos: {apellidos}  \n"
+                    st.success(content)
+                    reduced = content[:content.find("NIA:")]
+                    st.toast(reduced, icon='🎉')
+                    st.balloons()
+            else:
+                st.error("No se ha encontrado tu reserva")
 
     ################################################################################################################
 
