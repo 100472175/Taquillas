@@ -4,14 +4,20 @@ credentials:
       email: 100472175@alumnos.uc3m.es
       name: Eduardo Alarcón
       password: $2b$12$fpo4PLSoGnWffLw3UJXPeuB0hf/Ah9RIV34SAtegtL86JXmqZrLZG
-    delegacion:
+    administrador:
       email: delegeps@uc3m.es
       name: Delegación EPS
-      password: $2b$12$x2mPjXQAWsNjtMmDT7u2PurKiLAGQ.NIXPbdscmdVazy7Qqrtwtv6
+      password: $2b$12$fpo4PLSoGnWffLw3UJXPeuB0hf/Ah9RIV34SAtegtL86JXmqZrLZG
+    delegado:
+      email: delegado@uc3m.es
+      name: Delegado
+      password: $2b$12$uV7jobXZ6DdO009dskTrmODbg/WcAcOR6i3bkOwRlYM.ni9r.Fj8q
 cookie:
-  expiry_days: 30
+  expiry_days: 7
   key: random_signature_key # Must be string
   name: random_cookie_name
 preauthorized:
   emails:
   - edu@gmail.com
+reset_password:
+  password: cb74921ea6811ce65b5a18eab2b7e289

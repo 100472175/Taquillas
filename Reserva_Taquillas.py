@@ -18,7 +18,7 @@ st.set_page_config(
 st.image("images/eps_logo.png", width=100)
 st.subheader("Reserva Taquillas UC3M", divider=True)
 st.title("Aplicación para la reserva de taquillas del campus de Leganés de la UC3M")
-st.write("Esta aplicación permite reservar las taquillas del campus de Leganés de la UC3M.")
+#st.write("Esta aplicación permite reservar las taquillas del campus de Leganés de la UC3M.")
 st.subheader("Instrucciones:", divider=True)
 
 
@@ -80,7 +80,9 @@ with reserva_tab:
 
     with st.container():
         st.title("Reserva tu taquilla:")
-        st.markdown("Ten en cuenta que las letras **P** y **G** indican el tamaño **P**equeño o **G**rande respectivamente.")
+        st.markdown("Ten en cuenta que las letras **P** y **G** indican el tamaño **P**equeño o **G**rande respectivamente.  \n"
+            "El precio de las taquillas es de 6€ para las grandes y 4€ para las pequeñas para el curso completo.  \n"
+            "El pago se realizará en efectivo en la Delegación de Estudiantes de la EPS.")
 
         # Dividimos el espacio en 4 columnas para los desplegables
         col_edificio, col_planta, col_bloque, col_numero = st.columns(4)

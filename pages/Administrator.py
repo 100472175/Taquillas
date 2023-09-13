@@ -1,3 +1,4 @@
+import hashlib
 import json
 import re
 import streamlit as st
@@ -8,33 +9,6 @@ from yaml.loader import SafeLoader
 from Reserva_Taquillas import generate_code
 from general_view import generate_dataframe
 from email_send import send_email_verification
-
-
-# Hay 3 cosas que descomentar, el import, el bloque de código de abajo y el de if session_state...
-st.set_page_config(
-    page_title="Administrador Reservas",
-	layout="wide",  # Can be "centered" or "wide". In the future also "dashboard", etc.
-	initial_sidebar_state="collapsed",  # Can be "auto", "expanded", "collapsed"
-	page_icon="images/eps_logo.png",  # String, anything supported by st.image, or None.
-)
-config_path = "pages/config.yaml"
-reservadas_path = "reservadas.json"
-disponibles_path = "disponibles.json"
-IMAGES = {'Edificio 1': {'Planta 0': "1.0.jpg", 'Planta 1': "1.1.jpg"}, 'Edificio 2':{'Planta 2': "2.2.jpg", 'Planta 3': "2.3.jpg"}, 'Edificio 4':{'Planta 0': "4.0.jpg", 'Planta 1': "4.1.jpg", 'Planta 2': "4.2.jpg"}, 'Edificio 7':{'Planta 0': "7.0.jpg", 'Planta 1': "7.1.jpg", 'Planta 2': "7.2.jpg"}}
-
-
-with open(config_path) as file:
-    config = yaml.load(file, Loader=SafeLoader)
-
-authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days'],
-    config['preauthorized']
-)
-me, authentication_status, username = authenticator.login('Login', 'main')
-
 
 def get_taquilla_info(data, option) -> tuple:
     """
@@ -98,13 +72,31 @@ def get_taquilla_info_name(nombre):
     # return None
 
 
+config_path = "pages/config.yaml"
+reservadas_path = "reservadas.json"
+disponibles_path = "disponibles.json"
+IMAGES = {'Edificio 1': {'Planta 0': "1.0.jpg", 'Planta 1': "1.1.jpg"}, 'Edificio 2':{'Planta 2': "2.2.jpg", 'Planta 3': "2.3.jpg"}, 'Edificio 4':{'Planta 0': "4.0.jpg", 'Planta 1': "4.1.jpg", 'Planta 2': "4.2.jpg"}, 'Edificio 7':{'Planta 0': "7.0.jpg", 'Planta 1': "7.1.jpg", 'Planta 2': "7.2.jpg"}}
+
+
+with open(config_path) as file:
+    config = yaml.load(file, Loader=SafeLoader)
+
+authenticator = stauth.Authenticate(
+    config['credentials'],
+    config['cookie']['name'],
+    config['cookie']['key'],
+    config['cookie']['expiry_days'],
+    config['preauthorized']
+)
+me, authentication_status, username = authenticator.login('Login', 'main')
+
+
 if st.session_state["authentication_status"] == False:
     st.error('Username/password is incorrect')
 elif st.session_state["authentication_status"] == None:
     st.warning('Please enter your username and password')
 elif st.session_state["authentication_status"]:
     authenticator.logout('Logout', 'main')
-    # Esto de arriba reeplaza el with de abajo
 
     st.title("Administrador de taquillas")
 
@@ -467,25 +459,6 @@ elif st.session_state["authentication_status"]:
             st.text(" ")
             st.text(" ")
 
-        with reset_tab:
-            st.title("Reset de todas las reservas")
-            st.warning("Esto solo se debe ejecutar una vez al año")
-            contraseña = st.text_input("itroduce contraseña")
-            if contraseña == "Apple":
-                if st.button("Borrado definitivo"):
-                    with open("base/disponibles.json", "r") as f:
-                        taquillas_disponibles = json.load(f)
-                        with open("disponibles.json", "w") as g:
-                            json.dump(taquillas_disponibles, g)
-
-                    with open("base/reservadas.json", "r") as f:
-                        taquillas_reservadas = json.load(f)
-                        with open("reservadas.json", "w") as g:
-                            json.dump(taquillas_reservadas, g)
-
-                    st.success("Reseteado con éxito")
-                    st.toast("Reseteado con éxito", icon='🎉')
-
         with mod_taquilla_tab:
             with open("disponibles.json", "r") as f:
                 taquillas_disponibles = json.load(f)
@@ -599,18 +572,33 @@ elif st.session_state["authentication_status"]:
             else:
                 st.error("No se ha encontrado tu reserva")
 
+        with reset_tab:
+            st.title("Reset de todas las reservas")
+            st.warning("Esto solo se debe ejecutar una vez al año")
+            if username == "delegado":
+                st.error("No tienes permiso para ejecutar esta acción")
+            else:
+                contraseña = st.text_input("itroduce contraseña")
+                if hashlib.md5(contraseña.encode()).hexdigest() == config["reset_password"]["password"]:
+                    if st.button("Borrado definitivo"):
+                        with open("base/disponibles.json", "r") as f:
+                            taquillas_disponibles = json.load(f)
+                            with open("disponibles.json", "w") as g:
+                                json.dump(taquillas_disponibles, g)
+
+                        with open("base/reservadas.json", "r") as f:
+                            taquillas_reservadas = json.load(f)
+                            with open("reservadas.json", "w") as g:
+                                json.dump(taquillas_reservadas, g)
+
+                        st.success("Reseteado con éxito")
+                        st.toast("Reseteado con éxito", icon='🎉')
+                else:
+                    st.error("Contraseña incorrecta")
+
     ################################################################################################################
 
 with st.container():
     # Dudas, acude a delegación
     st.write(
         "Si tienes alguna duda, consulta el manual de usuario en la [carpeta de Google Drive](https://drive.google.com/drive/folders/15tOcC8FqSK1vdOcjEdqS7Rf1iDFpjzNc?usp=share_link)")
-
-with st.expander("Configuración para Devs:"):
-    st.write("Para el indepentiende, hay que poner estos configs:")
-    st.code("""
-    config_path = "config.yaml"
-    reservadas_path = "../reservadas.json"
-    disponibles_path = "../disponibles.json"
-    """)
-    st.write("Y comentar las partes de las autorizaciones y logins:")
