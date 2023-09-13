@@ -12,7 +12,7 @@ def colorea_disponibilidad(value, data):
     return "background-color: red"
 
 
-def ocupación_draw(edificio_key, planta_key=None):
+def ocupacion_draw(edificio_key, planta_key=None):
     with open("base/disponibles.json", "r") as f:
         disponibles_total = json.load(f)
     with open("base/tamanos.json", "r") as f:

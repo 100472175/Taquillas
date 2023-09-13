@@ -3,7 +3,7 @@ import json
 import random
 import re
 from email_send import send_email_verification
-from ocupación_por_edificio import ocupación_draw
+from ocupacion_por_edificio import ocupacion_draw
 
 # Configuración de la página, título, icono, estado de la sidebar(que posiblemente quitaremos), etc.
 st.set_page_config(
@@ -161,33 +161,36 @@ with reserva_tab:
     # Si se puede reservar, habilitamos el botón de reservar
     with st.container():
         if st.button("Reservar", disabled=not(reservable)):
-            # Generamos un código de verificación aleatorio
-            codigo = generate_code()
+            try:
+                # Generamos un código de verificación aleatorio
+                codigo = generate_code()
 
-            # Añadimos a las reservadas la taquilla que se ha solicitado y la guardamos en el json
-            reserva = [taquilla, nia, "Reservada", nombre, apellidos, codigo]
-            taquillas_reservadas[edificio][planta][bloque].append(reserva)
-            with open("reservadas.json", "w") as f:
-                json.dump(taquillas_reservadas, f)
+                # Añadimos a las reservadas la taquilla que se ha solicitado y la guardamos en el json
+                reserva = [taquilla, nia, "Reservada", nombre, apellidos, codigo]
+                taquillas_reservadas[edificio][planta][bloque].append(reserva)
+                with open("reservadas.json", "w") as f:
+                    json.dump(taquillas_reservadas, f)
 
-            # Eliminamos de las disponibles la taquilla que se ha solicitado
-            taquillas_disponibles[edificio][planta][bloque].remove(taquilla)
-            with open("disponibles.json", "w") as f:
-                json.dump(taquillas_disponibles, f)
+                # Eliminamos de las disponibles la taquilla que se ha solicitado
+                taquillas_disponibles[edificio][planta][bloque].remove(taquilla)
+                with open("disponibles.json", "w") as f:
+                    json.dump(taquillas_disponibles, f)
 
-            # Enviamos el correo electrónico con el código de verificación
-            send_email_verification(nombre, nia, taquilla, codigo)
+                # Enviamos el correo electrónico con el código de verificación
+                send_email_verification(nombre, nia, taquilla, codigo)
 
-            # Mostramos la información de la reserva, mostramos mensaje temporal y lanzamos los confetis
-            content = f"Reserva realizada con éxito :partying_face:  \n" \
-                        f"Taquilla: {taquilla}  \n" \
-                        f"NIA: {nia}  \n" \
-                        f"Nombre: {nombre}  \n" \
-                        f"Apellidos: {apellidos}  \n"
-            st.success(content)
-            reduced = content[:content.find("NIA:")]
-            st.toast(reduced, icon='🎉')
-            st.balloons()
+                # Mostramos la información de la reserva, mostramos mensaje temporal y lanzamos los confetis
+                content = f"Reserva realizada con éxito :partying_face:  \n" \
+                            f"Taquilla: {taquilla}  \n" \
+                            f"NIA: {nia}  \n" \
+                            f"Nombre: {nombre}  \n" \
+                            f"Apellidos: {apellidos}  \n"
+                st.success(content)
+                reduced = content[:content.find("NIA:")]
+                st.toast(reduced, icon='🎉')
+                st.balloons()
+            except:
+                st.error("No se ha podido hacer la reserva, contacta con delegación para que puedan arreglarlo")
 
         # Toggle para mostrar la guía en imágenes de la localización de bloques por planta
         if st.toggle("Mostrar guía de bloques por planta", key="guia", value=True):
@@ -209,5 +212,5 @@ with ocupacion_tab:
         if st.button("Actualizar", key="refresh"):
             refresh = True
     if refresh:
-        ocupación_draw(edificio, planta)
+        ocupacion_draw(edificio, planta)
         refresh = False
