@@ -25,7 +25,7 @@ st.subheader("Instrucciones:", divider=True)
 st.write("Para reservar una taquilla, elige primero el edificio donde se encuentra la taquilla,"
          " luego, la planta y el bloque, y, por último, la taquilla que quieres reservar. Además, "
          "deberás introducir tu nombre, tus apellidos y con el NIA para realizar la reserva."
-         "Una vez enviados los datos, recibirás un correo electrónico con los datos asociados"
+         " Una vez enviados los datos, recibirás un correo electrónico con los datos asociados"
          " y un código de verificación. "
          "\nPara más información, accede a la página de Delegación.")
 
@@ -79,10 +79,16 @@ with reserva_tab:
         return code[3:] + "-" + code[:3] + "-" + letter
 
     with st.container():
-        st.title("Reserva tu taquilla:")
-        st.markdown("Ten en cuenta que las letras **P** y **G** indican el tamaño **P**equeño o **G**rande respectivamente.  \n"
-            "El precio de las taquillas es de 6€ para las grandes y 4€ para las pequeñas para el curso completo.  \n"
-            "El pago se realizará en efectivo en la Delegación de Estudiantes de la EPS.")
+        titulo_descr_col, img_01 = st.columns([3, 1])
+        with titulo_descr_col:
+            # Título y descripción de la página
+            st.title("Reserva tu taquilla:")
+            st.markdown("Ten en cuenta que las letras **P** y **G** indican el tamaño **P**equeño o **G**rande respectivamente.  \n"
+                "El precio de las taquillas es de 6€ para las grandes y 4€ para las pequeñas para el curso completo.  \n"
+                "El pago se realizará en efectivo en la Delegación de Estudiantes de la EPS.")
+        with img_01:
+            # Imagen de la página
+            st.image("images/taquilla-info.png")
 
         # Dividimos el espacio en 4 columnas para los desplegables
         col_edificio, col_planta, col_bloque, col_numero = st.columns(4)
@@ -194,7 +200,7 @@ with reserva_tab:
 
         # Toggle para mostrar la guía en imágenes de la localización de bloques por planta
         if st.toggle("Mostrar guía de bloques por planta", key="guia", value=True):
-            st.image("images/" + IMAGES[edificio][planta], width=500)
+            st.image("images/" + IMAGES[edificio][planta], width=400)
 
 with ocupacion_tab:
     refresh = True
