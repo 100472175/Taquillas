@@ -3,29 +3,13 @@ import json
 import re
 import streamlit as st
 import streamlit_authenticator as stauth
+import yaml
+from authentication.email_send import send_email_verification
+from database.database_functions import *
+from streamlit_modal import Modal
 from streamlit_extras.switch_page_button import switch_page
 from time import sleep
-import yaml
-from streamlit_modal import Modal
 from yaml.loader import SafeLoader
-from authentication.code_generator import generate_code
-from authentication.email_send import send_email_verification
-from database.database_functions import get_info_taquilla_nia
-from database.database_functions import get_info_taquilla_codigo
-from database.database_functions import update_taquila_estado
-from database.database_functions import update_taquilla_codigo
-from database.database_functions import update_taquilla_completo
-from database.database_functions import delete_taquilla_reserva
-from database.database_functions import edificios_disponibles
-from database.database_functions import plantas_por_edificio
-from database.database_functions import bloques_por_planta
-from database.database_functions import taquillas_por_bloque
-from database.database_functions import change_taquilla
-from database.database_functions import reset_database
-from database.database_functions import taquillas_not_libres
-from database.database_functions import taquillas_libres
-from database.database_functions import taquillas_rotas
-# from database.database_functions import *
 
 IMAGES = {'1': {'0': "1.0.jpg", '1': "1.1.jpg"},
           '2': {'2': "2.2.jpg", '3': "2.3.jpg"},

@@ -1,12 +1,11 @@
+import json
 import pandas as pd
 import streamlit as st
-import json
-import numpy as np
 from database.database_functions import bloques_por_planta_todas
+from database.database_functions import get_status_taquilla
 from database.database_functions import taquillas_por_bloque_todas
 from database.database_functions import taquillas_ocupadas_por_bloque
 from database.database_functions import taquillas_totales_por_bloque
-from database.database_functions import get_status_taquilla
 
 
 

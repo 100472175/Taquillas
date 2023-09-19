@@ -1,5 +1,5 @@
-import sqlite3 as sql
 import openpyxl
+import sqlite3 as sql
 
 db_file = "database.db"
 

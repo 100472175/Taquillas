@@ -1,5 +1,5 @@
-import sqlite3 as sql
 import pandas as pd
+import sqlite3 as sql
 from authentication.code_generator import generate_code
 
 db_file = "database/database.db"

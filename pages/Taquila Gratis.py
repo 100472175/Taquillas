@@ -1,9 +1,8 @@
 import streamlit as st
-from streamlit.components.v1 import html
-import yaml
-from yaml.loader import SafeLoader
 import streamlit_authenticator as stauth
-from streamlit_extras.switch_page_button import switch_page
+import yaml
+from streamlit.components.v1 import html
+from yaml.loader import SafeLoader
 
 config_path = "pages/config.yaml"
 

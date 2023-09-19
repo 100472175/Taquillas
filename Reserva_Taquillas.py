@@ -1,13 +1,12 @@
-import streamlit as st
 import re
-from database.database_functions import taquillas_por_nia
-from database.database_functions import edificios_disponibles
-from database.database_functions import plantas_por_edificio
-from database.database_functions import bloques_por_planta
-from database.database_functions import taquillas_por_bloque
-from database.database_functions import hacer_reserva
-
+import streamlit as st
 from authentication.email_send import send_email_verification
+from database.database_functions import bloques_por_planta
+from database.database_functions import edificios_disponibles
+from database.database_functions import hacer_reserva
+from database.database_functions import plantas_por_edificio
+from database.database_functions import taquillas_por_nia
+from database.database_functions import taquillas_por_bloque
 from ocupacion_por_edificio import ocupacion_draw
 
 # Configuración de la página, título, icono, estado de la sidebar(que posiblemente quitaremos), etc.
