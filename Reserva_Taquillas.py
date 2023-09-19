@@ -43,7 +43,7 @@ with reserva_tab:
 
     # Inicializamos las variables que vamos a utilizar y modificar
     reservable = False
-    reservableNIA = False
+    reservable_NIA = False
 
     # Inicializamos las constantes que vamos a utilizar
     IMAGES = {'Edificio 1': {'Planta 0': "1.0.jpg", 'Planta 1': "1.1.jpg"}, 'Edificio 2':{'Planta 2': "2.2.jpg", 'Planta 3': "2.3.jpg"}, 'Edificio 4':{'Planta 0': "4.0.jpg", 'Planta 1': "4.1.jpg", 'Planta 2': "4.2.jpg"}, 'Edificio 7':{'Planta 0': "7.0.jpg", 'Planta 1': "7.1.jpg", 'Planta 2': "7.2.jpg"}}
@@ -121,29 +121,27 @@ with reserva_tab:
         # Campos de texto para el nombre, apellidos y NIA
         with col_nombre:
             nombre = st.text_input("Introduce tu nombre")
+            if re.match(r"^[A-záéíóúèàìòùäëïöÜÁÉÍÓÚÀÈÌÒÙÄËÏÖÜ]", nombre):
+                nombre_reservable = True
         with col_appellidos:
             apellidos = st.text_input("Introduce tus apellidos")
+            if re.match(r"^[A-záéíóúèàìòùäëïöÜÁÉÍÓÚÀÈÌÒÙÄËÏÖÜ]", apellidos):
+                apellido_reservable = True
         with col_NIA:
             # Comprobamos que el NIA introducido es válido, empieza por 100 y luego 6 dígitos
             # Si ese NIA ya tiene una reserva, no se puede reservar y mostramos un mensaje de error
             nia = st.text_input("Introduce tu NIA")
-            if re.match(r"100[0-9]{6}", nia) and nia != '':
+            if re.match(r"^100[0-9]{6}$", nia) and nia != '':
                 # Comprobamos que el NIA no tiene más del número máximo de taquillas reservadas
-                # Función hecha.
-                # Esta es la parte que se puede cambiar, introducir una función que nos permite que
-                # un mismo NIA tenega hasta N taquillas reservadas. Ahora mismo solo se puede reservar 1
-                # --------------------------------------------------------------------------------------
-
-
                 numero_taquillas_por_nia = nia_counter(nia)
                 with col_warning:
                     if numero_taquillas_por_nia >= MAX_TAQUILLAS:
-                        reservableNIA = False
+                        reservable_NIA = False
                         st.warning("NIA ya tiene el máximo de reservas.")
                     else:
                         if numero_taquillas_por_nia > 0:
                             st.warning(f"Llevas reservadas: {numero_taquillas_por_nia} taquillas")
-                        reservableNIA = True
+                        reservable_NIA = True
             else:
                 with col_warning:
                     st.error("NIA no válido")
@@ -157,7 +155,7 @@ with reserva_tab:
             proteccion_datos = st.checkbox(text)
 
     # Comprobamos que se han rellenado todos los campos y que se ha aceptado la política de protección de datos
-    if proteccion_datos and reservableNIA and nombre and apellidos and edificio and planta and bloque and taquilla:
+    if proteccion_datos and reservable_NIA and nombre_reservable and apellido_reservable and edificio and planta and bloque and taquilla:
         reservable = True
         st.write("Reservable")
     else:

@@ -1,11 +1,14 @@
 import smtplib
 from email.mime.text import MIMEText
+import configparser
 
 
 def send_email_verification(nombre, nia, taquilla, codigo):
-    taquilla = taquilla
-    sender_email = "noreplytaquillaseps@gmail.com"
-    sender_password = "ktjolryomwuzjejw"
+    # Configuración del email
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    sender_email = config["EMAIL"]["email"]
+    sender_password = config["EMAIL"]["password"]
     subject = f"Código de confirmación para la reserva de taquillas: {codigo}"
     recipient_email = f"{nia}@alumnos.uc3m.es"
 
