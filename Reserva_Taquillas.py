@@ -18,7 +18,6 @@ st.set_page_config(
 st.image("images/eps_logo.png", width=100)
 st.subheader("Reserva Taquillas UC3M", divider=True)
 st.title("Aplicación para la reserva de taquillas del campus de Leganés de la UC3M")
-#st.write("Esta aplicación permite reservar las taquillas del campus de Leganés de la UC3M.")
 st.subheader("Instrucciones:", divider=True)
 
 
