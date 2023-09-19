@@ -14,12 +14,22 @@ pip install requirements.txt
 ```
 
 ## Uso
-Para usar esta aplicación, simplemente hay que ejecutar el archivo 'app.py' con streamlit:
+Para usar esta aplicación, necesitas tener una cuenta de correo que permita el envio de correos desde una aplicación externa.
+Para obtener esto, la manera más sencilla es crear una cuenta de gmail y activar la opción de [acceso a aplicaciones menos seguras](https://support.google.com/accounts/answer/6010255?hl=es).
+
+Una vez obtenida la cuenta de correo, hay que crear un archivo 'config.ini'
+```ini
+[EMAIL]
+email = <email>
+password = <password>
+```
+
+Y luego, para ejecutar la aplicación, simplemente hay que ejecutar el archivo 'app.py' con streamlit:
 ```bash
 streamlit run Reserva_Taquillas.py
 ```
 
 ## Contribución
-Las contribuciones son bienvenidas. Para cambios importantes, por favor, abre primero un issue para discutir qué te gustaría cambiar.
+Las contribuciones son bienvenidas. Para cambios importantes, por favor, haz una pull request.
 Muchas gracias a todos los participantes de este proyecto.
 

@@ -1,8 +1,13 @@
 import streamlit as st
-import json
-import random
 import re
-from email_send import send_email_verification
+from database.database_functions import taquillas_por_nia
+from database.database_functions import edificios_disponibles
+from database.database_functions import plantas_por_edificio
+from database.database_functions import bloques_por_planta
+from database.database_functions import taquillas_por_bloque
+from database.database_functions import hacer_reserva
+
+from authentication.email_send import send_email_verification
 from ocupacion_por_edificio import ocupacion_draw
 
 # Configuración de la página, título, icono, estado de la sidebar(que posiblemente quitaremos), etc.
@@ -33,49 +38,18 @@ st.write("Para más información ve a la [página de Delegación](https://delega
 
 reserva_tab, ocupacion_tab = st.tabs([":blue[**Reservar Taquilla**]", ":blue[**Ocupación**]"])
 with reserva_tab:
-    # Cargamos los datos de las taquillas disponibles y reservadas
-    # Como esto se carga cada vez que se actualiza la página, estará siempre actualizada
-    with open("disponibles.json", "r") as f:
-        taquillas_disponibles = json.load(f)
-    with open("reservadas.json", "r") as f:
-        taquillas_reservadas = json.load(f)
-
     # Inicializamos las variables que vamos a utilizar y modificar
     reservable = False
     reservable_NIA = False
 
     # Inicializamos las constantes que vamos a utilizar
-    IMAGES = {'Edificio 1': {'Planta 0': "1.0.jpg", 'Planta 1': "1.1.jpg"}, 'Edificio 2':{'Planta 2': "2.2.jpg", 'Planta 3': "2.3.jpg"}, 'Edificio 4':{'Planta 0': "4.0.jpg", 'Planta 1': "4.1.jpg", 'Planta 2': "4.2.jpg"}, 'Edificio 7':{'Planta 0': "7.0.jpg", 'Planta 1': "7.1.jpg", 'Planta 2': "7.2.jpg"}}
+    IMAGES = {'1': {'0': "1.0.jpg", '1': "1.1.jpg"},
+              '2': {'2': "2.2.jpg", '3': "2.3.jpg"},
+              '4': {'0': "4.0.jpg",'1': "4.1.jpg", '2': "4.2.jpg"},
+              '7': {'0': "7.0.jpg", '1': "7.1.jpg", '2': "7.2.jpg"}}
     RESERVADAS_PATH = "reservadas.json"
     DISPONIBLES_PATH = "disponibles.json"
     MAX_TAQUILLAS = 3
-
-    def nia_counter(nia) -> int:
-        """
-        Función que cuenta el número de taquillas reservadas por un NIA
-        :param nia:
-        :return: Número de taquillas reservadas por el NIA
-        """
-        with open(RESERVADAS_PATH, "r") as f:
-            taquillas_reservadas = json.load(f)
-        counter = 0
-        for edificio_key, edificio in taquillas_reservadas.items():
-            for planta_key, planta in edificio.items():
-                for bloque_key, bloque in planta.items():
-                    for reserva_key in range(len(bloque)):
-                        if bloque[reserva_key][1] == nia:
-                            counter += 1
-        return counter
-
-    def generate_code() -> str:
-        code = str(random.randint(100000, 999999))
-        number = 0
-        for digit in str(code):
-            number += int(digit)
-        letter = chr(number % 26 + 65)
-        if letter == "O" or letter == "I":
-            letter = chr((number + 1) % 26 + 65)
-        return code[3:] + "-" + code[:3] + "-" + letter
 
     with st.container():
         titulo_descr_col, img_01 = st.columns([3, 1])
@@ -92,25 +66,22 @@ with reserva_tab:
         # Dividimos el espacio en 4 columnas para los desplegables
         col_edificio, col_planta, col_bloque, col_numero = st.columns(4)
 
-        # Para acceder a los datos, navegamos por el diccionario, utilizando los desplegables como índices
+        # Para acceder a los datos, vamos seleccionando las columnas de sql
         # Desplegable de la lista de edificios
         with col_edificio:
-            edificio = st.selectbox("Selecciona el edificio", taquillas_disponibles.keys())
-            lista_plantas = list(taquillas_disponibles[edificio].keys())
+            edificio = st.selectbox("Selecciona el edificio", edificios_disponibles())
 
         # Desplegable de la lista de plantas del edificio seleccionado
         with col_planta:
-            planta = st.selectbox("Selecciona la planta", lista_plantas)
-            lista_bloques = list(taquillas_disponibles[edificio][planta].keys())
+            planta = st.selectbox("Selecciona la planta", plantas_por_edificio(edificio))
 
         # Desplegable de la lista de bloques de la planta seleccionada
         with col_bloque:
-            bloque = st.selectbox("Selecciona el bloque", lista_bloques)
-            lista_numeros = taquillas_disponibles[edificio][planta][bloque]
+            bloque = st.selectbox("Selecciona el bloque", bloques_por_planta(edificio, planta))
 
         # Desplegable de la lista de taquillas del bloque seleccionado
         with col_numero:
-            taquilla = st.selectbox("Selecciona la taquilla", lista_numeros)
+            taquilla = st.selectbox("Selecciona la taquilla", taquillas_por_bloque(edificio, planta, bloque))
 
 
         # Creamos otro bloque de 4 espacios, para los campos en los que el usuario tiene que
@@ -132,14 +103,14 @@ with reserva_tab:
             nia = st.text_input("Introduce tu NIA")
             if re.match(r"^100[0-9]{6}$", nia) and nia != '':
                 # Comprobamos que el NIA no tiene más del número máximo de taquillas reservadas
-                numero_taquillas_por_nia = nia_counter(nia)
+                num_taquillas_por_nia = taquillas_por_nia(nia)
                 with col_warning:
-                    if numero_taquillas_por_nia >= MAX_TAQUILLAS:
+                    if num_taquillas_por_nia >= MAX_TAQUILLAS:
                         reservable_NIA = False
                         st.warning("NIA ya tiene el máximo de reservas.")
                     else:
-                        if numero_taquillas_por_nia > 0:
-                            st.warning(f"Llevas reservadas: {numero_taquillas_por_nia} taquillas")
+                        if num_taquillas_por_nia > 0:
+                            st.warning(f"Llevas reservadas: {num_taquillas_por_nia} taquillas")
                         reservable_NIA = True
             else:
                 with col_warning:
@@ -165,22 +136,10 @@ with reserva_tab:
     with st.container():
         if st.button("Reservar", disabled=not(reservable)):
             try:
-                # Generamos un código de verificación aleatorio
-                codigo = generate_code()
-
-                # Añadimos a las reservadas la taquilla que se ha solicitado y la guardamos en el json
-                reserva = [taquilla, nia, "Reservada", nombre, apellidos, codigo]
-                taquillas_reservadas[edificio][planta][bloque].append(reserva)
-                with open("reservadas.json", "w") as f:
-                    json.dump(taquillas_reservadas, f)
-
-                # Eliminamos de las disponibles la taquilla que se ha solicitado
-                taquillas_disponibles[edificio][planta][bloque].remove(taquilla)
-                with open("disponibles.json", "w") as f:
-                    json.dump(taquillas_disponibles, f)
+                code = hacer_reserva(taquilla, nia, nombre, apellidos)
 
                 # Enviamos el correo electrónico con el código de verificación
-                send_email_verification(nombre, nia, taquilla, codigo)
+                send_email_verification(nombre, nia, taquilla, code)
 
                 # Mostramos la información de la reserva, mostramos mensaje temporal y lanzamos los confetis
                 content = f"Reserva realizada con éxito :partying_face:  \n" \
@@ -202,15 +161,12 @@ with reserva_tab:
 with ocupacion_tab:
     refresh = True
     st.subheader("Consulta la ocupación de los bloques eligiendo un edificio y una planta")
-    with open("disponibles.json", "r") as f:
-        taquillas_disponibles = json.load(f)
-    with open("reservadas.json", "r") as f:
-        taquillas_reservadas = json.load(f)
+
     edificio_tab_sel, planta_tab_sel, refresh_tab_sel = st.columns(3)
     with edificio_tab_sel:
-        edificio = st.selectbox("Selecciona el edificio para consultar su disponibilidad", taquillas_disponibles.keys())
+        edificio = st.selectbox("Selecciona el edificio para consultar su disponibilidad", edificios_disponibles())
     with planta_tab_sel:
-        planta = st.selectbox("Selecciona la planta para consultar su disponibilidad", list(taquillas_disponibles[edificio].keys()))
+        planta = st.selectbox("Selecciona la planta para consultar su disponibilidad", plantas_por_edificio(edificio))
     with refresh_tab_sel:
         if st.button("Actualizar", key="refresh"):
             refresh = True

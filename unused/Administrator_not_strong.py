@@ -16,14 +16,14 @@ disponibles_path = "disponibles.json"
 # with open(config_path) as file:
 #     config = yaml.load(file, Loader=SafeLoader)
 #
-# authenticator = stauth.Authenticate(
+# authentication = stauth.Authenticate(
 #     config['credentials'],
 #     config['cookie']['name'],
 #     config['cookie']['key'],
 #     config['cookie']['expiry_days'],
 #     config['preauthorized']
 # )
-# me, authentication_status, username = authenticator.login('Login', 'main')
+# me, authentication_status, username = authentication.login('Login', 'main')
 #
 
 def get_taquilla_info(data, option) -> tuple:
@@ -91,7 +91,7 @@ def get_taquilla_info_name(nombre):
 # elif st.session_state["authentication_status"] == None:
 #     st.warning('Please enter your username and password')
 # elif st.session_state["authentication_status"]:
-#     authenticator.logout('Logout', 'main')
+#     authentication.logout('Logout', 'main')
 # # Esto de arriba reeplaza el with de abajo
 #
 with st.container():
