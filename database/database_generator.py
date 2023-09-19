@@ -2,14 +2,7 @@ import sqlite3 as sql
 import openpyxl
 
 db_file = "database.db"
-conn = sql.connect(db_file)
-cur = conn.cursor()
-try:
-    cur.execute("INSERT INTO Taquillas (ID, EDIFICIO, PLANTA, BLOQUE, TAQUILLA, ESTADO, NIA, NOMBRE, APELLIDOS, CODIGO) values (3, '1', '0', '1', '1.0.E.P001', 'Libre', NULL, NULL, NULL, NULL)")
-except Exception as e:
-    print(e)
-conn.commit()
-conn.close()
+
 
 def get_all_information():
     """
@@ -37,7 +30,6 @@ def get_all_information():
         taquilla.extend((edificio, planta, bloque))
         # Extraer nombre de taquilla
         taquilla.append(sheet[f"B{i}"].value)
-
         # Añadir la taquilla a la lista
         formated_taquillas.append(taquilla)
 
@@ -64,7 +56,6 @@ def database_creation():
 """)
     conn.commit()
     conn.close()
-    database_importer()
 
 def database_importer():
     data = get_all_information()
@@ -90,3 +81,4 @@ def database_deletion():
 if __name__ == "__main__":
     database_deletion()
     database_creation()
+    database_importer()

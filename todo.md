@@ -1,1 +1,0 @@
-Pequeña explicación de como funciona la nueva numeración, copia de la web. Poner también en la página de las reservas esta info, debajo de P y G. No más de 2 lineas.

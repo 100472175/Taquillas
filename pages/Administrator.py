@@ -1,7 +1,6 @@
 import hashlib
 import json
 import re
-import pandas as pd
 import streamlit as st
 import streamlit_authenticator as stauth
 from streamlit_extras.switch_page_button import switch_page
@@ -10,7 +9,6 @@ import yaml
 from streamlit_modal import Modal
 from yaml.loader import SafeLoader
 from authentication.code_generator import generate_code
-from general_view import generate_dataframe
 from authentication.email_send import send_email_verification
 from database.database_functions import get_info_taquilla_nia
 from database.database_functions import get_info_taquilla_codigo
@@ -18,7 +16,6 @@ from database.database_functions import update_taquila_estado
 from database.database_functions import update_taquilla_codigo
 from database.database_functions import update_taquilla_completo
 from database.database_functions import delete_taquilla_reserva
-from database.database_functions import create_connection
 from database.database_functions import edificios_disponibles
 from database.database_functions import plantas_por_edificio
 from database.database_functions import bloques_por_planta
@@ -28,16 +25,13 @@ from database.database_functions import reset_database
 from database.database_functions import taquillas_not_libres
 from database.database_functions import taquillas_libres
 from database.database_functions import taquillas_rotas
+# from database.database_functions import *
 
-
-
-config_path = "pages/config.yaml"
-reservadas_path = "reservadas.json"
-disponibles_path = "disponibles.json"
-IMAGES = {'Edificio 1': {'Planta 0': "1.0.jpg", 'Planta 1': "1.1.jpg"},
-          'Edificio 2': {'Planta 2': "2.2.jpg", 'Planta 3': "2.3.jpg"},
-          'Edificio 4': {'Planta 0': "4.0.jpg", 'Planta 1': "4.1.jpg", 'Planta 2': "4.2.jpg"},
-          'Edificio 7': {'Planta 0': "7.0.jpg", 'Planta 1': "7.1.jpg", 'Planta 2': "7.2.jpg"}}
+IMAGES = {'1': {'0': "1.0.jpg", '1': "1.1.jpg"},
+          '2': {'2': "2.2.jpg", '3': "2.3.jpg"},
+          '4': {'0': "4.0.jpg", '1': "4.1.jpg", '2': "4.2.jpg"},
+          '7': {'0': "7.0.jpg", '1': "7.1.jpg", '2': "7.2.jpg"}}
+config_path = "authentication/config.yaml"
 
 with open(config_path) as file:
     config = yaml.load(file, Loader=SafeLoader)
@@ -221,7 +215,8 @@ elif st.session_state["authentication_status"]:
                     apellidos = taquilla_del[8]
                     with modal.container():
                         st.markdown(
-                            f'<p style="color:{"#da2724"};font-size:36px;border-radius:2%;">Confirmación de eliminación</p>',
+                            f'<p style="color:{"#da2724"};font-size:36px;border-radius:2%;">Confirmación de '
+                            f'eliminación</p>',
                             unsafe_allow_html=True)
 
                         left_column, _, _, _, right_column = st.columns(5)
@@ -245,7 +240,8 @@ elif st.session_state["authentication_status"]:
             st.title("Añadir bloque")
             st.write("Añade un bloque de taquillas a un edificio y planta concretos.")
             st.write(
-                "Utiliza esto como último recurso, si no puedes contactar con el administrador y que no tiene acceso al código fuente.")
+                "Utiliza esto como último recurso, si no puedes contactar con el administrador y que no tiene acceso "
+                "al código fuente.")
             st.write("Si no sabes lo que estás haciendo, no lo hagas. :smile:")
 
             edificio_add_col, planta_add_col = st.columns(2)
@@ -264,8 +260,8 @@ elif st.session_state["authentication_status"]:
             st.write("Bloques disponibles: " + bloques_disponibles)
             st.image("images/" + IMAGES[edificio_add][planta_add], width=500)
 
-            st.write(
-                "Para añadir un bloque, pon el nombre del bloque y las taquillas disponibles, separadas por comas y espacio.")
+            st.write("Para añadir un bloque, pon el nombre del bloque y las taquillas disponibles, separadas por "
+                     "comas y espacio.")
             bloque_add_col, taquillas_add_col = st.columns(2)
             with bloque_add_col:
                 bloque_add = st.text_input("Nombre del bloque", key="bloque_add")
@@ -377,8 +373,8 @@ elif st.session_state["authentication_status"]:
             if username == "delegado":
                 st.error("No tienes permiso para ejecutar esta acción")
             else:
-                contraseña = st.text_input("itroduce contraseña")
-                if hashlib.md5(contraseña.encode()).hexdigest() == config["reset_password"]["password"]:
+                passwd = st.text_input("itroduce contraseña")
+                if hashlib.md5(passwd.encode()).hexdigest() == config["reset_password"]["password"]:
                     if st.button("Borrado definitivo"):
                         reset_database()
                         st.success("Reseteado con éxito")
@@ -386,9 +382,10 @@ elif st.session_state["authentication_status"]:
                 else:
                     st.error("Contraseña incorrecta")
 
-    ################################################################################################################
+    #################################################################################################
 
 with st.container():
     # Dudas, acude a delegación
     st.write(
-        "Si tienes alguna duda, consulta el manual de usuario en la [carpeta de Google Drive](https://drive.google.com/drive/folders/15tOcC8FqSK1vdOcjEdqS7Rf1iDFpjzNc?usp=share_link)")
+        "Si tienes alguna duda, consulta el manual de usuario en la [carpeta de Google Drive]("
+        "https://drive.google.com/drive/folders/15tOcC8FqSK1vdOcjEdqS7Rf1iDFpjzNc?usp=share_link)")

@@ -13,11 +13,10 @@ from ocupacion_por_edificio import ocupacion_draw
 # Configuración de la página, título, icono, estado de la sidebar(que posiblemente quitaremos), etc.
 st.set_page_config(
     page_title="Reserva Taquillas UC3M",
-	layout="wide",  # Can be "centered" or "wide". In the future also "dashboard", etc.
-	initial_sidebar_state="collapsed",  # Can be "auto", "expanded", "collapsed"
-	page_icon="images/eps_logo.png",  # String, anything supported by st.image, or None.
+    layout="wide",  # Can be "centered" or "wide". In the future also "dashboard", etc.
+    initial_sidebar_state="collapsed",  # Can be "auto", "expanded", "collapsed"
+    page_icon="images/eps_logo.png",  # String, anything supported by st.image, or None.
 )
-
 
 # ---- HEADER ----
 st.image("images/eps_logo.png", width=100)
@@ -25,14 +24,12 @@ st.subheader("Reserva Taquillas UC3M", divider=True)
 st.title("Aplicación para la reserva de taquillas del campus de Leganés de la UC3M")
 st.subheader("Instrucciones:", divider=True)
 
-
 st.write("Para reservar una taquilla, elige primero el edificio donde se encuentra la taquilla,"
          " luego, la planta y el bloque, y, por último, la taquilla que quieres reservar. Además, "
          "deberás introducir tu nombre, tus apellidos y con el NIA para realizar la reserva."
          " Una vez enviados los datos, recibirás un correo electrónico con los datos asociados"
          " y un código de verificación. "
          "\nPara más información, accede a la página de Delegación.")
-
 
 st.write("Para más información ve a la [página de Delegación](https://delegacion.uc3m.es/home/eps-taquillas/).")
 
@@ -45,10 +42,8 @@ with reserva_tab:
     # Inicializamos las constantes que vamos a utilizar
     IMAGES = {'1': {'0': "1.0.jpg", '1': "1.1.jpg"},
               '2': {'2': "2.2.jpg", '3': "2.3.jpg"},
-              '4': {'0': "4.0.jpg",'1': "4.1.jpg", '2': "4.2.jpg"},
+              '4': {'0': "4.0.jpg", '1': "4.1.jpg", '2': "4.2.jpg"},
               '7': {'0': "7.0.jpg", '1': "7.1.jpg", '2': "7.2.jpg"}}
-    RESERVADAS_PATH = "reservadas.json"
-    DISPONIBLES_PATH = "disponibles.json"
     MAX_TAQUILLAS = 3
 
     with st.container():
@@ -56,7 +51,8 @@ with reserva_tab:
         with titulo_descr_col:
             # Título y descripción de la página
             st.title("Reserva tu taquilla:")
-            st.markdown("Ten en cuenta que las letras **P** y **G** indican el tamaño **P**equeño o **G**rande respectivamente.  \n"
+            st.markdown(
+                "Ten en cuenta que las letras **P** y **G** indican el tamaño **P**equeño o **G**rande respectivamente.  \n"
                 "El precio de las taquillas es de 6€ para las grandes y 4€ para las pequeñas para el curso completo.  \n"
                 "El pago se realizará en efectivo en la Delegación de Estudiantes de la EPS.")
         with img_01:
@@ -83,19 +79,19 @@ with reserva_tab:
         with col_numero:
             taquilla = st.selectbox("Selecciona la taquilla", taquillas_por_bloque(edificio, planta, bloque))
 
-
         # Creamos otro bloque de 4 espacios, para los campos en los que el usuario tiene que
         # introducir datos manualmente, en vez de desplegables
         col_nombre, col_appellidos, col_NIA, col_warning = st.columns(4)
 
         # Campos de texto para el nombre, apellidos y NIA
+        # Comprobamos que el nombre y apellidos introducidos son válidos, son solo letras
         with col_nombre:
             nombre = st.text_input("Introduce tu nombre")
-            if re.match(r"^[A-záéíóúèàìòùäëïöÜÁÉÍÓÚÀÈÌÒÙÄËÏÖÜ]", nombre):
+            if re.match(r"^[A-záéíóúèàìòùäëïöÜÁÉÍÓÚÀÈÌÒÙÄËÏÖÜçÇ]+", nombre):
                 nombre_reservable = True
         with col_appellidos:
             apellidos = st.text_input("Introduce tus apellidos")
-            if re.match(r"^[A-záéíóúèàìòùäëïöÜÁÉÍÓÚÀÈÌÒÙÄËÏÖÜ]", apellidos):
+            if re.match(r"^[A-záéíóúèàìòùäëïöÜÁÉÍÓÚÀÈÌÒÙÄËÏÖÜçÇ]+", apellidos):
                 apellido_reservable = True
         with col_NIA:
             # Comprobamos que el NIA introducido es válido, empieza por 100 y luego 6 dígitos
@@ -134,7 +130,7 @@ with reserva_tab:
 
     # Si se puede reservar, habilitamos el botón de reservar
     with st.container():
-        if st.button("Reservar", disabled=not(reservable)):
+        if st.button("Reservar", disabled=not (reservable)):
             try:
                 code = hacer_reserva(taquilla, nia, nombre, apellidos)
 
@@ -143,10 +139,10 @@ with reserva_tab:
 
                 # Mostramos la información de la reserva, mostramos mensaje temporal y lanzamos los confetis
                 content = f"Reserva realizada con éxito :partying_face:  \n" \
-                            f"Taquilla: {taquilla}  \n" \
-                            f"NIA: {nia}  \n" \
-                            f"Nombre: {nombre}  \n" \
-                            f"Apellidos: {apellidos}  \n"
+                          f"Taquilla: {taquilla}  \n" \
+                          f"NIA: {nia}  \n" \
+                          f"Nombre: {nombre}  \n" \
+                          f"Apellidos: {apellidos}  \n"
                 st.success(content)
                 reduced = content[:content.find("NIA:")]
                 st.toast(reduced, icon='🎉')
@@ -159,6 +155,8 @@ with reserva_tab:
             st.image("images/" + IMAGES[edificio][planta], width=400)
 
 with ocupacion_tab:
+    # Tab para ver la ocupación por bloques de un edificio y planta específicos
+    # Para que no se esté actualizando siempre, y solo una vez cuando se carga la página, usamos un botón de actualizar
     refresh = True
     st.subheader("Consulta la ocupación de los bloques eligiendo un edificio y una planta")
 
