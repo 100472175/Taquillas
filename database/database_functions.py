@@ -237,11 +237,10 @@ def get_info_taquilla_codigo(code) -> list:
     cur.execute("SELECT * FROM Taquillas WHERE TAQUILLA = ?", (code,))
     rows = cur.fetchall()
     conn.close()
-    match len(rows):
-        case 0:
-            return None
-        case 1:
-            return list(rows[0])
+    if len(rows) == 0:
+        return None
+    else:
+        return list(rows[0])
 
 
 def update_taquila_estado(taquilla, estado) -> None:

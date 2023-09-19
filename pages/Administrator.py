@@ -221,42 +221,43 @@ elif st.session_state["authentication_status"]:
 
         # This will be done in the future, as we have no plans to add blocks in the near future
         with add_tab:
-            st.title("Añadir bloque")
-            st.write("Añade un bloque de taquillas a un edificio y planta concretos.")
-            st.write(
-                "Utiliza esto como último recurso, si no puedes contactar con el administrador y que no tiene acceso "
-                "al código fuente.")
-            st.write("Si no sabes lo que estás haciendo, no lo hagas. :smile:")
-
-            edificio_add_col, planta_add_col = st.columns(2)
-            with open("disponibles.json", "r") as f:
-                taquillas_disponibles = json.load(f)
-            with edificio_add_col:
-                edificio_add = st.selectbox("Edificio", options=list(taquillas_disponibles.keys()), key="edificio_add")
-            with planta_add_col:
-                planta_add = st.selectbox("Planta", options=list(taquillas_disponibles[edificio_add].keys()),
-                                          key="planta_add")
-            st.warning("¡Asegúrate de que el bloque que vas a añadir no existe ya!")
-            bloques_disponibles = ""
-            for bloque in taquillas_disponibles[edificio_add][planta_add]:
-                bloques_disponibles += bloque
-                bloques_disponibles += ", "
-            st.write("Bloques disponibles: " + bloques_disponibles)
-            st.image("images/" + IMAGES[edificio_add][planta_add], width=500)
-
-            st.write("Para añadir un bloque, pon el nombre del bloque y las taquillas disponibles, separadas por "
-                     "comas y espacio.")
-            bloque_add_col, taquillas_add_col = st.columns(2)
-            with bloque_add_col:
-                bloque_add = st.text_input("Nombre del bloque", key="bloque_add")
-            with taquillas_add_col:
-                taquillas_add = st.text_input("Taquillas disponibles", key="taquillas_add")
-            if st.button("Añadir bloque"):
-                taquillas_disponibles[edificio_add][planta_add][bloque_add] = taquillas_add.split(", ")
-                with open("disponibles.json", "w") as f:
-                    json.dump(taquillas_disponibles, f, indent=4)
-                st.success("Bloque añadido")
-                st.toast("Bloque añadido", icon='🎉')
+            st.title("In development to be migrated :smile:")
+            # st.title("Añadir bloque")
+            # st.write("Añade un bloque de taquillas a un edificio y planta concretos.")
+            # st.write(
+            #     "Utiliza esto como último recurso, si no puedes contactar con el administrador y que no tiene acceso "
+            #     "al código fuente.")
+            # st.write("Si no sabes lo que estás haciendo, no lo hagas. :smile:")
+            #
+            # edificio_add_col, planta_add_col = st.columns(2)
+            # with open("disponibles.json", "r") as f:
+            #     taquillas_disponibles = json.load(f)
+            # with edificio_add_col:
+            #     edificio_add = st.selectbox("Edificio", options=list(taquillas_disponibles.keys()), key="edificio_add")
+            # with planta_add_col:
+            #     planta_add = st.selectbox("Planta", options=list(taquillas_disponibles[edificio_add].keys()),
+            #                               key="planta_add")
+            # st.warning("¡Asegúrate de que el bloque que vas a añadir no existe ya!")
+            # bloques_disponibles = ""
+            # for bloque in taquillas_disponibles[edificio_add][planta_add]:
+            #     bloques_disponibles += bloque
+            #     bloques_disponibles += ", "
+            # st.write("Bloques disponibles: " + bloques_disponibles)
+            # st.image("images/" + IMAGES[edificio_add][planta_add], width=500)
+            #
+            # st.write("Para añadir un bloque, pon el nombre del bloque y las taquillas disponibles, separadas por "
+            #          "comas y espacio.")
+            # bloque_add_col, taquillas_add_col = st.columns(2)
+            # with bloque_add_col:
+            #     bloque_add = st.text_input("Nombre del bloque", key="bloque_add")
+            # with taquillas_add_col:
+            #     taquillas_add = st.text_input("Taquillas disponibles", key="taquillas_add")
+            # if st.button("Añadir bloque"):
+            #     taquillas_disponibles[edificio_add][planta_add][bloque_add] = taquillas_add.split(", ")
+            #     with open("disponibles.json", "w") as f:
+            #         json.dump(taquillas_disponibles, f, indent=4)
+            #     st.success("Bloque añadido")
+            #     st.toast("Bloque añadido", icon='🎉')
 
         with general_view_tab:
             st.title("Vista general")

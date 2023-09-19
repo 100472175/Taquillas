@@ -29,7 +29,6 @@ def ocupacion_draw(edificio_key, planta_key):
 
     for bloque_key in bloques_en_planta:
         taquillas_en_bloque = taquillas_por_bloque_todas(edificio_key, planta_key, bloque_key)
-        print(taquillas_en_bloque)
         taquillas = []
         for taquilla in taquillas_en_bloque:
             taquillas.append(taquilla[4])
@@ -55,4 +54,4 @@ def ocupacion_draw(edificio_key, planta_key):
                 st.write(
                     f":red[**¡Cuidado! El bloque está casi lleno, quedan solo {disponibles} taquillas disponibles**]")
 
-        st.dataframe(df.style.applymap(colorea_disponibilidad))
+        st.dataframe(df.style.map(colorea_disponibilidad))
