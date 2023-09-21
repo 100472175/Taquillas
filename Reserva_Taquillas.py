@@ -170,3 +170,13 @@ with ocupacion_tab:
     if refresh:
         ocupacion_draw(edificio, planta)
         refresh = False
+
+st.subheader("Información Sobre protección de datos")
+st.markdown("""INFORMACIÓN BÁSICA SOBRE PROTECCIÓN DE DATOS.  \n
+RESPONSABLE DEL TRATAMIENTO: Universidad Carlos III de Madrid.  \n
+IDENTIFICACIÓN DEL TRATAMIENTO: Gestión de taquillas EPS  \n
+FINALIDAD: Gestión del uso de las taquillas por los estudiantes y empleados de la universidad  \n
+EJERCICIO DE DERECHOS: Podrá ejercer sus derechos de acceso, rectificación, supresión, limitación, portabilidad y
+oposición a su tratamiento, mediante el envío de un correo a la siguiente dirección: dpd@uc3m.es   \n
+INFORMACIÓN ADICIONAL: Puede consultar la información adicional y detallada sobre nuestra Política de Privacidad en: 
+https://www.uc3m.es/protecciondedatos""")

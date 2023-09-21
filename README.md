@@ -35,3 +35,8 @@ streamlit run Reserva_Taquillas.py
 Las contribuciones son bienvenidas. Para cambios importantes, por favor, haz una pull request.
 Muchas gracias a todos los participantes de este proyecto.
 
+## Agradecimientos
+Muchas gracias a los miembros de la comisión de tecnología y servicio de la Escuela politécnica superior por darme la oportunidad de realizar esta aplicación.
+También agradecer a CertUC3M por ayudarnos a un mejor funcionamiento de la aplicación.
+
+En especial, agradecer a Salvador Ayala y Manuel Gómez-Plana por las contribuciones realizadas en momentos críticos.

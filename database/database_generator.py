@@ -43,15 +43,15 @@ def database_creation():
     cur = conn.cursor()
     cur.execute("""CREATE TABLE Taquillas (
     ID INT AUTO_INCREMENT PRIMARY KEY,
-    EDIFICIO VARCHAR(255),
-    PLANTA VARCHAR(255),
-    BLOQUE VARCHAR(255),
-    TAQUILLA VARCHAR(255),
-    ESTADO VARCHAR(255) DEFAULT 'Libre',
-    NIA VARCHAR(255),
-    NOMBRE VARCHAR(255),
-    APELLIDOS VARCHAR(255),
-    CODIGO VARCHAR(255)
+    EDIFICIO CHAR(1),
+    PLANTA CHAR(1),
+    BLOQUE CHAR(1),
+    TAQUILLA CHAR(10),
+    ESTADO VARCHAR(20) DEFAULT 'Libre',
+    NIA CHAR(9),
+    NOMBRE VARCHAR(50),
+    APELLIDOS VARCHAR(120),
+    CODIGO CHAR(10)
 );
 """)
     conn.commit()

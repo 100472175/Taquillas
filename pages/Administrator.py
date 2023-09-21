@@ -1,5 +1,4 @@
 import hashlib
-import json
 import re
 import streamlit as st
 import streamlit_authenticator as stauth
