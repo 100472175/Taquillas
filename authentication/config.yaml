@@ -4,11 +4,11 @@ credentials:
       email: 100472175@alumnos.uc3m.es
       name: Eduardo Alarcón
       password: $2b$12$fpo4PLSoGnWffLw3UJXPeuB0hf/Ah9RIV34SAtegtL86JXmqZrLZG
-    administrador:
+    escuela:
       email: delegeps@uc3m.es
       name: Delegación EPS
       password: $2b$12$fpo4PLSoGnWffLw3UJXPeuB0hf/Ah9RIV34SAtegtL86JXmqZrLZG
-    delegado:
+    despacho:
       email: delegado@uc3m.es
       name: Delegado
       password: $2b$12$uV7jobXZ6DdO009dskTrmODbg/WcAcOR6i3bkOwRlYM.ni9r.Fj8q
