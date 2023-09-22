@@ -37,6 +37,7 @@ with reserva_tab:
     # Inicializamos las variables que vamos a utilizar y modificar
     reservable = False
     reservable_NIA = False
+    nombre_reservable = False
 
     # Inicializamos las constantes que vamos a utilizar
     IMAGES = {'1': {'0': "1.0.jpg", '1': "1.1.jpg"},
