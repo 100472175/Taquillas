@@ -226,15 +226,15 @@ def get_info_taquilla_nia(nia) -> list:
         return result
 
 
-def get_info_taquilla_codigo(code) -> list:
+def get_info_taquilla_codigo(taquilla) -> list:
     """
     Devuelve la información de la taquilla reservada por un usuario dada su código, únicamente la primera que encuentre
-    :param code:
+    :param taquilla:
     :return:
     """
     conn = create_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM Taquillas WHERE TAQUILLA = ?", (code,))
+    cur.execute("SELECT * FROM Taquillas WHERE TAQUILLA = ?", (taquilla,))
     rows = cur.fetchall()
     conn.close()
     if len(rows) == 0:
@@ -243,7 +243,7 @@ def get_info_taquilla_codigo(code) -> list:
         return list(rows[0])
 
 
-def update_taquila_estado(taquilla, estado) -> None:
+def update_taquilla_estado(taquilla, estado) -> None:
     """
     Actualiza el estado de una taquilla, libre, reservada, ocupada o no disponible
     :param taquilla:

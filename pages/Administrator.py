@@ -88,7 +88,7 @@ elif st.session_state["authentication_status"]:
 
                 if st.button("Cambiar estado"):
                     try:
-                        update_taquila_estado(taquilla[4], new_state)
+                        update_taquilla_estado(taquilla[4], new_state)
                         st.success("Cambiado a " + new_state)
                         st.toast("Cambiado a " + new_state, icon='🎉')
                     except Exception as exc:
