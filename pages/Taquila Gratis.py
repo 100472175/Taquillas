@@ -4,7 +4,7 @@ import yaml
 from streamlit.components.v1 import html
 from yaml.loader import SafeLoader
 
-config_path = "pages/config.yaml"
+config_path = "authentication/config.yaml"
 
 with open(config_path) as file:
     config = yaml.load(file, Loader=SafeLoader)

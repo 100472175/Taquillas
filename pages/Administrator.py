@@ -166,6 +166,7 @@ elif st.session_state["authentication_status"]:
                 taquilla_del = get_info_taquilla_codigo(taquilla_del_estado)
             if taquilla_del:
                 taquilla_col, nia_col, estado_col, nombre_col, apellidos_col, codigo_col = st.columns(6)
+
                 with taquilla_col:
                     st.write("Taquilla", key=str(taquilla_del[4]))
                     st.write(taquilla_del[4])
@@ -352,19 +353,32 @@ elif st.session_state["authentication_status"]:
                 st.error("No se ha encontrado tu reserva")
 
         with reset_tab:
-            st.title("Reset de todas las reservas")
-            st.warning("Esto solo se debe ejecutar una vez al año")
-            if username == "delegado":
-                st.error("No tienes permiso para ejecutar esta acción")
-            else:
-                passwd = st.text_input("itroduce contraseña")
-                if hashlib.md5(passwd.encode()).hexdigest() == config["reset_password"]["password"]:
-                    if st.button("Borrado definitivo"):
-                        reset_database()
-                        st.success("Reseteado con éxito")
-                        st.toast("Reseteado con éxito", icon='🎉')
+            if username == "escuela" or username == "e_alarcon":
+                st.title("Reset de todas las reservas")
+                st.warning("Esto solo se debe ejecutar una vez al año")
+                if username == "delegado":
+                    st.error("No tienes permiso para ejecutar esta acción")
                 else:
-                    st.error("Contraseña incorrecta")
+                    passwd = st.text_input("itroduce contraseña")
+                    if hashlib.md5(passwd.encode()).hexdigest() == config["reset_password"]["password"]:
+                        if st.button("Borrado definitivo"):
+                            reset_database()
+                            st.success("Reseteado con éxito")
+                            st.toast("Reseteado con éxito", icon='🎉')
+                    else:
+                        st.error("Contraseña incorrecta")
+                uploaded_file = st.file_uploader("Choose a file")
+                if uploaded_file is not None:
+                    with open("database/database.db", "wb") as fp:
+                        fp.write(uploaded_file.getvalue())
+
+            with open("database/database.db", "rb") as fp:
+                btn = st.download_button(
+                    label="Descarga la base de datos",
+                    data=fp,
+                    file_name="database.db"  # Any file name
+                )
+
 
     #################################################################################################
 
