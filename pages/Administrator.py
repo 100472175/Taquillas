@@ -1,16 +1,17 @@
 import hashlib
-import openpyxl
+import logging
 import re
 import streamlit as st
 import streamlit_authenticator as stauth
 import yaml
 from confirmation.email_send import send_email_verification
-from authentication.credential_manager import add_all_users
 from database.database_functions import *
 from streamlit_modal import Modal
 from streamlit_extras.switch_page_button import switch_page
 from time import sleep
 from yaml.loader import SafeLoader
+logging.basicConfig(filename='logs/app.log', filemode='a', format='%(asctime)s - %(message)s', level=logging.INFO)
+
 
 IMAGES = {'1': {'0': "1.0.jpg", '1': "1.1.jpg"},
           '2': {'2': "2.2.jpg", '3': "2.3.jpg"},
@@ -93,6 +94,8 @@ elif st.session_state["authentication_status"]:
                         update_taquilla_estado(taquilla[4], new_state)
                         st.success("Cambiado a " + new_state)
                         st.toast("Cambiado a " + new_state, icon='🎉')
+
+                        logging.info(f'{st.session_state["name"]} ha cambiado el estado de la taquilla de {taquilla[6]} de {taquilla[4]} a {new_state}')
                     except Exception as exc:
                         st.error("No se ha podido cambiar el estado")
                         st.error(exc)
@@ -147,9 +150,91 @@ elif st.session_state["authentication_status"]:
                         update_taquilla_completo(taquilla_mod[4], new_nia, new_state, taquilla_mod[7], taquilla_mod[8])
                         st.success("Datos cambiados")
                         st.toast("Datos cambiados", icon='🎉')
+                        logging.info(f'{st.session_state["name"]} ha cambiado los datos de la taquilla {taquilla_mod[4]}')
                         sleep(1)
                         switch_page("Administrator")
 
+            else:
+                st.error("No se ha encontrado tu reserva")
+
+        with change_taquilla_tab:
+            st.title("Modificar taquilla")
+            st.write("Aquí puedes modificar los datos de una taquilla concreta.")
+
+            nia_mod_col, taquilla_mod_col = st.columns(2)
+            with nia_mod_col:
+                nia_cambio_estado = st.text_input("Introduce el NIA a consultar", key="NIA_mod_del_add")
+            with taquilla_mod_col:
+                taquilla_cambio_estado = st.text_input("Introduce el nombre de la taquilla a consultar",
+                                                    key="taquilla_mod_del_add")
+
+            taquilla_cambio = get_info_taquilla_nia(nia_cambio_estado)
+            if taquilla_cambio is None:
+                taquilla_cambio = get_info_taquilla_codigo(taquilla_cambio_estado)
+            if taquilla_cambio:
+                # Datos de la reserva antigua
+                taquilla_col, nia_col, estado_col, nombre_col, apellidos_col, codigo_col = st.columns(6)
+                with taquilla_col:
+                    st.write("Taquilla", key=taquilla_cambio[4])
+                    st.write(taquilla_cambio[4])
+                with nia_col:
+                    st.write("NIA", key="nia" + taquilla_cambio[6])
+                    st.write(taquilla_cambio[6])
+                    nia = taquilla_cambio[6]
+                with estado_col:
+                    st.write("Estado", key="estado" + taquilla_cambio[5])
+                    st.write(taquilla_cambio[5])
+                with nombre_col:
+                    st.write("Nombre", key="nombre" + taquilla_cambio[7])
+                    st.write(taquilla_cambio[7])
+                    nombre = taquilla_cambio[7]
+                with apellidos_col:
+                    st.write("Apellidos", key="apellidos" + taquilla_cambio[8])
+                    st.write(taquilla_cambio[8])
+                    apellidos = taquilla_cambio[8]
+                with codigo_col:
+                    st.write("Código", key="código_mod")
+                    st.write(taquilla_cambio[9])
+
+                # Dividimos el espacio en 4 columnas para los desplegables
+                col_edificio, col_planta, col_bloque, col_numero = st.columns(4)
+
+                # Para acceder a los datos, vamos seleccionando las columnas de sql
+                # Desplegable de la lista de edificios
+                with col_edificio:
+                    edificio = st.selectbox("Selecciona el edificio", edificios_disponibles())
+
+                # Desplegable de la lista de plantas del edificio seleccionado
+                with col_planta:
+                    planta = st.selectbox("Selecciona la planta", plantas_por_edificio(edificio))
+
+                # Desplegable de la lista de bloques de la planta seleccionada
+                with col_bloque:
+                    bloque = st.selectbox("Selecciona el bloque", bloques_por_planta(edificio, planta))
+
+                # Desplegable de la lista de taquillas del bloque seleccionado
+                with col_numero:
+                    taquilla = st.selectbox("Selecciona la taquilla",
+                                                taquillas_por_bloque(edificio, planta, bloque))
+
+                if st.button("Modificar taquilla"):
+                    code = change_taquilla(taquilla_cambio[4], taquilla, nia, nombre, apellidos)
+                    logging.info(f'{st.session_state["name"]} ha cambiado la taquilla {taquilla_cambio[4]} a {taquilla}')
+
+                    # Enviamos el correo electrónico con el código de verificación
+                    send_email_verification(nombre, nia, taquilla, code)
+
+                    # Mostramos la información de la reserva, mostramos mensaje temporal y lanzamos los confetis
+                    content = f"Reserva realizada con éxito :partying_face:  \n" \
+                              f"Taquilla: {taquilla}  \n" \
+                              f"NIA: {nia}  \n" \
+                              f"Nombre: {nombre}  \n" \
+                              f"Apellidos: {apellidos}  \n"
+                    st.success(content)
+                    reduced = content[:content.find("NIA:")]
+                    st.toast(reduced, icon='🎉')
+                    st.balloons()
+                    sleep(1)
             else:
                 st.error("No se ha encontrado tu reserva")
 
@@ -214,6 +299,7 @@ elif st.session_state["authentication_status"]:
                                 delete_taquilla_reserva(nombre_taquilla)
                                 st.success("Eliminado")
                                 st.toast("Eliminado", icon='🎉')
+                                logging.info(f'{st.session_state["name"]} ha eliminado la taquilla {nombre_taquilla}')
                                 modal.close()
                                 sleep(1)
                                 switch_page("Administrator")
@@ -275,119 +361,64 @@ elif st.session_state["authentication_status"]:
             if st.button("Genera Rotas"):
                 st.dataframe(taquillas_rotas())
 
-        with change_taquilla_tab:
-            st.title("Modificar taquilla")
-            st.write("Aquí puedes modificar los datos de una taquilla concreta.")
-
-            nia_mod_col, taquilla_mod_col = st.columns(2)
-            with nia_mod_col:
-                nia_cambio_estado = st.text_input("Introduce el NIA a consultar", key="NIA_mod_del_add")
-            with taquilla_mod_col:
-                taquilla_cambio_estado = st.text_input("Introduce el nombre de la taquilla a consultar",
-                                                    key="taquilla_mod_del_add")
-
-            taquilla_cambio = get_info_taquilla_nia(nia_cambio_estado)
-            if taquilla_cambio is None:
-                taquilla_cambio = get_info_taquilla_codigo(taquilla_cambio_estado)
-            if taquilla_cambio:
-                # Datos de la reserva antigua
-                taquilla_col, nia_col, estado_col, nombre_col, apellidos_col, codigo_col = st.columns(6)
-                with taquilla_col:
-                    st.write("Taquilla", key=taquilla_cambio[4])
-                    st.write(taquilla_cambio[4])
-                with nia_col:
-                    st.write("NIA", key="nia" + taquilla_cambio[6])
-                    st.write(taquilla_cambio[6])
-                    nia = taquilla_cambio[6]
-                with estado_col:
-                    st.write("Estado", key="estado" + taquilla_cambio[5])
-                    st.write(taquilla_cambio[5])
-                with nombre_col:
-                    st.write("Nombre", key="nombre" + taquilla_cambio[7])
-                    st.write(taquilla_cambio[7])
-                    nombre = taquilla_cambio[7]
-                with apellidos_col:
-                    st.write("Apellidos", key="apellidos" + taquilla_cambio[8])
-                    st.write(taquilla_cambio[8])
-                    apellidos = taquilla_cambio[8]
-                with codigo_col:
-                    st.write("Código", key="código_mod")
-                    st.write(taquilla_cambio[9])
-
-                # Dividimos el espacio en 4 columnas para los desplegables
-                col_edificio, col_planta, col_bloque, col_numero = st.columns(4)
-
-                # Para acceder a los datos, vamos seleccionando las columnas de sql
-                # Desplegable de la lista de edificios
-                with col_edificio:
-                    edificio = st.selectbox("Selecciona el edificio", edificios_disponibles())
-
-                # Desplegable de la lista de plantas del edificio seleccionado
-                with col_planta:
-                    planta = st.selectbox("Selecciona la planta", plantas_por_edificio(edificio))
-
-                # Desplegable de la lista de bloques de la planta seleccionada
-                with col_bloque:
-                    bloque = st.selectbox("Selecciona el bloque", bloques_por_planta(edificio, planta))
-
-                # Desplegable de la lista de taquillas del bloque seleccionado
-                with col_numero:
-                    taquilla = st.selectbox("Selecciona la taquilla",
-                                                taquillas_por_bloque(edificio, planta, bloque))
-
-                if st.button("Modificar taquilla"):
-                    code = change_taquilla(taquilla_cambio[4], taquilla, nia, nombre, apellidos)
-
-                    # Enviamos el correo electrónico con el código de verificación
-                    send_email_verification(nombre, nia, taquilla, code)
-
-                    # Mostramos la información de la reserva, mostramos mensaje temporal y lanzamos los confetis
-                    content = f"Reserva realizada con éxito :partying_face:  \n" \
-                              f"Taquilla: {taquilla}  \n" \
-                              f"NIA: {nia}  \n" \
-                              f"Nombre: {nombre}  \n" \
-                              f"Apellidos: {apellidos}  \n"
-                    st.success(content)
-                    reduced = content[:content.find("NIA:")]
-                    st.toast(reduced, icon='🎉')
-                    st.balloons()
-            else:
-                st.error("No se ha encontrado tu reserva")
-
         with reset_tab:
-            st.title("Gestión de la base de datos")
-            if username == "escuela" or username == "e_alarcon":
-                st.title("Reset de todas las reservas")
+            if rol == "escuela":
+                st.title("Gestión de la base de datos")
+                st.subheader("Reset de todas las reservas")
                 st.warning("Esto solo se debe ejecutar una vez al año")
-                if username == "delegado":
-                    st.error("No tienes permiso para ejecutar esta acción")
+                st.warning("¡No se puede deshacer!")
+                
+                passwd = st.text_input("itroduce contraseña")
+                if hashlib.md5(passwd.encode()).hexdigest() == config["reset_password"]["password"]:
+                    if st.button("Borrado definitivo"):
+                        logging.info(f'{st.session_state["name"]} ha reseteado la base de datos')
+                        reset_database()
+                        st.success("Reseteado con éxito")
+                        st.toast("Reseteado con éxito", icon='🎉')
+                        sleep(2)
                 else:
-                    passwd = st.text_input("itroduce contraseña")
-                    if hashlib.md5(passwd.encode()).hexdigest() == config["reset_password"]["password"]:
-                        if st.button("Borrado definitivo"):
-                            reset_database()
-                            st.success("Reseteado con éxito")
-                            st.toast("Reseteado con éxito", icon='🎉')
-                            sleep(2)
-                    else:
-                        st.error("Contraseña incorrecta")
-                uploaded_file = st.file_uploader("Elige un fichero para subir")
+                    st.error("Contraseña incorrecta")
+
+                with open("database/database.db", "rb") as fp:
+                    btn_db = st.download_button(
+                        label="Descarga la base de datos",
+                        data=fp,
+                        file_name="database.db"  # Any file name
+                    )
+                    if btn_db:
+                        logging.info(f'{st.session_state["name"]} ha descargado la base de datos')
+
+                st.subheader("Subir nueva base de datos")
+                uploaded_file = st.file_uploader("Elige un fichero para subir como nueva base de datos")
                 if uploaded_file is not None:
                     with open("database/database.db", "wb") as fp:
                         fp.write(uploaded_file.getvalue())
+                    st.success("Base de datos subida con éxito")
+                    logging.info(f'{st.session_state["name"]} ha subido una nueva base de datos')
 
-            with open("database/database.db", "rb") as fp:
-                btn = st.download_button(
-                    label="Descarga la base de datos",
-                    data=fp,
-                    file_name="database.db"  # Any file name
-                )
+
+                st.subheader("Descargar los logs de los delegados")
+                with open("logs/app.log", "rb") as fp:
+                    btn_logs = st.download_button(
+                        label="Descarga los logs de los delegados",
+                        data=fp,
+                        file_name="app.log"  # Any file name
+                    )
+                    if btn_logs:
+                        logging.info(f'{st.session_state["name"]} ha descargado los logs')
+
+
+                
+            else:
+                st.subheader("No tienes permiso para ejecutar esta acción")
 
         with manage_credentials_tab:
             st.title("Gestión de credenciales")
 
             if rol == "escuela":
                 st.text("In development, subir un excel y que se generen todas las contraseñas")
+            else:
+                st.subheader("No tienes permiso para ejecutar esta acción")
 
 
 

@@ -374,7 +374,7 @@ SET NIA = NULL, NOMBRE = NULL, APELLIDOS = NULL, CODIGO = NULL,
                 ELSE ESTADO
              END;
     """)
-    cur.execute("SELECT COUNT(*) FROM Taquillas WHERE ESTADO <> 'Libre'")
+    cur.execute("SELECT COUNT(*) FROM Taquillas WHERE ESTADO <> 'Libre' AND ESTADO <> 'No Disponible'")
     rows = cur.fetchall()
     conn.commit()
     conn.close()

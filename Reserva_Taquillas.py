@@ -132,7 +132,7 @@ with reserva_tab:
                 code = hacer_reserva(taquilla, nia, nombre, apellidos)
 
                 # Enviamos el correo electrónico con el código de verificación
-                #send_email_verification(nombre, nia, taquilla, code)
+                send_email_verification(nombre, nia, taquilla, code)
                 st.success("Este es tu código, guardalo: " + code)
 
                 # Mostramos la información de la reserva, mostramos mensaje temporal y lanzamos los confetis

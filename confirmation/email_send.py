@@ -6,6 +6,7 @@ import configparser
 
 
 def send_email_verification(nombre, nia, taquilla, codigo):
+    return # Desactivamos el envío de emails
     # Configuración del email
     config = configparser.ConfigParser()
     config.read("config.ini")
@@ -18,7 +19,7 @@ def send_email_verification(nombre, nia, taquilla, codigo):
     password = config["EMAIL"]["password"]
     subject = f"Código de confirmación para la reserva de taquillas: {codigo}"
 
-    with open("authentication/email.html", "r") as f:
+    with open("confirmation/email.html", "r") as f:
         body_unformated = f.read()
     html_message = body_unformated.format(nombre=nombre, taquilla=taquilla, codigo=codigo)
 
