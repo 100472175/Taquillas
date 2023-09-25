@@ -1,6 +1,6 @@
-extra-streamlit-components==0.1.60
-numpy==1.26.0
-openpyxl==3.1.2
-pandas==2.1.0
+extra-streamlit-components
+numpy
+openpyxl
+panda
 streamlit==1.26.0
-streamlit-authenticator==0.2.3
+streamlit-authenticator
