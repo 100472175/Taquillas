@@ -1,6 +1,6 @@
 import pandas as pd
 import sqlite3 as sql
-from authentication.code_generator import generate_code
+from confirmation.code_generator import generate_code
 
 db_file = "database/database.db"
 
@@ -378,10 +378,10 @@ SET NIA = NULL, NOMBRE = NULL, APELLIDOS = NULL, CODIGO = NULL,
     rows = cur.fetchall()
     conn.commit()
     conn.close()
-    if len(rows) == 0:
+    if rows[0][0] == 0:
         return None
     else:
-        raise Exception("Error al resetear la base de datos. Han quedado taquillas ocupadas")
+        raise Exception("Error al resetear la base de datos. Han quedado taquillas ocupadas, rows: ", rows)
 
 
 if __name__ == "__main__":

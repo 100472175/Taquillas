@@ -1,23 +1,1 @@
-credentials:
-  usernames:
-    e_alarcon:
-      email: 100472175@alumnos.uc3m.es
-      name: Eduardo Alarcón
-      password: $2b$12$fpo4PLSoGnWffLw3UJXPeuB0hf/Ah9RIV34SAtegtL86JXmqZrLZG
-    escuela:
-      email: delegeps@uc3m.es
-      name: Delegación EPS
-      password: $2b$12$fpo4PLSoGnWffLw3UJXPeuB0hf/Ah9RIV34SAtegtL86JXmqZrLZG
-    despacho:
-      email: delegado@uc3m.es
-      name: Delegado
-      password: $2b$12$uV7jobXZ6DdO009dskTrmODbg/WcAcOR6i3bkOwRlYM.ni9r.Fj8q
-cookie:
-  expiry_days: 7
-  key: random_signature_key # Must be string
-  name: random_cookie_name
-preauthorized:
-  emails:
-  - edu@gmail.com
-reset_password:
-  password: cb74921ea6811ce65b5a18eab2b7e289
+credentials:  usernames:    admin:      email: 100472175@alumnos.uc3m.es      name: Eduardo Alarcón      password: $2b$12$fpo4PLSoGnWffLw3UJXPeuB0hf/Ah9RIV34SAtegtL86JXmqZrLZG      rol: escuela    l_belizon:      name: Laura Belizón Merchán      email: 100452273@alumnos.uc3m.es      rol: escuela      password: $2b$12$UKcbgje7JEc0jheKsoGdtuvRCt0b5rIZJ0w9p3Ds.TQxC.9KMCiLi    s_ayala:      name: Salvador Ayala Iglesias      email: 100495832@alumnos.uc3m.es      rol: despacho      password: $2b$12$9/R4HaWMnQC0OQQC/PJrqOnQfUDusYlR2UYmAcZiA7zaOciseBVrS    c_carrion:      name: Carmen Carrión Galván      email: 100429532@alumnos.uc3m.es      rol: despacho      password: $2b$12$MFhuGtdb7Eumx/vmJZufJ.AzhCBX3ab2uglZHWWYa7AWJPjfuzv5q    j_lazaro:      name: Jorge Lázaro Ruiz      email: 100452172@alumnos.uc3m.es      rol: despacho      password: $2b$12$21m6tWYjwUkzCyW53nESJ.cFDt/bjQtf8yX3PmCKRYpHyK0O52PNy    c_buendia:      name: Carlos Buendía Merino      email: 100429669@alumnos.uc3m.es      rol: despacho      password: $2b$12$3wHJzKnYLtW7tR3UWHadaukU/s4WvIbKCPYkJUUISfxCNIXqM.1yy    j_martin:      name: Juan Martín Hernández      email: 100429437@alumnos.uc3m.es      rol: despacho      password: $2b$12$GxvkFejMd1UBKM1tl3pnV.oQalvv2rzufYfrk/9BdvLavl8k/WAwq    p_paredes:      name: Pablo Paredes Romero      email: 100429542@alumnos.uc3m.es      rol: despacho      password: $2b$12$BkIPvly6zJ20vIoHYJhGKujjvYzhojoYulHf0XO6bYTZL.71///bK    e_alarcon:      name: Eduardo Alarcón Navarro      email: 100472175@alumnos.uc3m.es      rol: despacho      password: $2b$12$GaOahcmscoISAnsNvkdrMeudoTUSdoqLv3Qk1xr2SkwB0LkLiU8XW    l_duran:      name: Lucía Durán Martín      email: 100429460@alumnos.uc3m.es      rol: despacho      password: $2b$12$1G1gc9cXnTbnUwYJDOOMiOFbykRsbuqN7rmoqgUZljiIIIJrEFcRa    c_zaragoza:      name: Carlos Zaragoza Arocha      email: 100451145@alumnos.uc3m.es      rol: despacho      password: $2b$12$nDyxso0eBOCqYTpg4LMQKu/XpLrZRMoEXLcOadyWor45VNMEQdLdm    m_scarpa:      name: Matías Scarpa González      email: 100451824@alumnos.uc3m.es      rol: despacho      password: $2b$12$ug1ckwybFw9VRM8UDCDpYea7r2sGrsGX1q.YAyktsb2NKkqoTXZt6    e_peres:      name: Elena Pérez Manzano      email: 100429483@alumnos.uc3m.es      rol: despacho      password: $2b$12$TuDKf5./vrJtDTUKOSl/SOblwNyyAVC62V7Q/CrXQUoRiH345Dxwi    m_sanchez:      name: Martín Sánchez Arranz      email: 100365674@alumnos.uc3m.es      rol: despacho      password: $2b$12$jg7NvUCPcPw0Vw3oVOPxz./l5z87/ZwXAA7hGyIgjCiWgN6N1gN9icookie:  expiry_days: 7  key: random_signature_key # Must be string  name: random_cookie_namepreauthorized:  emails:  - edu@gmail.comreset_password:  password: cb74921ea6811ce65b5a18eab2b7e289

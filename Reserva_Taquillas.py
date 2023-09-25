@@ -1,6 +1,6 @@
 import re
 import streamlit as st
-from authentication.email_send import send_email_verification
+from confirmation.email_send import send_email_verification
 from database.database_functions import bloques_por_planta
 from database.database_functions import edificios_disponibles
 from database.database_functions import hacer_reserva
@@ -40,10 +40,7 @@ with reserva_tab:
     nombre_reservable = False
 
     # Inicializamos las constantes que vamos a utilizar
-    IMAGES = {'1': {'0': "1.0.jpg", '1': "1.1.jpg"},
-              '2': {'2': "2.2.jpg", '3': "2.3.jpg"},
-              '4': {'0': "4.0.jpg", '1': "4.1.jpg", '2': "4.2.jpg"},
-              '7': {'0': "7.0.jpg", '1': "7.1.jpg", '2': "7.2.jpg"}}
+
     MAX_TAQUILLAS = 3
 
     with st.container():
@@ -151,9 +148,17 @@ with reserva_tab:
             except:
                 st.error("No se ha podido hacer la reserva, contacta con delegación para que puedan arreglarlo")
 
-        # Toggle para mostrar la guía en imágenes de la localización de bloques por planta
-        if st.toggle("Mostrar guía de bloques por planta", key="guia", value=True):
-            st.image("images/" + IMAGES[edificio][planta], width=400)
+    st.subheader("Información Sobre protección de datos")
+    st.markdown("""INFORMACIÓN BÁSICA SOBRE PROTECCIÓN DE DATOS.  \n
+    RESPONSABLE DEL TRATAMIENTO: Universidad Carlos III de Madrid.  \n
+    IDENTIFICACIÓN DEL TRATAMIENTO: Gestión de taquillas EPS  \n
+    FINALIDAD: Gestión del uso de las taquillas por los estudiantes y empleados de la universidad  \n
+    EJERCICIO DE DERECHOS: Podrá ejercer sus derechos de acceso, rectificación, supresión, limitación, portabilidad y
+    oposición a su tratamiento, mediante el envío de un correo a la siguiente dirección: dpd@uc3m.es   \n
+    INFORMACIÓN ADICIONAL: Puede consultar la información adicional y detallada sobre nuestra Política de Privacidad en: 
+    https://www.uc3m.es/protecciondedatos""")
+
+
 
 with ocupacion_tab:
     # Tab para ver la ocupación por bloques de un edificio y planta específicos
@@ -161,7 +166,7 @@ with ocupacion_tab:
     refresh = True
     st.subheader("Consulta la ocupación de los bloques eligiendo un edificio y una planta")
 
-    edificio_tab_sel, planta_tab_sel, refresh_tab_sel = st.columns(3)
+    edificio_tab_sel, planta_tab_sel, refresh_tab_sel, image_tab = st.columns([1, 1, 1, 2])
     with edificio_tab_sel:
         edificio = st.selectbox("Selecciona el edificio para consultar su disponibilidad", edificios_disponibles())
     with planta_tab_sel:
@@ -169,16 +174,15 @@ with ocupacion_tab:
     with refresh_tab_sel:
         if st.button("Actualizar", key="refresh"):
             refresh = True
+    with image_tab:
+        IMAGES = {'1': {'0': "1.0.jpg", '1': "1.1.jpg"},
+                  '2': {'2': "2.2.jpg", '3': "2.3.jpg"},
+                  '4': {'0': "4.0.jpg", '1': "4.1.jpg", '2': "4.2.jpg"},
+                  '7': {'0': "7.0.jpg", '1': "7.1.jpg", '2': "7.2.jpg"}}
+        # Toggle para mostrar la guía en imágenes de la localización de bloques por planta
+        if st.toggle("Mostrar guía de bloques por planta", key="guia", value=True):
+            st.image("images/" + IMAGES[edificio][planta])
     if refresh:
         ocupacion_draw(edificio, planta)
         refresh = False
 
-st.subheader("Información Sobre protección de datos")
-st.markdown("""INFORMACIÓN BÁSICA SOBRE PROTECCIÓN DE DATOS.  \n
-RESPONSABLE DEL TRATAMIENTO: Universidad Carlos III de Madrid.  \n
-IDENTIFICACIÓN DEL TRATAMIENTO: Gestión de taquillas EPS  \n
-FINALIDAD: Gestión del uso de las taquillas por los estudiantes y empleados de la universidad  \n
-EJERCICIO DE DERECHOS: Podrá ejercer sus derechos de acceso, rectificación, supresión, limitación, portabilidad y
-oposición a su tratamiento, mediante el envío de un correo a la siguiente dirección: dpd@uc3m.es   \n
-INFORMACIÓN ADICIONAL: Puede consultar la información adicional y detallada sobre nuestra Política de Privacidad en: 
-https://www.uc3m.es/protecciondedatos""")

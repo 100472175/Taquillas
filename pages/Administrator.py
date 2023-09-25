@@ -1,9 +1,11 @@
 import hashlib
+import openpyxl
 import re
 import streamlit as st
 import streamlit_authenticator as stauth
 import yaml
-from authentication.email_send import send_email_verification
+from confirmation.email_send import send_email_verification
+from authentication.credential_manager import add_all_users
 from database.database_functions import *
 from streamlit_modal import Modal
 from streamlit_extras.switch_page_button import switch_page
@@ -34,15 +36,15 @@ elif st.session_state["authentication_status"] == None:
     st.warning('Please enter your username and password')
 elif st.session_state["authentication_status"]:
     authenticator.logout('Logout', 'main')
-
+    rol = config['credentials']['usernames'][username]['rol']
     st.title("Administrador de taquillas")
 
-    with st.container():
+    with ((st.container())):
         st.write(f'Bienvenido *{st.session_state["name"]}*')
-        estado_tab, mod_data_tab, change_taquilla_tab, del_tab, general_view_tab, add_tab, reset_tab = st.tabs(
+        estado_tab, mod_data_tab, change_taquilla_tab, del_tab, general_view_tab, add_tab, reset_tab, manage_credentials_tab = st.tabs(
             [":blue[**Cambiar estado**]", ":blue[**Modificar Datos Reserva**]", ":blue[**Modificar Taquilla**]",
              ":blue[**Eliminar Reserva**]", ":blue[**Vista General**]", ":blue[**Añadir Bloque**]",
-             ":blue[**Reset**]"])
+             ":blue[**Reset**]", ":blue[**Gestión de credenciales**]"])
         css = '''
         <style>
             .stTabs [data-baseweb="tab-highlight"] {
@@ -262,12 +264,12 @@ elif st.session_state["authentication_status"]:
         with general_view_tab:
             st.title("Vista general")
             st.write("Aquí puedes ver las taquillas reservadas y todos lo datos de las reservas.")
-            if st.button("Genera no libres"):
+            if st.button("Genera ocupadas/reservadas"):
                 st.dataframe(taquillas_not_libres())
-            if st.button("Genera Disponibles"):
+            if st.button("Genera libres"):
                 st.dataframe(taquillas_libres())
 
-            for i in range(30):
+            for i in range(15):
                 st.text(" ")
 
             if st.button("Genera Rotas"):
@@ -353,6 +355,7 @@ elif st.session_state["authentication_status"]:
                 st.error("No se ha encontrado tu reserva")
 
         with reset_tab:
+            st.title("Gestión de la base de datos")
             if username == "escuela" or username == "e_alarcon":
                 st.title("Reset de todas las reservas")
                 st.warning("Esto solo se debe ejecutar una vez al año")
@@ -365,9 +368,10 @@ elif st.session_state["authentication_status"]:
                             reset_database()
                             st.success("Reseteado con éxito")
                             st.toast("Reseteado con éxito", icon='🎉')
+                            sleep(2)
                     else:
                         st.error("Contraseña incorrecta")
-                uploaded_file = st.file_uploader("Choose a file")
+                uploaded_file = st.file_uploader("Elige un fichero para subir")
                 if uploaded_file is not None:
                     with open("database/database.db", "wb") as fp:
                         fp.write(uploaded_file.getvalue())
@@ -378,6 +382,14 @@ elif st.session_state["authentication_status"]:
                     data=fp,
                     file_name="database.db"  # Any file name
                 )
+
+        with manage_credentials_tab:
+            st.title("Gestión de credenciales")
+
+            if rol == "escuela":
+                st.text("In development, subir un excel y que se generen todas las contraseñas")
+
+
 
 
     #################################################################################################
