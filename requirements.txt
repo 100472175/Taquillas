@@ -2,5 +2,5 @@ extra-streamlit-components
 numpy
 openpyxl
 panda
-streamlit==1.26.0
+streamlit
 streamlit-authenticator
