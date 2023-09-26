@@ -84,17 +84,23 @@ def add_all_users(origin, destination):
 
 
 if __name__ == "__main__":
-    archivo = openpyxl.load_workbook("pax_atencion.xlsx")
-    sheet = archivo["Hoja1"]
-    i = 2
-    while sheet[f"A{i}"].value is not None:
-        sheet[f"E{i}"].value, sheet[f"F{i}"].value = insertar_user(sheet[f"A{i}"].value, sheet[f"B{i}"].value, sheet[f"C{i}"].value, sheet[f"D{i}"].value, sheet[f"E{i}"].value)
-        print(sheet[f"A{i}"].value)  # Name
-        print(sheet[f"B{i}"].value)  # User
-        print(sheet[f"C{i}"].value)  # NIA
-        print(sheet[f"D{i}"].value)  # Rol (Escuela si o no)
-        print(sheet[f"E{i}"].value)  # Password
-        print(sheet[f"F{i}"].value)  # Hashed
-        i += 1
-    archivo.save("tax.xlsx")
+    if input() == "todo":
+        archivo = openpyxl.load_workbook("pax_atencion.xlsx")
+        sheet = archivo["Hoja1"]
+        i = 2
+        while sheet[f"A{i}"].value is not None:
+            sheet[f"E{i}"].value, sheet[f"F{i}"].value = insertar_user(sheet[f"A{i}"].value, sheet[f"B{i}"].value, sheet[f"C{i}"].value, sheet[f"D{i}"].value, sheet[f"E{i}"].value)
+            print(sheet[f"A{i}"].value)  # Name
+            print(sheet[f"B{i}"].value)  # User
+            print(sheet[f"C{i}"].value)  # NIA
+            print(sheet[f"D{i}"].value)  # Rol (Escuela si o no)
+            print(sheet[f"E{i}"].value)  # Password
+            print(sheet[f"F{i}"].value)  # Hashed
+            i += 1
+        archivo.save("tax.xlsx")
+    else:
+        password = input("contraseña: ")
+        b = stauth.Hasher([password]).generate()
+        print(b)
+
 

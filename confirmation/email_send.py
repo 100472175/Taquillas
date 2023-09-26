@@ -6,7 +6,7 @@ import configparser
 
 
 def send_email_verification(nombre, nia, taquilla, codigo):
-    return # Desactivamos el envío de emails
+    # return # Desactivamos el envío de emails
     # Configuración del email
     config = configparser.ConfigParser()
     config.read("config.ini")
