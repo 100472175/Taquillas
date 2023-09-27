@@ -1,6 +1,7 @@
 import pandas as pd
 import sqlite3 as sql
 from confirmation.code_generator import generate_code
+from datetime import datetime, timedelta
 
 db_file = "database/database.db"
 
@@ -199,8 +200,8 @@ def hacer_reserva(taquilla, nia, nombre, apellidos):
     cur = conn.cursor()
     code = generate_code()
     cur.execute(
-        "UPDATE Taquillas SET ESTADO = 'Reservada', NIA = ?, NOMBRE = ?, APELLIDOS = ?, CODIGO = ?  WHERE TAQUILLA = ?",
-        (nia, nombre, apellidos, code, taquilla,))
+        "UPDATE Taquillas SET ESTADO = 'Reservada', NIA = ?, NOMBRE = ?, APELLIDOS = ?, CODIGO = ?, TIMESTAMP = ?  WHERE TAQUILLA = ?",
+        (nia, nombre, apellidos, code, datetime.now(), taquilla,))
     conn.commit()
     conn.close()
     return code
@@ -382,6 +383,33 @@ SET NIA = NULL, NOMBRE = NULL, APELLIDOS = NULL, CODIGO = NULL,
         return None
     else:
         raise Exception("Error al resetear la base de datos. Han quedado taquillas ocupadas, rows: ", rows)
+
+
+def taquillas_pasadas_de_tiempo():
+    """
+    Devuelve un dataframe con todas las taquillas que están reservadas y han pasado más de 7 días desde que se
+    reservaron
+    :return:
+    """
+    cnx = create_connection()
+    df = pd.read_sql_query("SELECT * FROM Taquillas WHERE ESTADO = 'Reservada' AND TIMESTAMP < ? ORDER BY TIMESTAMP",
+                           cnx, params=[datetime.now()-timedelta(days=7),])
+    cnx.close()
+    return df
+
+
+def delete_taquillas_pasadas_de_tiempo():
+    """
+    Elimina todas las taquillas que están reservadas y han pasado más de 7 días desde que se reservaron
+    :return:
+    """
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute("DELETE FROM Taquillas WHERE ESTADO = 'Reservada' AND TIMESTAMP < ?", (datetime.now()-timedelta(days=7),))
+    cur.execute("UPDATE Taquillas SET ESTADO = 'Libre', NIA = NULL, NOMBRE = NULL, APELLIDOS = NULL, CODIGO = NULL"
+                " WHERE ESTADO = 'Reservada' AND TIMESTAMP < ?", (datetime.now()-timedelta(days=7),))
+    conn.commit()
+    conn.close()
 
 
 if __name__ == "__main__":

@@ -51,7 +51,8 @@ def database_creation():
     NIA CHAR(9),
     NOMBRE VARCHAR(50),
     APELLIDOS VARCHAR(120),
-    CODIGO CHAR(10)
+    CODIGO CHAR(10),
+    TIMESTAMP VARCHAR(30)
 );
 """)
     conn.commit()

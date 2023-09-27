@@ -63,3 +63,4 @@ if __name__ == "__main__":
     while sheet[f"A{i}"].value is not None:
         send_email_verification(sheet[f"A{i}"].value, sheet[f"C{i}"].value, sheet[f"B{i}"].value, sheet[f"E{i}"].value)
         i += 1
+

@@ -355,20 +355,24 @@ elif st.session_state["authentication_status"]:
             if st.button("Genera libres"):
                 st.dataframe(taquillas_libres())
 
-            for i in range(15):
-                st.text(" ")
-
             if st.button("Genera Rotas"):
                 st.dataframe(taquillas_rotas())
+
+            if st.button("Genera las pasadas de tiempo"):
+                st.dataframe(taquillas_pasadas_de_tiempo())
+            if st.button("Haz click para eliminar las reservas"):
+                delete_taquillas_pasadas_de_tiempo()
+                st.success("Eliminadas las reservas pasadas de tiempo")
+                st.toast("Eliminadas las reservas pasadas de tiempo", icon='🎉')
+                logging.info(f'{st.session_state["name"]} ha eliminado las reservas pasadas de tiempo')
 
         with reset_tab:
             if rol == "escuela":
                 st.title("Gestión de la base de datos")
                 st.subheader("Reset de todas las reservas")
-                st.warning("Esto solo se debe ejecutar una vez al año")
-                st.warning("¡No se puede deshacer!")
-                
-                passwd = st.text_input("itroduce contraseña")
+                st.warning("Esto solo se debe ejecutar una vez al año. ¡No se puede deshacer!")
+
+                passwd = st.text_input("Introduce contraseña")
                 if hashlib.md5(passwd.encode()).hexdigest() == config["reset_password"]["password"]:
                     if st.button("Borrado definitivo"):
                         logging.info(f'{st.session_state["name"]} ha reseteado la base de datos')
