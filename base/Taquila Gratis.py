@@ -5,7 +5,7 @@ from streamlit.components.v1 import html
 from yaml.loader import SafeLoader
 
 config_path = "authentication/config.yaml"
-# Easter Egg
+
 with open(config_path) as file:
     config = yaml.load(file, Loader=SafeLoader)
 

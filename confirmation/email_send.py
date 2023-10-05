@@ -1,12 +1,13 @@
+import configparser
 import smtplib
 import ssl
+from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import configparser
+from email.mime.application import MIMEApplication
 
 
 def send_email_verification(nombre, nia, taquilla, codigo):
-    # return # Desactivamos el envío de emails
     # Configuración del email
     config = configparser.ConfigParser()
     config.read("config.ini")
@@ -48,6 +49,58 @@ def send_email_verification(nombre, nia, taquilla, codigo):
         server.quit()
 
 
+def send_backup_email_db(nia):
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+
+    smtp_server = 'smtp.gmail.com'
+    smtp_port = 587  # Default TLS port
+
+    sender_email = config["EMAIL"]["email"]
+    receiver_email = f"{nia}@alumnos.uc3m.es"
+    password = config["EMAIL"]["password"]
+
+    html_message = f"""
+    <html>
+        <body>
+            <p>Adjunto copia de seguridad de la base de datos.</p>
+        </body>
+    </html>
+    """
+
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = sender_email
+    msg['Subject'] = f"Copia de Segurodad de la Base de datos a {datetime.now().strftime('%d-%m-%Y %H:%M:%S')}"
+    msg.attach(MIMEText(html_message, 'html'))  # Set the content type to 'html'
+
+    with open("database/database.db", "rb") as fil:
+        part = MIMEApplication(
+            fil.read(),
+            Name="database.db")
+
+    # After the file is closed
+    part['Content-Disposition'] = 'attachment; filename="database.db"'
+    msg.attach(part)
+
+    context = ssl.create_default_context()
+
+    try:
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls(context=context)  # Upgrade the connection to use TLS
+        server.login(sender_email, password)
+    except Exception as e:
+        print(f"Error: {e}")
+
+    # Send the email
+    try:
+        server.sendmail(sender_email, receiver_email, msg.as_string())
+        print("Email sent successfully to " + receiver_email)
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        server.quit()
+
 
 if __name__ == "__main__":
-    send_email_verification("Edu", "100472175", "1.0.G001", "123456a")
+    send_backup_email_db("100472175")
