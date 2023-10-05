@@ -218,7 +218,7 @@ elif st.session_state["authentication_status"]:
                                                 taquillas_por_bloque(edificio, planta, bloque))
 
                 if st.button("Modificar taquilla"):
-                    code = change_taquilla(taquilla_cambio[4], taquilla, nia, nombre, apellidos)
+                    code = change_taquilla(taquilla_cambio[4], taquilla, nia, nombre, apellidos, taquilla_cambio[5])
                     logging.info(f'{st.session_state["name"]} ha cambiado la taquilla {taquilla_cambio[4]} a {taquilla}')
 
                     # Enviamos el correo electrónico con el código de verificación
@@ -348,8 +348,21 @@ elif st.session_state["authentication_status"]:
             #     st.toast("Bloque añadido", icon='🎉')
 
         with general_view_tab:
+            
             st.title("Vista general")
             st.write("Aquí puedes ver las taquillas reservadas y todos lo datos de las reservas.")
+            ocupada, reservada, libres, rotas, pasadas = st.columns(5)
+            with ocupada:
+                st.write("Taquillas ocupadas: ", taquillas_ocupadas_numero())
+            with reservada:
+                st.write("Taquillas reservadas: ", taquillas_reservadas_numero())
+            with libres:
+                st.write("Taquillas libres: ", taquillas_libres_numero())
+            with rotas:
+                st.write("Taquillas rotas: ", taquillas_rotas_numero())
+            with pasadas:
+                st.write("Taquillas que se han pasado de fecha: ", taquillas_pasadas_de_tiempo_numero())
+
             if st.button("Genera ocupadas/reservadas"):
                 st.dataframe(taquillas_not_libres())
             if st.button("Genera libres"):

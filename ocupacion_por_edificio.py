@@ -13,8 +13,10 @@ def colorea_disponibilidad(value):
     status = get_status_taquilla(value)
     if status == "Libre":
         color = 'green'
-    elif status == "Ocupada" or status == "Reservada":
+    elif status in ("Ocupada", "Reservada"):
         color = 'red'
+    elif status == "No Disponible":
+        color = 'grey'
     else:
         color = 'black'
     return f'background-color: {color}'

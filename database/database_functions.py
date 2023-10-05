@@ -108,7 +108,7 @@ def taquillas_por_bloque(edificio, planta, bloque) -> list:
     conn = create_connection()
     cur = conn.cursor()
     cur.execute(
-        "SELECT DISTINCT(TAQUILLA) FROM Taquillas WHERE EDIFICIO = ? AND PLANTA = ? AND BLOQUE = ? AND ESTADO = ?",
+        "SELECT DISTINCT(TAQUILLA) FROM Taquillas WHERE EDIFICIO = ? AND PLANTA = ? AND BLOQUE = ? AND ESTADO = ? ORDER BY ID",
         (edificio, planta, bloque, 'Libre',))
     rows = cur.fetchall()
     conn.close()
@@ -128,7 +128,7 @@ def taquillas_por_bloque_todas(edificio, planta, bloque) -> list:
     """
     conn = create_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM Taquillas WHERE EDIFICIO = ? AND PLANTA = ? AND BLOQUE = ?", (edificio, planta, bloque,))
+    cur.execute("SELECT * FROM Taquillas WHERE EDIFICIO = ? AND PLANTA = ? AND BLOQUE = ? ORDER BY ID", (edificio, planta, bloque,))
     rows = cur.fetchall()
     conn.close()
     result = []
@@ -306,7 +306,7 @@ def delete_taquilla_reserva(taquilla) -> None:
     conn.close()
 
 
-def change_taquilla(taquilla, new_taquilla, nia, nombre, apellidos) -> str:
+def change_taquilla(taquilla, new_taquilla, nia, nombre, apellidos, estado) -> str:
     """
     Cambia la taquilla reservada por un usuario, por si se ha equivocado o quiere cambiarla por otra
     :param taquilla:
@@ -325,6 +325,7 @@ def change_taquilla(taquilla, new_taquilla, nia, nombre, apellidos) -> str:
     conn.close()
     delete_taquilla_reserva(taquilla)
     code = hacer_reserva(new_taquilla, nia, nombre, apellidos)
+    update_taquilla_estado(new_taquilla, estado)
     return code
 
 
@@ -334,7 +335,7 @@ def taquillas_not_libres() -> pd.DataFrame:
     :return:
     """
     cnx = create_connection()
-    df = pd.read_sql_query("SELECT * FROM Taquillas WHERE ESTADO IN ('Reservada', 'Ocupada')", cnx)
+    df = pd.read_sql_query("SELECT * FROM Taquillas WHERE ESTADO IN ('Reservada', 'Ocupada') ORDER BY ID", cnx)
     cnx.close()
     return df
 
@@ -345,7 +346,7 @@ def taquillas_libres() -> pd.DataFrame:
     :return:
     """
     cnx = create_connection()
-    df = pd.read_sql_query("SELECT * FROM Taquillas WHERE ESTADO = 'Libre'", cnx)
+    df = pd.read_sql_query("SELECT * FROM Taquillas WHERE ESTADO = 'Libre' ORDER BY ID", cnx)
     cnx.close()
     return df
 
@@ -356,7 +357,7 @@ def taquillas_rotas() -> pd.DataFrame:
     :return:
     """
     cnx = create_connection()
-    df = pd.read_sql_query("SELECT * FROM Taquillas WHERE ESTADO = 'No Disponible'", cnx)
+    df = pd.read_sql_query("SELECT * FROM Taquillas WHERE ESTADO = 'No Disponible' ORDER BY ID", cnx)
     cnx.close()
     return df
 
@@ -405,12 +406,78 @@ def delete_taquillas_pasadas_de_tiempo():
     """
     conn = create_connection()
     cur = conn.cursor()
-    cur.execute("DELETE FROM Taquillas WHERE ESTADO = 'Reservada' AND TIMESTAMP < ?", (datetime.now()-timedelta(days=7),))
+    # cur.execute("DELETE FROM Taquillas WHERE ESTADO = 'Reservada' AND TIMESTAMP < ?", (datetime.now()-timedelta(days=7),))
     cur.execute("UPDATE Taquillas SET ESTADO = 'Libre', NIA = NULL, NOMBRE = NULL, APELLIDOS = NULL, CODIGO = NULL"
                 " WHERE ESTADO = 'Reservada' AND TIMESTAMP < ?", (datetime.now()-timedelta(days=7),))
     conn.commit()
     conn.close()
 
+
+def taquillas_ocupadas_numero() -> int:
+    """
+    Obtiene el número de taquillas que están ocupadas en toda la escuela
+    :return: int
+    """
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(*) FROM Taquillas WHERE ESTADO = ?", ('Ocupada',))
+    rows = cur.fetchall()
+    conn.close()
+    return rows[0][0]
+
+
+def taquillas_libres_numero() -> int:
+    """
+    Obtiene el número de taquillas que están ocupadas en toda la escuela
+    :return: int
+    """
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(*) FROM Taquillas WHERE ESTADO = ?", ('Libre',))
+    rows = cur.fetchall()
+    conn.close()
+    return rows[0][0]
+
+
+def taquillas_reservadas_numero() -> int:
+    """
+    Obtiene el número de taquillas que están ocupadas en toda la escuela
+    :return: int
+    """
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(*) FROM Taquillas WHERE ESTADO = ?", ('Reservada',))
+    rows = cur.fetchall()
+    conn.close()
+    return rows[0][0]
+
+
+def taquillas_rotas_numero() -> int:
+    """
+    Obtiene el número de taquillas que están ocupadas en toda la escuela
+    :return: int
+    """
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(*) FROM Taquillas WHERE ESTADO = ?", ('No Disponible',))
+    rows = cur.fetchall()
+    conn.close()
+    return rows[0][0]
+
+
+def taquillas_pasadas_de_tiempo_numero() -> int:
+    """
+    Obtiene el número de taquillas que están ocupadas en toda la escuela
+    :return: int
+    """
+    conn = create_connection()
+    cur = conn.cursor()
+    # cur.execute("SELECT COUNT(*) FROM Taquillas WHERE ESTADO = 'Reservada' AND TIMESTAMP < ?",
+    #             ((datetime.now() - timedelta(days=7)).timestamp(),))
+    cur.execute("SELECT COUNT(*) FROM Taquillas WHERE ESTADO = 'Reservada' AND TIMESTAMP < ?", (datetime.now() - timedelta(days=7),))
+    rows = cur.fetchall()
+    conn.close()
+    return rows[0][0]
 
 if __name__ == "__main__":
     print(get_info_taquilla_codigo('1.0.E.P001'))
