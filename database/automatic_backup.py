@@ -5,7 +5,6 @@ import schedule
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from confirmation.email_send import send_backup_email_db
 
-
 def job():
     send_backup_email_db()
     # add your Twitter code here

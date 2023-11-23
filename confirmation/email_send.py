@@ -49,7 +49,7 @@ def send_email_verification(nombre, nia, taquilla, codigo):
         server.quit()
 
 
-def send_backup_email_db(nia):
+def send_backup_email_db():
     config = configparser.ConfigParser()
     config.read("config.ini")
 
@@ -57,7 +57,7 @@ def send_backup_email_db(nia):
     smtp_port = 587  # Default TLS port
 
     sender_email = config["EMAIL"]["email"]
-    receiver_email = f"{nia}@alumnos.uc3m.es"
+    receiver_email = config["EMAIL"]["email"]
     password = config["EMAIL"]["password"]
 
     html_message = f"""
@@ -71,7 +71,7 @@ def send_backup_email_db(nia):
     msg = MIMEMultipart()
     msg['From'] = sender_email
     msg['To'] = sender_email
-    msg['Subject'] = f"Copia de Segurodad de la Base de datos a {datetime.now().strftime('%d-%m-%Y %H:%M:%S')}"
+    msg['Subject'] = f"Copia de Seguridad de la Base de datos a {datetime.now().strftime('%d-%m-%Y %H:%M:%S')}"
     msg.attach(MIMEText(html_message, 'html'))  # Set the content type to 'html'
 
     with open("database/database.db", "rb") as fil:

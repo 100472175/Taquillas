@@ -181,7 +181,8 @@ with ocupacion_tab:
                   '7': {'0': "7.0.jpg", '1': "7.1.jpg", '2': "7.2.jpg"}}
         # Toggle para mostrar la guía en imágenes de la localización de bloques por planta
         if st.toggle("Mostrar guía de bloques por planta", key="guia", value=True):
-            st.image("images/" + IMAGES[edificio][planta])
+            st.image(f"images/{edificio}.{planta}.jpg")
+
     if refresh:
         ocupacion_draw(edificio, planta)
         refresh = False

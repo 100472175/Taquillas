@@ -4,7 +4,7 @@ import re
 import streamlit as st
 import streamlit_authenticator as stauth
 import yaml
-from confirmation.email_send import send_email_verification
+from confirmation.email_send import *
 from database.database_functions import *
 from streamlit_modal import Modal
 from streamlit_extras.switch_page_button import switch_page
@@ -40,11 +40,11 @@ elif st.session_state["authentication_status"]:
     rol = config['credentials']['usernames'][username]['rol']
     st.title("Administrador de taquillas")
 
-    with ((st.container())):
-        st.write(f'Bienvenido *{st.session_state["name"]}*')
-        estado_tab, mod_data_tab, change_taquilla_tab, del_tab, general_view_tab, add_tab, reset_tab, manage_credentials_tab = st.tabs(
+    with st.container():
+        st.write(f'Te damos la bienvenida, *{st.session_state["name"]}*')
+        estado_tab, mod_data_tab, change_taquilla_tab, del_tab, general_view_tab, reset_tab, manage_credentials_tab = st.tabs(
             [":blue[**Cambiar estado**]", ":blue[**Modificar Datos Reserva**]", ":blue[**Modificar Taquilla**]",
-             ":blue[**Eliminar Reserva**]", ":blue[**Vista General**]", ":blue[**Añadir Bloque**]",
+             ":blue[**Eliminar Reserva**]", ":blue[**Vista General**]",
              ":blue[**Reset**]", ":blue[**Gestión de credenciales**]"])
         css = '''
         <style>
@@ -234,7 +234,6 @@ elif st.session_state["authentication_status"]:
                     reduced = content[:content.find("NIA:")]
                     st.toast(reduced, icon='🎉')
                     st.balloons()
-                    sleep(1)
             else:
                 st.error("No se ha encontrado tu reserva")
 
@@ -277,7 +276,7 @@ elif st.session_state["authentication_status"]:
                 auth = False
                 message_success = None
                 show_confirmation = False
-                open_modal = st.button(":red[Eliminar_modal]", key="confirmation_button")
+                open_modal = st.button(":red[Eliminar]", key="confirmation_button")
                 if open_modal:
                     modal.open()
                 if modal.is_open():
@@ -307,48 +306,8 @@ elif st.session_state["authentication_status"]:
             else:
                 st.error("No se ha encontrado tu reserva")
 
-        # This will be done in the future, as we have no plans to add blocks in the near future
-        with add_tab:
-            st.title("In development to be migrated :smile:")
-            # st.title("Añadir bloque")
-            # st.write("Añade un bloque de taquillas a un edificio y planta concretos.")
-            # st.write(
-            #     "Utiliza esto como último recurso, si no puedes contactar con el administrador y que no tiene acceso "
-            #     "al código fuente.")
-            # st.write("Si no sabes lo que estás haciendo, no lo hagas. :smile:")
-            #
-            # edificio_add_col, planta_add_col = st.columns(2)
-            # with open("disponibles.json", "r") as f:
-            #     taquillas_disponibles = json.load(f)
-            # with edificio_add_col:
-            #     edificio_add = st.selectbox("Edificio", options=list(taquillas_disponibles.keys()), key="edificio_add")
-            # with planta_add_col:
-            #     planta_add = st.selectbox("Planta", options=list(taquillas_disponibles[edificio_add].keys()),
-            #                               key="planta_add")
-            # st.warning("¡Asegúrate de que el bloque que vas a añadir no existe ya!")
-            # bloques_disponibles = ""
-            # for bloque in taquillas_disponibles[edificio_add][planta_add]:
-            #     bloques_disponibles += bloque
-            #     bloques_disponibles += ", "
-            # st.write("Bloques disponibles: " + bloques_disponibles)
-            # st.image("images/" + IMAGES[edificio_add][planta_add], width=500)
-            #
-            # st.write("Para añadir un bloque, pon el nombre del bloque y las taquillas disponibles, separadas por "
-            #          "comas y espacio.")
-            # bloque_add_col, taquillas_add_col = st.columns(2)
-            # with bloque_add_col:
-            #     bloque_add = st.text_input("Nombre del bloque", key="bloque_add")
-            # with taquillas_add_col:
-            #     taquillas_add = st.text_input("Taquillas disponibles", key="taquillas_add")
-            # if st.button("Añadir bloque"):
-            #     taquillas_disponibles[edificio_add][planta_add][bloque_add] = taquillas_add.split(", ")
-            #     with open("disponibles.json", "w") as f:
-            #         json.dump(taquillas_disponibles, f, indent=4)
-            #     st.success("Bloque añadido")
-            #     st.toast("Bloque añadido", icon='🎉')
 
         with general_view_tab:
-            
             st.title("Vista general")
             st.write("Aquí puedes ver las taquillas reservadas y todos lo datos de las reservas.")
             ocupada, reservada, libres, rotas, pasadas = st.columns(5)
@@ -367,7 +326,6 @@ elif st.session_state["authentication_status"]:
                 st.dataframe(taquillas_not_libres())
             if st.button("Genera libres"):
                 st.dataframe(taquillas_libres())
-
             if st.button("Genera Rotas"):
                 st.dataframe(taquillas_rotas())
 
@@ -424,6 +382,9 @@ elif st.session_state["authentication_status"]:
                     if btn_logs:
                         logging.info(f'{st.session_state["name"]} ha descargado los logs')
 
+                if st.button("Envia base de datos por correo"):
+                    send_backup_email_db()
+                    st.success("Base de datos enviada con éxito")
 
                 
             else:
