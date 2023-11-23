@@ -10,6 +10,7 @@ from streamlit_modal import Modal
 from streamlit_extras.switch_page_button import switch_page
 from time import sleep
 from yaml.loader import SafeLoader
+from database.bd_osciloscopio_generate import *
 logging.basicConfig(filename='logs/app.log', filemode='a', format='%(asctime)s - %(message)s', level=logging.INFO)
 
 
@@ -42,10 +43,10 @@ elif st.session_state["authentication_status"]:
 
     with st.container():
         st.write(f'Te damos la bienvenida, *{st.session_state["name"]}*')
-        estado_tab, mod_data_tab, change_taquilla_tab, del_tab, general_view_tab, reset_tab, manage_credentials_tab = st.tabs(
+        estado_tab, mod_data_tab, change_taquilla_tab, del_tab, general_view_tab, reset_tab, manage_credentials_tab, osciloscopios_tab = st.tabs(
             [":blue[**Cambiar estado**]", ":blue[**Modificar Datos Reserva**]", ":blue[**Modificar Taquilla**]",
              ":blue[**Eliminar Reserva**]", ":blue[**Vista General**]",
-             ":blue[**Reset**]", ":blue[**Gestión de credenciales**]"])
+             ":blue[**Reset**]", ":blue[**Gestión de credenciales**]", ":blue[**Osciloscopios**]"])
         css = '''
         <style>
             .stTabs [data-baseweb="tab-highlight"] {
@@ -398,6 +399,18 @@ elif st.session_state["authentication_status"]:
             else:
                 st.subheader("No tienes permiso para ejecutar esta acción")
 
+        with osciloscopios_tab:
+            st.title("Reserva de osciloscopios")
+            if rol == "escuela":
+                if st.button("Crear tabla de reservas"):
+                    huecos_table_creation()
+                    huecos_table_importer(NUM_OSCILOS)
+                    st.success("Tabla creada con éxito")
+                if st.button("Borrar tabla de reservas"):
+                    drop_huecos_table()
+                    st.success("Tabla borrada con éxito")
+            else:
+                st.subheader("No tienes permiso para ejecutar esta acción")
 
 
 

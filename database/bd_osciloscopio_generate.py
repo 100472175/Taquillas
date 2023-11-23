@@ -5,9 +5,10 @@ HORARIOS = {"1": [11, 12, 15, 16, 17, 18],
             "2": [9, 10, 11, 12, 15, 16, 17, 18],
             "3": [10, 11, 12, 15, 16, 17, 18],
             "4": [11, 12, 14, 15, 16],
-            "5": [9, 10, 11, 12, 15, 16, 17, 18, 19]}
+            "5": [9, 10, 11, 12, 15, 16, 17, 18]}
 HORARIOS_LEN = sum(len(numbers) for numbers in HORARIOS.values())
 DB_FILE = "database/database.db"
+NUM_OSCILOS = 3
 
 
 def create_connection(db_file=DB_FILE):
@@ -19,11 +20,11 @@ def huecos_table_creation():
     cur = conn.cursor()
     cur.execute("""CREATE TABLE OsciloscopioReservas (
     ID INT AUTO_INCREMENT PRIMARY KEY,
-    OSCILOSCOPIO INT,
     CW INT,
     DIA INT,
     HORA INT,
-    NIA VARCHAR(50)
+    NIA VARCHAR(50),
+    OSCILOSCOPIO INT
     );
     """)
     conn.commit()
@@ -38,28 +39,32 @@ def drop_huecos_table():
     conn.close()
 
 
-def insert_hueco(index, cw, week_day, hour):
+def insert_hueco(index, oscilo, cw, week_day, hour):
     conn = sql.connect(DB_FILE)
     cur = conn.cursor()
-    cur.execute("INSERT INTO OsciloscopioReservas (ID, CW, DIA, HORA) VALUES (?, ?, ?, ?)", (index, cw, week_day, hour))
+    cur.execute("INSERT INTO OsciloscopioReservas (ID, OSCILOSCOPIO, CW, DIA, HORA) VALUES (?, ?, ?, ?, ?)",
+                (index, oscilo, cw, week_day, hour))
     conn.commit()
     conn.close()
 
 
-def huecos_table_importer():
+def huecos_table_importer(num_oscilos=2):
     counter = 0
-    for i in range(53):
-        for j in HORARIOS.keys():
-            for k in HORARIOS[j]:
-                insert_hueco(counter, i, j, k)
-                counter += 1
+    for osc in range(num_oscilos):
+        osc += 1
+        for i in range(53):
+            for j in HORARIOS.keys():
+                for k in HORARIOS[j]:
+                    insert_hueco(counter, osc, i, j, k)
+                    counter += 1
 
 
-def get_5_free_spots_today():
+def get_5_free_spots_today(oscilo):
     year, cw, week_day = datetime.now().isocalendar()
     conn = create_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM OsciloscopioReservas WHERE CW = ? AND DIA = ?", (cw, week_day))
+    cur.execute("SELECT * FROM OsciloscopioReservas WHERE CW = ? AND DIA = ? and OSCILOSCOPIO = ?",
+                (cw, week_day, oscilo))
     rows = cur.fetchall()
     querry = f"""
         SELECT *
@@ -77,13 +82,14 @@ def get_5_free_spots_today():
     return rows
 
 
-def get_free_sports_specific_day(day):
+def get_free_sports_specific_day(day, oscilo):
     year, cw, week_day = datetime.now().isocalendar()
     if week_day > day:
         cw += 1
     conn = create_connection()
     cur = conn.cursor()
-    cur.execute("SELECT HORA FROM OsciloscopioReservas WHERE CW = ? AND DIA = ?", (cw, day))
+    cur.execute("SELECT HORA FROM OsciloscopioReservas WHERE CW = ? AND DIA = ? AND OSCILOSCOPIO = ?",
+                (cw, day, oscilo))
     rows = cur.fetchall()
     conn.close()
     return rows

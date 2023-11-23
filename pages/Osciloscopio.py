@@ -12,50 +12,31 @@ import re
 # Se puede consultar las reservas que se tienen para un día concreto
 
 def num_to_day(num):
-    if num == 1:
-        return "lunes"
-    elif num == 2:
-        return "martes"
-    if num == 3:
-        return "miercoles"
-    elif num == 4:
-        return "jueves"
-    elif num == 5:
-        return "viernes"
+    conv = {1: "lunes", 2: "martes", 3: "miercoles", 4: "jueves", 5: "viernes"}
+    return conv[num]
 
 
 def day_to_num(day):
-    if day == "lunes":
-        return 1
-    elif day == "martes":
-        return 2
-    if day == "miercoles":
-        return 3
-    elif day == "jueves":
-        return 4
-    elif day == "viernes":
-        return 5
+    conv = {"lunes": 1, "martes": 2, "miercoles": 3, "jueves": 4, "viernes": 5}
+    return conv[day]
 
 
-def app():
+def app(osciloscopio=2):
+    st.title("Reserva de osciloscopios")
     today = num_to_day(datetime.isoweekday(datetime.now()))
     lista_huecos = []
     id_reserva = -1
 
-    st.title("Reserva de osciloscopios")
-    if st.button("Crear tabla de reservas"):
-        huecos_table_creation()
-        huecos_table_importer()
-        st.success("Tabla creada con éxito")
-    if st.button("Borrar tabla de reservas"):
-        drop_huecos_table()
-        st.success("Tabla borrada con éxito")
+    oscilo_col, dia_col, hora_col, nia_col = st.columns([2, 2, 2, 3])
+    with oscilo_col:
+        lista_temp = []
+        for i in range(osciloscopio):
+            lista_temp.append(str(i + 1))
+        oscilo = st.selectbox("Osciloscopio", lista_temp, index=0)
+        st.write("Has seleccionado el osciloscopio: ", oscilo)
+        oscilo = int(oscilo)
+        select_today_index = get_5_free_spots_today(oscilo)
 
-    select_today_index = get_5_free_spots_today()
-    st.dataframe(select_today_index)
-    st.write("Huecos disponibles para los próximos días: ", len(select_today_index))
-
-    dia_col, hora_col, nia_col = st.columns(3)
     with dia_col:
         index_letter = st.selectbox("Día de la semana", ["lunes", "martes", "miercoles", "jueves", "viernes"],
                                     index=day_to_num(today) - 1)
@@ -64,7 +45,7 @@ def app():
         dia = day_to_num(index_letter)
 
     with hora_col:
-        lista = get_free_sports_specific_day(dia)
+        lista = get_free_sports_specific_day(dia, oscilo)
         # Do some list comprehension to add :00 to the end of the hour
         lista = [str(i[0]) + ":00" for i in lista]
         hora_larga = st.selectbox("Hora", lista, index=0)
@@ -87,7 +68,6 @@ def app():
             nias = [i for i in nias if i]
             if len(nias) > 1:
                 # We remove the duplicates
-                print(nias)
                 nias = list(set(nias))
                 # We check if the NIA is valid with regex
                 for nia in nias:
@@ -100,7 +80,7 @@ def app():
             id_reserva = i[0]
             break
     if todo_ok and id_reserva != -1:
-        st.warning("Se van a reservar 1 osciloscopio para el " + index_letter + " a las " + hora)
+        st.warning(f"Se va a reservar el osciloscopio {oscilo} para el {index_letter} a las {hora}:00")
         if st.button("Reservar"):
             try:
                 check_nia_validity(nias, id_reserva)
@@ -109,6 +89,8 @@ def app():
                 st.balloons()
             except ValueError as error:
                 st.error(error)
+    st.write("Huecos disponibles para los próximos días: ", len(select_today_index))
+    st.dataframe(select_today_index)
 
 
-app()
+app(osciloscopio=NUM_OSCILOS)
