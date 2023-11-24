@@ -5,20 +5,27 @@ from email.mime.multipart import MIMEMultipart
 import configparser
 import openpyxl
 
+"""
+Script para enviar un email a todos los alumnos de la base de datos con su usuario y contraseña
+"""
+
 
 def send_email_verification(nombre, nia, usuario, passwd):
     # Configuración del email
     config = configparser.ConfigParser()
     config.read("../config.ini")
 
+    # Configuración del servidor SMTP
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587  # Default TLS port
 
+    # Configuración del email, remitente, destinatario, contraseña y asunto
     sender_email = config["EMAIL"]["email"]
     receiver_email = f"{nia}@alumnos.uc3m.es"
     password = config["EMAIL"]["password"]
     subject = f"Acceso a la aplicación de taquillas: {usuario}"
 
+    # Configuración del mensaje
     html_message = f"""
     <html>
         <body>
@@ -35,7 +42,6 @@ def send_email_verification(nombre, nia, usuario, passwd):
     msg['To'] = receiver_email
     msg['Subject'] = subject
     msg.attach(MIMEText(html_message, 'html'))  # Set the content type to 'html'
-
     context = ssl.create_default_context()
 
     try:
@@ -53,7 +59,6 @@ def send_email_verification(nombre, nia, usuario, passwd):
         print(f"Error: {e}")
     finally:
         server.quit()
-
 
 
 if __name__ == "__main__":
