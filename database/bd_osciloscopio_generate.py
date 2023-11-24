@@ -66,16 +66,16 @@ def get_5_free_spots_today(oscilo):
     cur.execute("SELECT * FROM OsciloscopioReservas WHERE CW = ? AND DIA = ? and OSCILOSCOPIO = ?",
                 (cw, week_day, oscilo))
     rows = cur.fetchall()
-    #querry = f"""
-    #    SELECT *
-    #    FROM (
-    #    SELECT *
-    #    FROM OsciloscopioReservas
-    #    WHERE ID >= ?
-    #    ORDER BY ID
-    #    LIMIT ?) AS Subquery
-    #    WHERE NIA IS NULL;
-    #"""
+    # querry = f"""
+    #     SELECT *
+    #     FROM (
+    #     SELECT *
+    #     FROM OsciloscopioReservas
+    #     WHERE ID >= ?
+    #     ORDER BY ID
+    #     LIMIT ?) AS Subquery
+    #     WHERE NIA IS NULL;
+    # """
     querry = """
     SELECT *
     FROM OsciloscopioReservas
