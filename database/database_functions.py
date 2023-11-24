@@ -214,7 +214,8 @@ def get_info_taquilla_nia(nia) -> list | None:
     if len(rows) == 0:
         return None
     result = [i for i in rows]
-    return result
+    # TODO: Remove the [0] for the multiple reservation case
+    return result[0]
 
 
 def get_info_taquilla_codigo(taquilla) -> list | None:
@@ -230,8 +231,9 @@ def get_info_taquilla_codigo(taquilla) -> list | None:
     conn.close()
     if len(rows) == 0:
         return None
-    else:
-        return list(rows[0])
+    result = [i for i in rows]
+    # TODO: Remove the [0] for the multiple reservation case
+    return rows[0]
 
 
 def update_taquilla_estado(taquilla, estado) -> None:
