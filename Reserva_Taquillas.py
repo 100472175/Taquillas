@@ -18,6 +18,7 @@ st.set_page_config(
 )
 
 # ---- HEADER ----
+# Creamos el header de la página, con el título, el logo y la descripción
 st.image("images/eps_logo.png", width=100)
 st.subheader("Reserva Taquillas UC3M", divider=True)
 st.title("Aplicación para la reserva de taquillas del campus de Leganés de la UC3M")
@@ -32,17 +33,21 @@ st.write("Para reservar una taquilla, elige primero el edificio donde se encuent
 
 st.write("Para más información ve a la [página de Delegación](https://delegacion.uc3m.es/home/eps-taquillas/).")
 
+
+# ---- CONSTANTS ----
+MAX_TAQUILLAS = 3
+
+# ---- BODY ----
+# Creamos el cuerpo de la página, con los tabs de reserva y ocupación
 reserva_tab, ocupacion_tab = st.tabs([":blue[**Reservar Taquilla**]", ":blue[**Ocupación**]"])
 with reserva_tab:
     # Inicializamos las variables que vamos a utilizar y modificar
     reservable = False
     reservable_NIA = False
     nombre_reservable = False
-
     # Inicializamos las constantes que vamos a utilizar
 
-    MAX_TAQUILLAS = 3
-
+    # Creamos un contenedor para la página de reserva
     with st.container():
         titulo_descr_col, img_01 = st.columns([3, 1])
         with titulo_descr_col:
@@ -158,11 +163,10 @@ with reserva_tab:
     INFORMACIÓN ADICIONAL: Puede consultar la información adicional y detallada sobre nuestra Política de Privacidad en: 
     https://www.uc3m.es/protecciondedatos""")
 
-
-
+# ---- OCUPACIÓN ---
+# Tab para ver la ocupación por bloques de un edificio y planta específicos
+# Para que no se esté actualizando siempre, y solo una vez cuando se carga la página, usamos un botón de actualizar
 with ocupacion_tab:
-    # Tab para ver la ocupación por bloques de un edificio y planta específicos
-    # Para que no se esté actualizando siempre, y solo una vez cuando se carga la página, usamos un botón de actualizar
     refresh = True
     st.subheader("Consulta la ocupación de los bloques eligiendo un edificio y una planta")
 
@@ -175,10 +179,6 @@ with ocupacion_tab:
         if st.button("Actualizar", key="refresh"):
             refresh = True
     with image_tab:
-        IMAGES = {'1': {'0': "1.0.jpg", '1': "1.1.jpg"},
-                  '2': {'2': "2.2.jpg", '3': "2.3.jpg"},
-                  '4': {'0': "4.0.jpg", '1': "4.1.jpg", '2': "4.2.jpg"},
-                  '7': {'0': "7.0.jpg", '1': "7.1.jpg", '2': "7.2.jpg"}}
         # Toggle para mostrar la guía en imágenes de la localización de bloques por planta
         if st.toggle("Mostrar guía de bloques por planta", key="guia", value=True):
             st.image(f"images/{edificio}.{planta}.jpg")
