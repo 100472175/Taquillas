@@ -84,7 +84,7 @@ def add_all_users(origin, destination):
 
 
 if __name__ == "__main__":
-    if input() == "todo":
+    if input("¿Qué quieres hacer?") == "todo":
         archivo = openpyxl.load_workbook("pax_atencion.xlsx")
         sheet = archivo["Hoja1"]
         i = 2

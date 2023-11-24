@@ -406,7 +406,7 @@ def delete_taquillas_pasadas_de_tiempo():
     """
     conn = create_connection()
     cur = conn.cursor()
-    # cur.execute("DELETE FROM Taquillas WHERE ESTADO = 'Reservada' AND TIMESTAMP < ?", (datetime.now()-timedelta(days=7),))
+    # RECUERDA NO USAR DELETE
     cur.execute("UPDATE Taquillas SET ESTADO = 'Libre', NIA = NULL, NOMBRE = NULL, APELLIDOS = NULL, CODIGO = NULL"
                 " WHERE ESTADO = 'Reservada' AND TIMESTAMP < ?", (datetime.now()-timedelta(days=7),))
     conn.commit()
