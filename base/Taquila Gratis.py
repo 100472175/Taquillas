@@ -4,11 +4,15 @@ import yaml
 from streamlit.components.v1 import html
 from yaml.loader import SafeLoader
 
-config_path = "authentication/config.yaml"
+"""
+Meme page - Taquilla Gratis
+Esto es una página de prueba para ver si funciona el sistema de autenticación, así como la redirección a una página externa.
+En este caso, es la creación de una taquilla gratis.
+"""
 
+config_path = "authentication/config.yaml"
 with open(config_path) as file:
     config = yaml.load(file, Loader=SafeLoader)
-
 authenticator = stauth.Authenticate(
     config['credentials'],
     config['cookie']['name'],
@@ -26,9 +30,10 @@ def open_page(url):
     """ % (url)
     html(open_script)
 
-if st.session_state["authentication_status"] == False:
+
+if not st.session_state["authentication_status"]:
     st.error('Username/password is incorrect')
-elif st.session_state["authentication_status"] == None:
+elif st.session_state["authentication_status"] is None:
     st.warning('Please enter your username and password')
 elif st.session_state["authentication_status"]:
     authenticator.logout('Logout', 'main')

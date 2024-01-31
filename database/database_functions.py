@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 db_file = "database/database.db"
 
 
-def create_connection(db_file=db_file):
+def create_connection(db_file=db_file) -> sql.Connection:
     conn = sql.connect(db_file)
     return conn
 
@@ -52,9 +52,10 @@ def plantas_por_edificio(edificio) -> list:
     cur.execute("SELECT DISTINCT(PLANTA) FROM Taquillas WHERE EDIFICIO = ? AND ESTADO = ?", (edificio, 'Libre',))
     rows = cur.fetchall()
     conn.close()
-    result = []
-    for i in range(len(rows)):
-        result.append(rows[i][0])
+    # result = []
+    # for i in range(len(rows)):
+    #     result.append(rows[i][0])
+    result = [i[0] for i in rows]
     return result
 
 
@@ -71,9 +72,7 @@ def bloques_por_planta(edificio, planta) -> list:
                 (edificio, planta, 'Libre',))
     rows = cur.fetchall()
     conn.close()
-    result = []
-    for i in range(len(rows)):
-        result.append(rows[i][0])
+    result = [i[0] for i in rows]
     return result
 
 
@@ -91,9 +90,7 @@ def bloques_por_planta_todas(edificio, planta) -> list:
                 (edificio, planta,))
     rows = cur.fetchall()
     conn.close()
-    result = []
-    for i in range(len(rows)):
-        result.append(rows[i][0])
+    result = [i[0] for i in rows]
     return result
 
 
@@ -112,9 +109,7 @@ def taquillas_por_bloque(edificio, planta, bloque) -> list:
         (edificio, planta, bloque, 'Libre',))
     rows = cur.fetchall()
     conn.close()
-    result = []
-    for i in range(len(rows)):
-        result.append(rows[i][0])
+    result = [i[0] for i in rows]
     return result
 
 
@@ -128,13 +123,11 @@ def taquillas_por_bloque_todas(edificio, planta, bloque) -> list:
     """
     conn = create_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM Taquillas WHERE EDIFICIO = ? AND PLANTA = ? AND BLOQUE = ? ORDER BY ID", (edificio, planta, bloque,))
+    cur.execute("SELECT * FROM Taquillas WHERE EDIFICIO = ? AND PLANTA = ? AND BLOQUE = ? ORDER BY ID",
+                (edificio, planta, bloque,))
     rows = cur.fetchall()
     conn.close()
-    result = []
-    for i in range(len(rows)):
-        result.append(rows[i])
-    return result
+    return rows
 
 
 def taquillas_ocupadas_por_bloque(edificio, planta, bloque) -> int:
@@ -185,7 +178,7 @@ def get_status_taquilla(taquilla) -> str:
     return rows[0][0]
 
 
-def hacer_reserva(taquilla, nia, nombre, apellidos):
+def hacer_reserva(taquilla, nia, nombre, apellidos) -> str:
     """
     Hace una reserva de una taquilla, dada la taquilla que se quiere reservar, el nia del usuario que la reserva,
     el nombre y los apellidos del usuario que la reserva. Devuelve el código de la taquilla reservada para que se envie
@@ -207,7 +200,7 @@ def hacer_reserva(taquilla, nia, nombre, apellidos):
     return code
 
 
-def get_info_taquilla_nia(nia) -> list:
+def get_info_taquilla_nia(nia) -> list | None:
     """
     Devuelve la información de la taquilla reservada por un usuario dada su NIA, únicamente la primera que encuentre
     :param nia:
@@ -220,14 +213,12 @@ def get_info_taquilla_nia(nia) -> list:
     conn.close()
     if len(rows) == 0:
         return None
-    for reserva in rows:
-        result = []
-        for i in reserva:
-            result.append(i)
-        return result
+    result = [i for i in rows]
+    # TODO: Remove the [0] for the multiple reservation case
+    return result[0]
 
 
-def get_info_taquilla_codigo(taquilla) -> list:
+def get_info_taquilla_codigo(taquilla) -> list | None:
     """
     Devuelve la información de la taquilla reservada por un usuario dada su código, únicamente la primera que encuentre
     :param taquilla:
@@ -240,8 +231,9 @@ def get_info_taquilla_codigo(taquilla) -> list:
     conn.close()
     if len(rows) == 0:
         return None
-    else:
-        return list(rows[0])
+    result = [i for i in rows]
+    # TODO: Remove the [0] for the multiple reservation case
+    return rows[0]
 
 
 def update_taquilla_estado(taquilla, estado) -> None:
@@ -300,8 +292,8 @@ def delete_taquilla_reserva(taquilla) -> None:
     conn = create_connection()
     cur = conn.cursor()
     cur.execute(
-        "UPDATE Taquillas SET NIA = NULL, ESTADO = 'Libre', NOMBRE = NULL, APELLIDOS = NULL, CODIGO = NULL WHERE TAQUILLA = ?",
-        (taquilla,))
+        "UPDATE Taquillas SET NIA = NULL, ESTADO = 'Libre', NOMBRE = NULL, APELLIDOS = NULL, CODIGO = NULL WHERE "
+        "TAQUILLA = ?", (taquilla,))
     conn.commit()
     conn.close()
 
@@ -309,6 +301,7 @@ def delete_taquilla_reserva(taquilla) -> None:
 def change_taquilla(taquilla, new_taquilla, nia, nombre, apellidos, estado) -> str:
     """
     Cambia la taquilla reservada por un usuario, por si se ha equivocado o quiere cambiarla por otra
+    :param estado:
     :param taquilla:
     :param new_taquilla:
     :param nia:
@@ -320,7 +313,6 @@ def change_taquilla(taquilla, new_taquilla, nia, nombre, apellidos, estado) -> s
     cur = conn.cursor()
     cur.execute("SELECT * FROM Taquillas WHERE TAQUILLA = ?", (new_taquilla,))
     rows = cur.fetchall()
-    new_row = rows[0]
     conn.commit()
     conn.close()
     delete_taquilla_reserva(taquilla)
@@ -386,7 +378,7 @@ SET NIA = NULL, NOMBRE = NULL, APELLIDOS = NULL, CODIGO = NULL,
         raise Exception("Error al resetear la base de datos. Han quedado taquillas ocupadas, rows: ", rows)
 
 
-def taquillas_pasadas_de_tiempo():
+def taquillas_pasadas_de_tiempo() -> pd.DataFrame:
     """
     Devuelve un dataframe con todas las taquillas que están reservadas y han pasado más de 7 días desde que se
     reservaron
@@ -394,12 +386,12 @@ def taquillas_pasadas_de_tiempo():
     """
     cnx = create_connection()
     df = pd.read_sql_query("SELECT * FROM Taquillas WHERE ESTADO = 'Reservada' AND TIMESTAMP < ? ORDER BY TIMESTAMP",
-                           cnx, params=[datetime.now()-timedelta(days=7),])
+                           cnx, params=[datetime.now() - timedelta(days=7), ])
     cnx.close()
     return df
 
 
-def delete_taquillas_pasadas_de_tiempo():
+def delete_taquillas_pasadas_de_tiempo() -> None:
     """
     Elimina todas las taquillas que están reservadas y han pasado más de 7 días desde que se reservaron
     :return:
@@ -408,7 +400,7 @@ def delete_taquillas_pasadas_de_tiempo():
     cur = conn.cursor()
     # RECUERDA NO USAR DELETE
     cur.execute("UPDATE Taquillas SET ESTADO = 'Libre', NIA = NULL, NOMBRE = NULL, APELLIDOS = NULL, CODIGO = NULL"
-                " WHERE ESTADO = 'Reservada' AND TIMESTAMP < ?", (datetime.now()-timedelta(days=7),))
+                " WHERE ESTADO = 'Reservada' AND TIMESTAMP < ?", (datetime.now() - timedelta(days=7),))
     conn.commit()
     conn.close()
 
@@ -474,10 +466,12 @@ def taquillas_pasadas_de_tiempo_numero() -> int:
     cur = conn.cursor()
     # cur.execute("SELECT COUNT(*) FROM Taquillas WHERE ESTADO = 'Reservada' AND TIMESTAMP < ?",
     #             ((datetime.now() - timedelta(days=7)).timestamp(),))
-    cur.execute("SELECT COUNT(*) FROM Taquillas WHERE ESTADO = 'Reservada' AND TIMESTAMP < ?", (datetime.now() - timedelta(days=7),))
+    cur.execute("SELECT COUNT(*) FROM Taquillas WHERE ESTADO = 'Reservada' AND TIMESTAMP < ?",
+                (datetime.now() - timedelta(days=7),))
     rows = cur.fetchall()
     conn.close()
     return rows[0][0]
+
 
 if __name__ == "__main__":
     print(get_info_taquilla_codigo('1.0.E.P001'))
