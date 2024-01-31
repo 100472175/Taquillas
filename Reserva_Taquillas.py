@@ -154,14 +154,17 @@ with reserva_tab:
                 st.error("No se ha podido hacer la reserva, contacta con delegación para que puedan arreglarlo")
 
     st.subheader("Información Sobre protección de datos")
-    st.markdown("""INFORMACIÓN BÁSICA SOBRE PROTECCIÓN DE DATOS.  \n
+    texto_privacidad = """INFORMACIÓN BÁSICA SOBRE PROTECCIÓN DE DATOS.  \n
     RESPONSABLE DEL TRATAMIENTO: Universidad Carlos III de Madrid.  \n
     IDENTIFICACIÓN DEL TRATAMIENTO: Gestión de taquillas EPS  \n
     FINALIDAD: Gestión del uso de las taquillas por los estudiantes y empleados de la universidad  \n
     EJERCICIO DE DERECHOS: Podrá ejercer sus derechos de acceso, rectificación, supresión, limitación, portabilidad y
     oposición a su tratamiento, mediante el envío de un correo a la siguiente dirección: dpd@uc3m.es   \n
-    INFORMACIÓN ADICIONAL: Puede consultar la información adicional y detallada sobre nuestra Política de Privacidad en: 
-    https://www.uc3m.es/protecciondedatos""")
+    INFORMACIÓN ADICIONAL: Puede consultar la información adicional y detallada sobre nuestra Política de Privacidad en: \n
+    https://www.uc3m.es/protecciondedatos"""
+    st.write(texto_privacidad, unsafe_allow_html=True)
+    st.markdown("[Política de protección de datos](https://www.uc3m.es/protecciondedatos)")
+
 
 # ---- OCUPACIÓN ---
 # Tab para ver la ocupación por bloques de un edificio y planta específicos

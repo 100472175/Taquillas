@@ -91,39 +91,53 @@ elif st.session_state["authentication_status"]:
         if taquilla:
             taquilla_col, nia_col, estado_col, nombre_col, apellidos_col, codigo_col = st.columns(6)
             with taquilla_col:
-                st.write("Taquilla", key=taquilla[4])
+                st.write("Taquilla")
                 st.write(taquilla[4])
             with nia_col:
-                st.write("NIA", key=taquilla[6])
+                st.write("NIA")
                 st.write(taquilla[6])
             with estado_col:
-                index = ["Reservada", "Ocupada", "No Disponible"].index(taquilla[5])
-                new_state = st.selectbox("Estado", options=["Reservada", "Ocupada", "No Disponible"], index=index,
-                                         key=taquilla[5])
+                # Para sacar un switch bi-estado de los estados de la taquilla, se utiliza un toggle.
+                # Se le pasa el estado actual de la taquilla, y se le pasa el estado que se ha seleccionado.
+                # Si estos son distintos, se actualiza la base de datos.
+                st.write("Estado")
+                status = ["Reservada", "Ocupada"].index(taquilla[5])
+                pagado_status = st.toggle("Pagado", value=status, key=taquilla[5] + "toggle")
+                new_state = ["Reservada", "Ocupada"][pagado_status]
+                if pagado_status != status:
+                    try:
+                        update_taquilla_estado(taquilla[4], new_state)
+                        st.success("Cambiado a " + new_state)
+                        st.toast("Cambiado a " + new_state, icon='🎉')
+                        logging.info(f'{st.session_state["name"]} ha cambiado el estado de la taquilla de {taquilla[6]} de {taquilla[4]} a {new_state}')
+                    except Exception as exc:
+                        st.error("No se ha podido cambiar el estado")
+                        st.error(exc)
+
             with nombre_col:
-                st.write("Nombre", key=taquilla[7])
+                st.write("Nombre")
                 st.write(taquilla[7])
             with apellidos_col:
-                st.write("Apellidos", key=taquilla[8])
+                st.write("Apellidos")
                 st.write(taquilla[8])
             with codigo_col:
-                st.write("Código", key=taquilla[9])
+                st.write("Código")
                 st.write(taquilla[9])
 
             # Si se pulsa el botón de "Cambiar estado", se cambia el estado de la taquilla al seleccionado.
-            if st.button("Cambiar estado"):
-                try:
-                    update_taquilla_estado(taquilla[4], new_state)
-                    st.success("Cambiado a " + new_state)
-                    st.toast("Cambiado a " + new_state, icon='🎉')
+            #if st.button("Cambiar estado"):
+            #    try:
+            #        update_taquilla_estado(taquilla[4], new_state)
+            #        st.success("Cambiado a " + new_state)
+            #        st.toast("Cambiado a " + new_state, icon='🎉')
 
-                    logging.info(
-                        f'{st.session_state["name"]} ha cambiado el estado de la taquilla de {taquilla[6]} de {taquilla[4]} a {new_state}')
-                except Exception as exc:
-                    st.error("No se ha podido cambiar el estado")
-                    st.error(exc)
-            else:
-                st.error("No se ha encontrado tu reserva")
+            #        logging.info(
+            #            f'{st.session_state["name"]} ha cambiado el estado de la taquilla de {taquilla[6]} de {taquilla[4]} a {new_state}')
+            #    except Exception as exc:
+            #        st.error("No se ha podido cambiar el estado")
+            #        st.error(exc)
+        else:
+            st.error("No se ha encontrado tu reserva")
 
     # Pestaña de modificar datos de la reserva. Se puede cambiar el NIA, el estado, el nombre y los apellidos de la
     # reserva.
