@@ -158,16 +158,32 @@ elif st.session_state["authentication_status"]:
         if taquilla_mod is None:
             taquilla_mod = get_info_taquilla_codigo(taquilla_mod_estado)
         if taquilla_mod:
+            taquilla_mod = list(taquilla_mod)
             taquilla_col, nia_col, estado_col, nombre_col, apellidos_col, codigo_col = st.columns(6)
             with taquilla_col:
                 st.write("Taquilla")
                 st.write(taquilla_mod[4])
             with nia_col:
                 new_nia = st.text_input("NIA", value=taquilla_mod[6])
+
             with estado_col:
-                index = ["Reservada", "Ocupada", "No Disponible"].index(taquilla_mod[5])
-                new_state = st.selectbox("Estado", options=["Reservada", "Ocupada", "No Disponible"], index=index,
-                                         key="estado")
+                # Para sacar un switch bi-estado de los estados de la taquilla, se utiliza un toggle.
+                # Se le pasa el estado actual de la taquilla, y se le pasa el estado que se ha seleccionado.
+                # Si estos son distintos, se actualiza la base de datos.
+                st.write("Estado")
+                status = ["Reservada", "Ocupada"].index(taquilla_mod[5])
+                pagado_status = st.toggle("Pagado", value=status, key=taquilla_mod[5] + "toggle2")
+                new_state = ["Reservada", "Ocupada"][pagado_status]
+                if pagado_status != status:
+                    try:
+                        update_taquilla_estado(taquilla_mod[4], new_state)
+                        st.success("Cambiado a " + new_state)
+                        st.toast("Cambiado a " + new_state, icon='🎉')
+                        logging.info(f'{st.session_state["name"]} ha cambiado el estado de la taquilla de {taquilla[6]} de {taquilla[4]} a {new_state}')
+                    except Exception as exc:
+                        st.error("No se ha podido cambiar el estado")
+                        st.error(exc)
+
             with nombre_col:
                 taquilla_mod[7] = st.text_input("Nombre", value=taquilla_mod[7])
             with apellidos_col:
