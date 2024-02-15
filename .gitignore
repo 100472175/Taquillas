@@ -2,8 +2,12 @@
 ./idea
 ./.idea
 .idea
-__pycache__
+__pycache__/
 .DS_Store
 temp
 nohup.out
-database.db
+database/database.db
+*.pyc
+confirmation/__pycache__
+database/__pycache__
+logs/app.log
