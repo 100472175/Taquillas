@@ -70,6 +70,7 @@ def ocupacion_draw(edificio_key, planta_key):
         # Crea un dataframe con las taquillas de cada bloque
         df = pd.DataFrame(bloque)
 
+        st.subheader(bloque_key + ":")
         # Crea una barra de progreso con el porcentaje de taquillas ocupadas, que ocupe un 33% de la pantalla
         barra_col, _, _ = st.columns(3)
         with barra_col:
@@ -78,9 +79,9 @@ def ocupacion_draw(edificio_key, planta_key):
             ocupadas_por_bloque = taquillas_ocupadas_por_bloque(edificio_key, planta_key, bloque_key)
             totales_por_bloque = taquillas_totales_por_bloque(edificio_key, planta_key, bloque_key)
             # Calculamos el porcentaje de taquillas ocupadas en ese bloque y se muestra en una barra de progreso
-            number = int(ocupadas_por_bloque / totales_por_bloque)
-            # Se muestra el porcentaje de taquillas ocupadas en el bloque por 100
-            st.progress(number * 100)
+            number = ocupadas_por_bloque / totales_por_bloque
+            # Se muestra el porcentaje de taquillas ocupadas
+            st.progress(number, text=f"{ocupadas_por_bloque}/{totales_por_bloque} taquillas ocupadas")
             # Se muestra el número de taquillas disponibles y se muestra un mensaje de alerta si quedan pocas
             disponibles = totales_por_bloque - ocupadas_por_bloque
             if disponibles == 1:
@@ -92,5 +93,5 @@ def ocupacion_draw(edificio_key, planta_key):
                     f":red[**¡Cuidado! El bloque está casi lleno, quedan solo {disponibles} taquillas disponibles**]")
 
         # Añade un título a cada tabla y muestra la tabla, coloreando las celdas según su disponibilidad
-        st.subheader(bloque_key + ":")
+
         st.dataframe(df.style.map(colorea_disponibilidad))

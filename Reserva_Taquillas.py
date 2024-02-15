@@ -172,6 +172,9 @@ with reserva_tab:
 with ocupacion_tab:
     refresh = True
     st.subheader("Consulta la ocupación de los bloques eligiendo un edificio y una planta")
+    st.write("Las casillas en **:red[rojo]** indican que esa taquilla está ocupada, las casillas"
+             " en **:green[verde]** indican que esa taquilla está libre. Si está en :grey[gris],"
+             " no está disponible para reservar.")
 
     edificio_tab_sel, planta_tab_sel, refresh_tab_sel, image_tab = st.columns([1, 1, 1, 2])
     with edificio_tab_sel:
@@ -185,6 +188,7 @@ with ocupacion_tab:
         # Toggle para mostrar la guía en imágenes de la localización de bloques por planta
         if st.toggle("Mostrar guía de bloques por planta", key="guia", value=True):
             st.image(f"images/{edificio}.{planta}.jpg")
+
 
     if refresh:
         ocupacion_draw(edificio, planta)
