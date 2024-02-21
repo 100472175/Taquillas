@@ -55,7 +55,7 @@ with reserva_tab:
             st.title("Reserva tu taquilla:")
             st.markdown(
                 "Ten en cuenta que las letras **P** y **G** indican el tamaño **P**equeño o **G**rande respectivamente.  \n"
-                "El precio de las taquillas es de 6€ para las grandes y 4€ para las pequeñas para el curso completo.  \n"
+                "El precio de las taquillas es de 6€ para las grandes y 4€ para las pequeñas para el curso completo y 3€ y 2€ para el segundo cuatrimestre respectivamente. \n"
                 "El pago se realizará en efectivo en la Delegación de Estudiantes de la EPS.")
         with img_01:
             # Imagen de la página
