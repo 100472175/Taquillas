@@ -57,7 +57,7 @@ elif st.session_state["authentication_status"]:
     # Pone el nombre del usuario en la sesión y generamos las pestañas
     st.write(f'Te damos la bienvenida, *{st.session_state["name"]}*')
     estado_tab, mod_data_tab, change_taquilla_tab, del_tab, general_view_tab, reset_tab, manage_credentials_tab, osciloscopios_tab = st.tabs(
-        [":blue[**Cambiar estado**]", ":blue[**Modificar Datos Reserva**]", ":blue[**Modificar Taquilla**]",
+        [":blue[**Cambiar estado**]", ":blue[**Modificar Datos Reserva**]", ":blue[**Cambiar Taquilla**]",
          ":blue[**Eliminar Reserva**]", ":blue[**Vista General**]",
          ":blue[**Reset**]", ":blue[**Gestión de credenciales**]", ":blue[**Osciloscopios**]"])
     css = '''
@@ -220,8 +220,8 @@ elif st.session_state["authentication_status"]:
     # el estado, el nombre y los apellidos de la reserva. Para cambiar el NIA, el estado, el nombre y los apellidos de
     # la reserva, se debe utilizar la pestaña de "Modificar datos de la reserva".
     with change_taquilla_tab:
-        st.title("Modificar taquilla")
-        st.write("Aquí puedes modificar los datos de una taquilla concreta.")
+        st.title("Cambiar taquilla")
+        st.write("Aquí puedes cambiar la taquilla que se ha reservado.")
 
         nia_mod_col, taquilla_mod_col = st.columns(2)
         with nia_mod_col:
