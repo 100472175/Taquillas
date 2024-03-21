@@ -11,6 +11,7 @@ from streamlit_extras.switch_page_button import switch_page
 from time import sleep
 from yaml.loader import SafeLoader
 from database.bd_osciloscopio_generate import *
+from authentication.credential_manager import *
 
 # Información de la página:
 # La página está dividida en pestañas, cada una con una funcionalidad diferente. La mayoría de veces, el delegado solo
@@ -109,7 +110,8 @@ elif st.session_state["authentication_status"]:
                         update_taquilla_estado(taquilla[4], new_state)
                         st.success("Cambiado a " + new_state)
                         st.toast("Cambiado a " + new_state, icon='🎉')
-                        logging.info(f'{st.session_state["name"]} ha cambiado el estado de la taquilla de {taquilla[6]} de {taquilla[4]} a {new_state}')
+                        logging.info(
+                            f'{st.session_state["name"]} ha cambiado el estado de la taquilla de {taquilla[6]} de {taquilla[4]} a {new_state}')
                     except Exception as exc:
                         st.error("No se ha podido cambiar el estado")
                         st.error(exc)
@@ -125,7 +127,7 @@ elif st.session_state["authentication_status"]:
                 st.write(taquilla[9])
 
             # Si se pulsa el botón de "Cambiar estado", se cambia el estado de la taquilla al seleccionado.
-            #if st.button("Cambiar estado"):
+            # if st.button("Cambiar estado"):
             #    try:
             #        update_taquilla_estado(taquilla[4], new_state)
             #        st.success("Cambiado a " + new_state)
@@ -179,7 +181,8 @@ elif st.session_state["authentication_status"]:
                         update_taquilla_estado(taquilla_mod[4], new_state)
                         st.success("Cambiado a " + new_state)
                         st.toast("Cambiado a " + new_state, icon='🎉')
-                        logging.info(f'{st.session_state["name"]} ha cambiado el estado de la taquilla de {taquilla[6]} de {taquilla[4]} a {new_state}')
+                        logging.info(
+                            f'{st.session_state["name"]} ha cambiado el estado de la taquilla de {taquilla[6]} de {taquilla[4]} a {new_state}')
                     except Exception as exc:
                         st.error("No se ha podido cambiar el estado")
                         st.error(exc)
@@ -193,7 +196,7 @@ elif st.session_state["authentication_status"]:
                 st.write(str(taquilla_mod[9]))
                 if st.button("Generar nuevo código"):
                     code = generate_code()
-                    send_email_verification(taquilla_mod[7], taquilla_mod[6], taquilla_mod[4], code)
+                    send_email_password(taquilla_mod[7], taquilla_mod[6], taquilla_mod[4], code)
                     update_taquilla_codigo(taquilla_mod[4], code)
                     st.success("Código generado y enviado al correo")
                     sleep(1)
@@ -281,7 +284,7 @@ elif st.session_state["authentication_status"]:
                     f'{st.session_state["name"]} ha cambiado la taquilla {taquilla_cambio[4]} a {taquilla}')
 
                 # Enviamos el correo electrónico con el código de verificación
-                send_email_verification(nombre, nia, taquilla, code)
+                send_email_password(nombre, nia, taquilla, code)
 
                 # Mostramos la información de la reserva, mostramos mensaje temporal y lanzamos los confetis
                 content = f"Reserva realizada con éxito :partying_face:  \n" \
@@ -426,6 +429,7 @@ elif st.session_state["authentication_status"]:
             else:
                 st.error("Contraseña incorrecta")
 
+            st.subheader("Descarga la base de datos")
             with open("database/database.db", "rb") as fp:
                 btn_db = st.download_button(
                     label="Descarga la base de datos",
@@ -446,7 +450,7 @@ elif st.session_state["authentication_status"]:
                 logging.info(f'{st.session_state["name"]} ha subido una nueva base de datos')
 
             # Descarga los logs, al igual que la base de datos, como archivo .log
-            st.subheader("Descargar los logs de los delegados")
+            st.subheader("Descargar la audtoría de accesos")
             with open("logs/app.log", "rb") as fp:
                 btn_logs = st.download_button(
                     label="Descarga los logs de los delegados",
@@ -467,11 +471,53 @@ elif st.session_state["authentication_status"]:
 
     # Página para añadir usuarios a la aplicación, todavía en proceso de construcción.
     with manage_credentials_tab:
-        st.title("Gestión de credenciales")
-        if rol == "escuela":
-            st.text("In development, subir un excel y que se generen todas las contraseñas")
-        else:
+        if rol != "escuela":
             st.subheader("No tienes permiso para ejecutar esta acción")
+        else:
+            st.title("Gestión de credenciales - Dar de alta a un usuario")
+            st.write("Para añadir un usuario, introduce el Nombre y apellidos, el NIA y la contraseña. \n\n"
+                     "Si no se introduce una contraseña, se generará una aleatoria. \n\n"
+                     "Independientemente, se enviará al correo del usuario.")
+            # Subdivide the page in 4 columns
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                nombre_completo = st.text_input("Nombre y Apellidos", key="name_user_reg")
+            with col2:
+                usuario = st.text_input("Usuario (n_apellido)", key="user_user_reg")
+            with col3:
+                nia = st.text_input("NIA", key="nia_user_reg")
+            with col4:
+                passwd = st.text_input("Contraseña", type="password", key="passwd_user_reg")
+
+            if st.button("Añadir usuario"):
+                # If the password is empty, we generate a random password
+                if passwd == "":
+                    passwd = generate_password()
+                # We hash the password
+                # We add the user to the credentials file and send an email with the password
+                try:
+                    insertar_user(user=usuario, name=nombre_completo, email=f"{nia}@alumnos.uc3m.es", psswd=passwd)
+                    send_email_password(nombre_completo, nia, usuario, passwd)
+                    st.success("Usuario añadido con éxito")
+                    logging.info(f'{st.session_state["name"]} ha añadido al usuario {usuario}')
+                except Exception as exc:
+                    st.error("No se ha podido añadir el usuario")
+                    st.error(exc)
+
+            st.title("Gestión de credenciales - Eliminar un usuario")
+            st.text("Para eliminar un usuario, introduce el usuario")
+            # Generate a dropdown with the list of users
+            col11, col22, col33, col44 = st.columns(4)
+            with col11:
+                user_del = st.selectbox("Selecciona el usuario a eliminar", get_users_list())
+
+            if st.button("Eliminar usuario"):
+                try:
+                    delete_user(user_del)
+                    st.success("Usuario eliminado con éxito")
+                    logging.info(f'{st.session_state["name"]} ha eliminado al usuario {user_del}')
+                except Exception as exc:
+                    st.error(f"No se ha podido eliminar el usuario {exc}")
 
     # Página no relacionada con la aplicación de taquillas, pero si con las reservas que ofrece
     # la delegación de estudiantes, que permite eliminar la tabla que contiene las reservas y volver a crear la tabla.

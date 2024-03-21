@@ -10,10 +10,10 @@ Script para enviar un email a todos los alumnos de la base de datos con su usuar
 """
 
 
-def send_email_verification(nombre, nia, usuario, passwd):
+def send_email_password(nombre, nia, usuario, passwd):
     # Configuración del email
     config = configparser.ConfigParser()
-    config.read("../config.ini")
+    config.read("config.ini")
 
     # Configuración del servidor SMTP
     smtp_server = 'smtp.gmail.com'
@@ -66,6 +66,6 @@ if __name__ == "__main__":
     sheet = archivo["Hoja1"]
     i = 2
     while sheet[f"A{i}"].value is not None:
-        send_email_verification(sheet[f"A{i}"].value, sheet[f"C{i}"].value, sheet[f"B{i}"].value, sheet[f"E{i}"].value)
+        send_email_password(sheet[f"A{i}"].value, sheet[f"C{i}"].value, sheet[f"B{i}"].value, sheet[f"E{i}"].value)
         i += 1
 

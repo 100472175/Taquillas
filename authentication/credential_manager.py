@@ -3,6 +3,7 @@ import string
 import sqlite3 as sql
 import openpyxl
 import streamlit_authenticator as stauth
+from authentication.send_passwords_email import send_email_password
 
 
 def crear_tabla_credenciales() -> None:
@@ -33,7 +34,17 @@ def borrar_tabla_credenciales() -> None:
     base.close()
 
 
-def insertar_user(user, name, email, rol="despacho", psswd=None) -> tuple:
+def hash_password(password) -> str:
+    """
+    Hashea una contraseña
+    :param password: Contraseña a hashear
+    :return: Contraseña hasheada
+    """
+    hashed = stauth.Hasher([password]).generate()
+    return hashed[0]
+
+
+def insertar_user(user: str, name: str, email, rol="despacho", psswd=None) -> None:
     """
     Inserta un usuario en la base de datos
     :param user: Nombre del usuario, con el formato n_apellido
@@ -43,39 +54,66 @@ def insertar_user(user, name, email, rol="despacho", psswd=None) -> tuple:
     :param psswd: Contraseña del usuario, si no se pone se genera una aleatoria
     :return:
     """
-    """
-    #Importante: ACTUALMENTE NO FUNCIONA, Y SOLO DEVUELVE LA CONTRASEÑA Y EL HASH PARA QUE SE PUEDA INSERTAR EN CONFIG.YAML
-    Cuando se quiera cambiar, hay que cambiar las lineas comentadas por las no comentadas.
-    """
-    if psswd is None:
+    if not psswd:
         psswd = generate_password()
-    else:
-        psswd = psswd
     hashed = stauth.Hasher([psswd]).generate()
     if rol != "escuela":
         rol = "despacho"
-    # base = sql.connect("database/database.db")
-    # bd = base.cursor()
-    # bd.execute("INSERT INTO credenciales values(?, ?, ?, ?, ?)", (user, name, email, rol, hashed[0]))
-    # base.commit()
-    # base.close()
-    # with open("authentication/config.yaml", "r") as f:
-    #     config = stauth.yaml.load(f, Loader=stauth.yaml.FullLoader)
-    # config["credentials"]["usernames"][user] = {'email': f"{nia}@alumnos.uc3m.es", 'name': name, 'role': rol, 'password': hashed[0]}
-    return psswd, hashed[0]
+
+    # Open the file in read mode
+    with open("authentication/config.yaml", "r") as f:
+        # Load the file
+        config = stauth.yaml.load(f, Loader=stauth.yaml.FullLoader)
+        print(config)
+    # Add the new user
+    config["credentials"]["usernames"][user] = {'email': email, 'name': name, 'rol': rol, 'password': hashed[0]}
+    print("-------------------" * 4)
+    print(config)
+    # Open the file in write mode to overwrite the previous content
+    with open("authentication/config.yaml", "w") as f:
+        stauth.yaml.dump(config, f)
 
 
-def del_user(user) -> None:
+def delete_user(user) -> None:
     """
     Borra un usuario de la base de datos
     :param user: Nombre de usuario, con el formato n_apellido
     :return: None
     """
-    base = sql.connect("database/database.db")
-    bd = base.cursor()
-    bd.execute("DELETE FROM credenciales WHERE usuario=?", (user,))
-    base.commit()
-    base.close()
+    with open("authentication/config.yaml", "r") as f:
+        config = stauth.yaml.load(f, Loader=stauth.yaml.FullLoader)
+    if user in config["credentials"]["usernames"]:
+        if config["credentials"]["usernames"][user]["rol"] != "escuela":
+            del config["credentials"]["usernames"][user]
+        else:
+            raise ValueError("No se puede borrar un usuario de que tenga rol escuela")
+    else:
+        raise ValueError("El usuario solicitado no existe")
+
+    with open("authentication/config.yaml", "w") as f:
+        stauth.yaml.dump(config, f)
+
+
+def get_user(user) -> dict | None:
+    """
+    Devuelve la información de un usuario
+    :param user: Nombre de
+    :return:
+    """
+    with open("authentication/config.yaml", "r") as f:
+        config = stauth.yaml.load(f, Loader=stauth.yaml.FullLoader)
+    return config["credentials"]["usernames"][user]
+
+
+def get_users_list() -> list:
+    """
+    Devuelve una lista con los nombres de todos los usuarios
+    :return:
+    """
+    with open("authentication/config.yaml", "r") as f:
+        config = stauth.yaml.load(f, Loader=stauth.yaml.FullLoader)
+    # Filter the users that are not from the school
+    return [user for user in config["credentials"]["usernames"].keys() if config["credentials"]["usernames"][user]["rol"] != "escuela"]
 
 
 def generate_password() -> str:

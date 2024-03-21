@@ -361,22 +361,18 @@ def reset_database() -> None:
     """
     conn = create_connection()
     cur = conn.cursor()
-    cur.execute("""UPDATE Taquillas
-SET NIA = NULL, NOMBRE = NULL, APELLIDOS = NULL, CODIGO = NULL,
+    cur.execute("""UPDATE Taquillas 
+SET NIA = NULL, NOMBRE = NULL, APELLIDOS = NULL, CODIGO = NULL, TIMESTAMP = NULL,
     ESTADO = CASE
                 WHEN ESTADO <> 'No Disponible' THEN 'Libre'
                 ELSE ESTADO
-             END;
+             END
+    WHERE ASOCIACION = '0';
     """)
-    cur.execute("SELECT COUNT(*) FROM Taquillas WHERE ESTADO <> 'Libre' AND ESTADO <> 'No Disponible'")
     rows = cur.fetchall()
     conn.commit()
     conn.close()
-    if rows[0][0] == 0:
-        return None
-    else:
-        raise Exception("Error al resetear la base de datos. Han quedado taquillas ocupadas, rows: ", rows)
-
+    return None
 
 def taquillas_pasadas_de_tiempo() -> pd.DataFrame:
     """
