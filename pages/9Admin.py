@@ -187,6 +187,21 @@ elif st.session_state["authentication_status"]:
                         st.error("No se ha podido cambiar el estado")
                         st.error(exc)
 
+                st.write("Asociación:")
+                status_asoci = int(taquilla_mod[11])
+                asoci_status = st.toggle("Asociado", value=status_asoci, key=str(taquilla_mod[11]) + "toggle_asoci")
+                print(asoci_status, status_asoci)
+                if asoci_status != status_asoci:
+                    stat_asoci = "Asociación" if asoci_status else "No Asociación"
+                    try:
+                        update_taquilla_asociacion(taquilla_mod[4], asoci_status)
+                        st.success("Cambiado a " + stat_asoci)
+                        st.toast("Cambiado a " + stat_asoci, icon='🎉')
+                        logging.info(
+                            f'{st.session_state["name"]} ha cambiado una taquilla a ser asociación a {stat_asoci}')
+                    except Exception as exc:
+                        st.error(exc)
+
             with nombre_col:
                 taquilla_mod[7] = st.text_input("Nombre", value=taquilla_mod[7])
             with apellidos_col:
@@ -303,7 +318,6 @@ elif st.session_state["authentication_status"]:
         st.title("Elimina una reserva")
         st.warning("¡El borrado de una reserva no se puede deshacer!")
         nia_del_col, taquilla_del_col = st.columns(2)
-        # TODO: Hacer esto una función, para reducir el número de líneas de código.
         with nia_del_col:
             nia_del_estado = st.text_input("Introduce el NIA de la reserva a eliminar", key="del_nia")
         with taquilla_del_col:

@@ -231,8 +231,6 @@ def get_info_taquilla_codigo(taquilla) -> list | None:
     conn.close()
     if len(rows) == 0:
         return None
-    result = [i for i in rows]
-    # TODO: Remove the [0] for the multiple reservation case
     return rows[0]
 
 
@@ -249,6 +247,19 @@ def update_taquilla_estado(taquilla, estado) -> None:
     conn.commit()
     conn.close()
 
+
+def update_taquilla_asociacion(taquilla, asociacion) -> None:
+    """
+    Actualiza la asociación de una taquilla, para que se pueda comprobar que el usuario tiene el NIA que dice tener
+    :param taquilla:
+    :param asociacion:
+    :return:
+    """
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute("UPDATE Taquillas SET ASOCIACION = ? WHERE TAQUILLA = ?", (asociacion, taquilla,))
+    conn.commit()
+    conn.close()
 
 def update_taquilla_codigo(taquilla, codigo) -> None:
     """
