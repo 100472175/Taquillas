@@ -190,7 +190,6 @@ elif st.session_state["authentication_status"]:
                 st.write("Asociación:")
                 status_asoci = int(taquilla_mod[11])
                 asoci_status = st.toggle("Asociado", value=status_asoci, key=str(taquilla_mod[11]) + "toggle_asoci")
-                print(asoci_status, status_asoci)
                 if asoci_status != status_asoci:
                     stat_asoci = "Asociación" if asoci_status else "No Asociación"
                     try:
