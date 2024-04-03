@@ -502,7 +502,7 @@ elif st.session_state["authentication_status"]:
             with col4:
                 passwd = st.text_input("Contraseña", type="password", key="passwd_user_reg")
 
-            if st.button("Añadir usuario"):
+            if st.button("Añadir usuario") and re.match(r"100[0-9]{6}", nia) and re.match(r"[a-z]_[a-z]+", usuario):
                 # If the password is empty, we generate a random password
                 if passwd == "":
                     passwd = generate_password()
