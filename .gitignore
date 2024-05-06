@@ -6,7 +6,7 @@ __pycache__/
 .DS_Store
 temp
 nohup.out
-database/database.db
+/database/database.db
 *.pyc
 confirmation/__pycache__
 database/__pycache__
