@@ -7,19 +7,28 @@
 			//if (!$page.data.session) {
 			//	goto('/taquillas');
 			//}
-			goto('/taquillas');
+			//goto('/taquillas');
 		});
+		
+	function goto_taquillas() {
+		goto('/taquillas');
+	};
+	
+	function goto_osciloscopios() {
+		goto('/osciloscopios');
+	};
+	
+	function goto_encuestas() {
+		goto('/encuestas')
+	}
 
 </script>
 
-
 <div>
-	<h1 class="text-5xl text-center w-full my-8">Servicios de la Delegación</h1>
-	<div class="grid-cols-max">
-		<button class="text-green-500 text-3xl px-10 py-3 bg-black rounded-2xl">Taquillas</button>
-		<button class="text-green-500 text-3xl px-10 py-3 bg-black rounded-2xl">Osciloscopio</button>
-		<button class="text-green-500 text-3xl px-10 py-3 bg-black rounded-2xl">Encuestas</button>
+	<h1 class="text-5xl text-center w-full my-8">Servicios de Delegación</h1>
+	<div class="grid-rows-3 grid place-items-center">
+		<button class="text-white text-3xl px-10 py-3 bg-[#3BC4A0] hover:bg-[#FF6D2E] rounded-2xl w-1/3 my-5 mt-10" on:click={goto_taquillas}>Taquillas</button>
+		<button class="text-white text-3xl px-10 py-3 bg-[#3BC4A0] hover:bg-[#FF6D2E] rounded-2xl w-1/3 my-5">Osciloscopio</button>
+		<button class="text-white text-3xl px-10 py-3 bg-[#3BC4A0] hover:bg-[#FF6D2E] rounded-2xl w-1/3 my-5">Encuestas</button>
 	</div>
 </div>
-<p>Visit <a class="underline text-red-500" href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-<button on:click={() => console.log("button clicked")} class="btn-xl bg-black text-blue-400 rounded-2xl shadow-2xl"> Test </button>
