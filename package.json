@@ -37,6 +37,9 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@sveltejs/adapter-node": "^5.0.1"
+		"@auth/core": "^0.31.0",
+		"@auth/sveltekit": "^1.1.0",
+		"@sveltejs/adapter-node": "^5.0.1",
+		"dotenv": "^16.4.5"
 	}
 }

@@ -1,3 +1,18 @@
+<script>
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+
+	onMount(() => {
+			//if (!$page.data.session) {
+			//	goto('/taquillas');
+			//}
+			goto('/taquillas');
+		});
+
+</script>
+
+
 <div>
 	<h1 class="text-5xl text-center w-full my-8">Servicios de la Delegación</h1>
 	<div class="grid-cols-max">
@@ -8,4 +23,3 @@
 </div>
 <p>Visit <a class="underline text-red-500" href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 <button on:click={() => console.log("button clicked")} class="btn-xl bg-black text-blue-400 rounded-2xl shadow-2xl"> Test </button>
-  

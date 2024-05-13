@@ -1,5 +1,5 @@
 <script>
-    import "../app.css";
+	import '../app.css';
 </script>
 
 <header class="bg-[#3BC4A0] grid grid-cols-5">
@@ -9,4 +9,5 @@
 	<div></div>
 	<button class="bg-white rounded-4xl h-8 mt-2 mr-2">Log-in</button>
 </header>
+
 <slot />
