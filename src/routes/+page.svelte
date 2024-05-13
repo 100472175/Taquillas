@@ -2,14 +2,14 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-
+	
 	onMount(() => {
 			//if (!$page.data.session) {
 			//	goto('/taquillas');
 			//}
 			//goto('/taquillas');
 		});
-		
+	
 	function goto_taquillas() {
 		goto('/taquillas');
 	};
@@ -20,8 +20,8 @@
 	
 	function goto_encuestas() {
 		goto('/encuestas')
-	}
-
+	};
+	
 </script>
 
 <div>
