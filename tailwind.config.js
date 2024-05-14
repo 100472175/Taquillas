@@ -28,7 +28,7 @@ const config = {
 				disappear: {
 				  "0%": { marginLeft: "0vw"},
 				  "100%": { marginLeft: "-50vw"},
-				}
+				},
 			},
 			animation: {
 				"appear": "appear 0.8s 1",

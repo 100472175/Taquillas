@@ -33,17 +33,18 @@
 			menu_display = !menu_display;
 			if (menu_display) {
 				menu.style.display = "block";
-				menu.style.animation = "appear 1s 1";
+				menu.classList.add("animate-appear");
 			}
 			else {
-				menu.style.animation = "disappear 1s 1";
+				menu.classList.add("animate-disappear");
 				setTimeout(() => {
 					menu.style.display = "none";			
-				}, 850);
+				}, 750);
 			}
 			setTimeout(() => {
 				changing = false;
-			}, 1000);
+				menu.classList.remove("animate-appear", "animate-disappear");
+			}, 800);
 		}
    	}
 </script>
