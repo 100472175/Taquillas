@@ -17,15 +17,34 @@
 	
 	let name = "";
 	let image = null;
-	let menu = false;
 	
     if ($page.data.session) {
         name = $page.data.session?.user?.name;
         image = $page.data.session?.user?.image;
     }
    
+   	let menu;
+	let menu_display = false;
+	let changing = false;
+   	
    	function toggle_menu() {
-   		menu = !menu;
+		if (!changing) {
+			changing = true;
+			menu_display = !menu_display;
+			if (menu_display) {
+				menu.style.display = "block";
+				menu.style.animation = "appear 1s 1";
+			}
+			else {
+				menu.style.animation = "disappear 1s 1";
+				setTimeout(() => {
+					menu.style.display = "none";			
+				}, 850);
+			}
+			setTimeout(() => {
+				changing = false;
+			}, 1000);
+		}
    	}
 </script>
 
@@ -44,12 +63,10 @@
 	{/if}
 </header>
 
-{#if menu}
-	<div class="bg-[#F3F3F3] w-1/4 h-screen border-4 absolute">
-		<button class="bg-[#3BC4A0] text-center w-full h-20" on:click={() => {goto_page('./');}}><h1 class="text-2xl text-white hover:underline">Delegación EPS - Home</h1></button>
-		<button class="bg-[#3BC4A0] text-center w-full mt-1 h-20" on:click={() => {goto_page('./taquillas');}}><h1 class="text-2xl text-white hover:underline">Taquillas</h1></button>
-		<button class="bg-[#3BC4A0] text-center w-full mt-1 h-20" on:click={() => {goto_page('./');}}><h1 class="text-2xl text-white hover:underline">Osciloscopios</h1></button>
-		<button class="bg-[#3BC4A0] text-center w-full mt-1 h-20" on:click={() => {goto_page('./');}}><h1 class="text-2xl text-white hover:underline">Encuestas</h1></button>
-	</div>
-{/if}
+<div bind:this={menu} class="bg-[#F3F3F3] w-1/4 h-screen border-4 absolute hidden">
+	<button class="bg-[#3BC4A0] text-center w-full h-20" on:click={() => {goto_page('./');}}><h1 class="text-2xl text-white hover:underline">Delegación EPS - Home</h1></button>
+	<button class="bg-[#3BC4A0] text-center w-full mt-1 h-20" on:click={() => {goto_page('./taquillas');}}><h1 class="text-2xl text-white hover:underline">Taquillas</h1></button>
+	<button class="bg-[#3BC4A0] text-center w-full mt-1 h-20" on:click={() => {goto_page('./');}}><h1 class="text-2xl text-white hover:underline">Osciloscopios</h1></button>
+	<button class="bg-[#3BC4A0] text-center w-full mt-1 h-20" on:click={() => {goto_page('./encuestas');}}><h1 class="text-2xl text-white hover:underline">Encuestas</h1></button>
+</div>
 <slot />

@@ -20,6 +20,20 @@ const config = {
 			fontFamily: {
 				'montserrat': ['Montserrat', 'sans-serif']
 			},
+			keyframes: {
+      	appear: {
+		      "0%": { marginLeft: "-50vw"},
+					"100%": {marginLeft: "0vw"},
+				},
+				disappear: {
+				  "0%": { marginLeft: "0vw"},
+				  "100%": { marginLeft: "-50vw"},
+				}
+			},
+			animation: {
+				"appear": "appear 0.8s 1",
+				"disappear": "disappear 0.8s 1",
+			},
 		},
 	},
 	plugins: [
