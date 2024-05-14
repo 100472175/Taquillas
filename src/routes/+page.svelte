@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { goto_page} from "./+layout.svelte";
+	import { goto_page} from "./old_+layout.svelte";
 	onMount(() => {
 			//if (!$page.data.session) {
 			//	goto('/taquillas');
