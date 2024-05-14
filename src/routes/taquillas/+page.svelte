@@ -7,12 +7,12 @@
 			<p>Edificio 2. Sabatini</p>
 		</div>
 	</div>
-    <div class="grid-cols-2 grid place-items-center">
+	<div class="grid-cols-2 grid place-items-center">
 		<div class="w-4/6 h-10 bg-black text-white h-48 rounded-2xl">
 			<p>Edificio 4. Torres Quevedo</p>
 		</div>
 		<div class="w-4/6 h-10 bg-black text-white h-48 rounded-2xl">
 			<p>Edificio 7. Juan Benet</p>
-		</div>		
+		</div>
 	</div>
 </div>
