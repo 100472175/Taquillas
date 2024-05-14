@@ -1,6 +1,8 @@
 <script>
-  import { onMount } from 'svelte';
+  import { afterUpdate, onMount } from 'svelte';
   import Papa from "papaparse";
+	import { goto } from '$app/navigation';
+  import Chart from "chart.js/auto";
 
   const FCSJ = "26.26%";
   const FHCD = "33.80%";
@@ -120,7 +122,6 @@ Grado en Matemática Aplicada y Computación,40.72%`
     colors_array[1] = "#d2cdcd";
     colors_array[2] = "#d6772e";
 
-    Chart.defaults.font.family = "Montserrat";
 
     new Chart(document.getElementById("myChart"), {
       type: "bar",
@@ -170,12 +171,15 @@ Grado en Matemática Aplicada y Computación,40.72%`
         },
       },
     });
+
+    Chart.defaults.font.family = "Montserrat";
   }
   
-
+  
   onMount(() => {
-    processData();
+    processData();  
   });
+  
 </script>
 
 <body class=" self-center">
