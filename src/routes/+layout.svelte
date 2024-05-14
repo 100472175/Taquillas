@@ -57,14 +57,14 @@
 	<button class="font-bold-italic text-white text-center py-2 text-2xl hover:underline" on:click={() => {goto_page('./')}}>Delegación EPS</button>
 	{#if $page.data.session}
 		<p class="text-white italic mt-3 text-center">{name}</p>
-		<button on:click={() => signOut()} class="bg-red-500 text-white rounded-2xl h-8 mt-2 mr-2">Sign-out</button>
+		<button on:click={() => signOut()} class="bg-red-500 text-white rounded-2xl h-8 mt-2 ml-8 w-4/5">Sign-out</button>
 	{:else}
 		<div></div>
-		<button class="bg-white rounded-2xl h-8 mt-2 mr-2" on:click={() => signIn("google")}>Log-in</button>
+		<button class="bg-white rounded-2xl h-8 mt-2 ml-8 w-4/5" on:click={() => signIn("google")}>Log-in</button>
 	{/if}
 </header>
 
-<div bind:this={menu} class="bg-[#F3F3F3] w-1/4 h-screen border-4 absolute hidden">
+<div bind:this={menu} class="bg-[#FFFFFF] w-1/4 h-screen border-4 absolute hidden">
 	<button class="bg-[#3BC4A0] text-center w-full h-20" on:click={() => {goto_page('./');}}><h1 class="text-2xl text-white hover:underline">Delegación EPS - Home</h1></button>
 	<button class="bg-[#3BC4A0] text-center w-full mt-1 h-20" on:click={() => {goto_page('./taquillas');}}><h1 class="text-2xl text-white hover:underline">Taquillas</h1></button>
 	<button class="bg-[#3BC4A0] text-center w-full mt-1 h-20" on:click={() => {goto_page('./');}}><h1 class="text-2xl text-white hover:underline">Osciloscopios</h1></button>
