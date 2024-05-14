@@ -64,7 +64,7 @@
 	{/if}
 </header>
 
-<div bind:this={menu} class="bg-[#FFFFFF] w-1/4 h-screen border-4 absolute hidden">
+<div bind:this={menu} class="bg-[#FFFFFF] w-1/4 h-screen border-2 absolute hidden">
 	<button class="bg-[#3BC4A0] text-center w-full h-20" on:click={() => {goto_page('./');}}><h1 class="text-2xl text-white hover:underline">Delegación EPS - Home</h1></button>
 	<button class="bg-[#3BC4A0] text-center w-full mt-1 h-20" on:click={() => {goto_page('./taquillas');}}><h1 class="text-2xl text-white hover:underline">Taquillas</h1></button>
 	<button class="bg-[#3BC4A0] text-center w-full mt-1 h-20" on:click={() => {goto_page('./');}}><h1 class="text-2xl text-white hover:underline">Osciloscopios</h1></button>
