@@ -16,7 +16,11 @@ const config = {
 		)
 	],
 	theme: {
-		extend: {},
+		extend: {
+			fontFamily: {
+				'montserrat': ['Montserrat', 'sans-serif']
+			},
+		},
 	},
 	plugins: [
 		// 4. Append the Skeleton plugin (after other plugins)

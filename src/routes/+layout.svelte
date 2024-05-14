@@ -13,7 +13,7 @@
     import '../app.css';
 
 	// $page.data.session -> {user, image, etc...}
-    console.log($page.data.session);
+    //console.log($page.data.session);
 	
 	let name = "";
 	let image = null;
@@ -28,6 +28,8 @@
    		menu = !menu;
    	}
 </script>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto&display=swap" rel="stylesheet">
 
 <header class="bg-[#3BC4A0] grid grid-cols-5">
 	<button class="bg-white w-1/3 h-8 mt-2 ml-2 rounded-2xl" on:click={toggle_menu}>Menú</button>
