@@ -13,17 +13,14 @@
 		LockOpenOutline
 
 	} from 'flowbite-svelte-icons';
-	
-	onMount(() => {
-		//if (!$page.data.session) {
-		//	goto('/taquillas');
-		//}
-		//goto('/taquillas');
-	});
+	import Konami from './Konami.svelte'
+
 </script>
 
+<Konami />
+
 <div>
-	<h1 class="text-5xl text-center w-full my-8">Servicios<a class="cursor-text" href="/entrada-supersecretisima">&nbsp</a>de Delegación</h1>
+	<h1 class="text-5xl text-center w-full my-8">Servicios de Delegación</h1>
 	<div class="grid-rows-3 grid place-items-center">
 		<Accordion class="w-1/3">
 			<AccordionItem class="text-white text-3xl px-8 py-3 bg-[#3BC4A0] mb-2 hover:bg-[#FF6D2E] rounded-2xl">	
