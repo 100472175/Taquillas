@@ -1,13 +1,3 @@
-<script>
-  import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
-  import { ImagePlaceholder } from 'flowbite-svelte';
-</script>
-
-<Breadcrumb class="mt-0" aria-label="Solid background breadcrumb example" solid>
-  <BreadcrumbItem href="/" home>Home</BreadcrumbItem>
-  <BreadcrumbItem href="taquillas">Taquillas</BreadcrumbItem>
-</Breadcrumb>
-
 <div class="grid-rows-2 grid">
 	<div class="grid-cols-2 grid place-items-center mb-8 mt-20">
 		<div class="w-4/6 h-10 bg-black text-white h-48 rounded-2xl">
@@ -26,4 +16,3 @@
 		</div>
 	</div>
 </div>
-

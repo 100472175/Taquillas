@@ -4,8 +4,9 @@
 <script lang="ts">
 	import '../app.css';
 	import { signIn, signOut } from '@auth/sveltekit/client';
-	import { goto } from '$app/navigation';
+	import { goto, afterNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { readable } from 'svelte/store';
 
 	let name: string | undefined | null = '';
 	let image: string | undefined | null = null;
@@ -18,6 +19,8 @@
 	import {
 		Avatar,
 		Button,
+		Breadcrumb,
+		BreadcrumbItem,
 		CloseButton,
 		Drawer,
 		Sidebar,
@@ -36,6 +39,7 @@
 		HomeSolid
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
+	import { onMount } from 'svelte';
 	let hidden2 = true;
 	let spanClass = 'flex-1 ms-3 whitespace-nowrap';
 	let transitionParams = {
@@ -46,17 +50,39 @@
 	function hideNavBar() {
 		hidden2 = true;
 	}
-	
+
 	let doing_login = false;
 	function login() {
 		signIn('google');
 		doing_login = true;
 	}
-	
+
 	function logout() {
 		signOut();
 		doing_login = false;
 	}
+
+	function _generateBreadcrums() {
+		const currentURL = $page.url.pathname;
+		const urlSegments = currentURL.split('/').filter((segment) => segment !== '');
+		let _breadcrumItems = [];
+		_breadcrumItems = urlSegments.map((segment) => {
+			return {
+				text: segment.charAt(0).toUpperCase() + segment.slice(1),
+				href: `/${segment}`
+			};
+		});
+		return _breadcrumItems;
+	}
+
+	let breadcrumItems: any[] = [];
+	onMount(() => {
+		breadcrumItems = _generateBreadcrums();
+	});
+
+	afterNavigate(() => {
+		breadcrumItems = _generateBreadcrums();
+	});
 </script>
 
 <link
@@ -65,15 +91,24 @@
 />
 
 <header class="bg-[#3BC4A0] grid grid-cols-5">
-	<button class="bg-white w-1/3 h-8 mt-2 ml-2 rounded-2xl" on:click={() => (hidden2 = !hidden2)}>Menú</button>
+	<button class="bg-white w-1/3 h-8 mt-2 ml-2 rounded-2xl" on:click={() => (hidden2 = !hidden2)}
+		>Menú</button
+	>
 	<img class="w-12 h-auto ml-40" src="logo.png" alt="logo" />
-	<button class="font-bold-italic text-white text-center py-2 text-2xl hover:underline" on:click={() => {goto('./');}}>Delegación EPS</button>
+	<button
+		class="font-bold-italic text-white text-center py-2 text-2xl hover:underline"
+		on:click={() => {
+			goto('./');
+		}}>Delegación EPS</button
+	>
 	{#if $page.data.session}
 		<div class="flex items-center space-x-4 rtl:space-x-reverse">
-    		<p class="text-white italic text-center">{name}</p>  			
-  			<Avatar src="{image}"/>
+			<p class="text-white italic text-center">{name}</p>
+			<Avatar src={image} />
 		</div>
-		<button on:click={() => logout()} class="bg-red-500 text-white rounded-2xl h-8 mt-2 ml-8 w-4/5">Sign-out</button>
+		<button on:click={() => logout()} class="bg-red-500 text-white rounded-2xl h-8 mt-2 ml-8 w-4/5"
+			>Sign-out</button
+		>
 	{:else}
 		{#if doing_login}
 			<div class="text-right mt-2">
@@ -82,11 +117,18 @@
 		{:else}
 			<div></div>
 		{/if}
-		<button class="bg-white rounded-2xl h-8 mt-2 ml-8 w-4/5" on:click={() => login() }>
+		<button class="bg-white rounded-2xl h-8 mt-2 ml-8 w-4/5" on:click={() => login()}>
 			Log-in
 		</button>
 	{/if}
 </header>
+
+<Breadcrumb class="mt-0" aria-label="Solid background breadcrumb example" solid>
+	<BreadcrumbItem href="/" home>Home</BreadcrumbItem>
+	{#each breadcrumItems as item}
+		<BreadcrumbItem href={item.href}>{item.text}</BreadcrumbItem>
+	{/each}
+</Breadcrumb>
 
 <Drawer transitionType="fly" {transitionParams} bind:hidden={hidden2} id="sidebar2">
 	<div class="flex items-center">
@@ -148,4 +190,5 @@
 		</SidebarWrapper>
 	</Sidebar>
 </Drawer>
+
 <slot />
