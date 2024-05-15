@@ -66,7 +66,7 @@
 
 <header class="bg-[#3BC4A0] grid grid-cols-5">
 	<button class="bg-white w-1/3 h-8 mt-2 ml-2 rounded-2xl" on:click={() => (hidden2 = !hidden2)}>Menú</button>
-	<img class="" src="" alt="logo" />
+	<img class="w-12 h-auto ml-40" src="logo.png" alt="logo" />
 	<button class="font-bold-italic text-white text-center py-2 text-2xl hover:underline" on:click={() => {goto('./');}}>Delegación EPS</button>
 	{#if $page.data.session}
 		<div class="flex items-center space-x-4 rtl:space-x-reverse">
