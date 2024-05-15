@@ -16,15 +16,17 @@
 	}
 
 	import {
-		Drawer,
+		Avatar,
 		Button,
 		CloseButton,
+		Drawer,
 		Sidebar,
 		SidebarDropdownItem,
 		SidebarDropdownWrapper,
 		SidebarGroup,
 		SidebarItem,
-		SidebarWrapper
+		SidebarWrapper,
+		Spinner
 	} from 'flowbite-svelte';
 	import {
 		ChartPieSolid,
@@ -44,6 +46,17 @@
 	function hideNavBar() {
 		hidden2 = true;
 	}
+	
+	let doing_login = false;
+	function login() {
+		signIn('google');
+		doing_login = true;
+	}
+	
+	function logout() {
+		signOut();
+		doing_login = false;
+	}
 </script>
 
 <link
@@ -52,32 +65,29 @@
 />
 
 <header class="bg-[#3BC4A0] grid grid-cols-5">
-	<button class="bg-white w-1/3 h-8 mt-2 ml-2 rounded-2xl" on:click={() => (hidden2 = !hidden2)}
-		>Menú</button
-	>
+	<button class="bg-white w-1/3 h-8 mt-2 ml-2 rounded-2xl" on:click={() => (hidden2 = !hidden2)}>Menú</button>
 	<img class="" src="" alt="logo" />
-	<button
-		class="font-bold-italic text-white text-center py-2 text-2xl hover:underline"
-		on:click={() => {
-			goto('./');
-		}}>Delegación EPS</button
-	>
+	<button class="font-bold-italic text-white text-center py-2 text-2xl hover:underline" on:click={() => {goto('./');}}>Delegación EPS</button>
 	{#if $page.data.session}
-		<p class="text-white italic mt-3 text-center">{name}</p>
-		<button on:click={() => signOut()} class="bg-red-500 text-white rounded-2xl h-8 mt-2 ml-8 w-4/5"
-			>Sign-out</button
-		>
+		<div class="flex items-center space-x-4 rtl:space-x-reverse">
+    		<p class="text-white italic text-center">{name}</p>  			
+  			<Avatar src="{image}"/>
+		</div>
+		<button on:click={() => logout()} class="bg-red-500 text-white rounded-2xl h-8 mt-2 ml-8 w-4/5">Sign-out</button>
 	{:else}
-		<div></div>
-		<button class="bg-white rounded-2xl h-8 mt-2 ml-8 w-4/5" on:click={() => signIn('google')}
-			>Log-in</button
-		>
+		{#if doing_login}
+			<div class="text-right mt-2">
+				<Spinner size={8} color="orange" />
+			</div>
+		{:else}
+			<div></div>
+		{/if}
+		<button class="bg-white rounded-2xl h-8 mt-2 ml-8 w-4/5" on:click={() => login() }>
+			Log-in
+		</button>
 	{/if}
 </header>
 
-<div class="text-center">
-	<Button on:click={() => (hidden2 = false)}>Show navigation</Button>
-</div>
 <Drawer transitionType="fly" {transitionParams} bind:hidden={hidden2} id="sidebar2">
 	<div class="flex items-center">
 		<h5

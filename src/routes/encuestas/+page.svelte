@@ -1,8 +1,9 @@
 <script>
+	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
 	import { afterUpdate, onMount } from 'svelte';
-	import Papa from 'papaparse';
 	import { goto } from '$app/navigation';
 	import Chart from 'chart.js/auto';
+	import Papa from 'papaparse';
 
 	const FCSJ = '26.26%';
 	const FHCD = '33.80%';
@@ -180,6 +181,10 @@ Grado en Matemática Aplicada y Computación,40.72%`;
 </script>
 
 <body class=" self-center">
+	<Breadcrumb class="mt-0" aria-label="Solid background breadcrumb example" solid>
+  		<BreadcrumbItem href="/" home>Home</BreadcrumbItem>
+  		<BreadcrumbItem href="encuestas">Encuestas</BreadcrumbItem>
+	</Breadcrumb>
 	<div class=" text-center">
 		<h1 class=" text-black font-bold font-montserrat">
 			Realiza la encuesta de evaluación
