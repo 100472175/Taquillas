@@ -175,15 +175,39 @@ Grado en Matemática Aplicada y Computación,40.72%`;
 		Chart.defaults.font.family = 'Montserrat';
 	}
 
+	/**
+	 * @type {any[]}
+	 */
+	let breadcrumItems = [];
+
+	function generateBreadcrums() {
+		const currentURL = window.location.href;
+		const urlSegments = currentURL.split('/').filter((segment) => segment !== '');
+
+		breadcrumItems = urlSegments.map((segment) => {
+			return {
+				text: segment.charAt(0).toUpperCase() + segment.slice(1),
+				href: `/${segment}`
+			};
+		});
+		breadcrumItems.shift();
+		breadcrumItems.shift();
+		console.log(breadcrumItems);
+	}
+
 	onMount(() => {
 		processData();
+		generateBreadcrums();
 	});
 </script>
 
 <body class=" self-center">
 	<Breadcrumb class="mt-0" aria-label="Solid background breadcrumb example" solid>
-  		<BreadcrumbItem href="/" home>Home</BreadcrumbItem>
-  		<BreadcrumbItem href="encuestas">Encuestas</BreadcrumbItem>
+		<BreadcrumbItem href="/" home>Home</BreadcrumbItem>
+
+		{#each breadcrumItems as item}
+			<BreadcrumbItem href={item.href}>{item.text}</BreadcrumbItem>
+		{/each}
 	</Breadcrumb>
 	<div class=" text-center">
 		<h1 class=" text-black font-bold font-montserrat">
