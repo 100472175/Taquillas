@@ -27,7 +27,7 @@ export const load: PageLoad = ({ params }) => {
 			Navegando en la vida, con su barca al navegar, <br />
 			Elevando el espíritu, con su canto al cantar, <br />
 			Preservando la vida, con su amor al amar, <br />
-			Sintiendo la alegría, con su risa al reír, <br />`,
+			Sintiendo la alegría, con su risa al reír. <br />`,
 		};
 	}
 
