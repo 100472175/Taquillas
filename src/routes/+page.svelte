@@ -8,7 +8,10 @@
 		UsersSolid,
 		AnnotationSolid,
 		DrawSquareOutline,
-		HomeSolid
+		HomeSolid,
+
+		LockOpenOutline
+
 	} from 'flowbite-svelte-icons';
 	
 	onMount(() => {
@@ -25,7 +28,7 @@
 		<Accordion class="w-1/3">
 			<AccordionItem class="text-white text-3xl px-8 py-3 bg-[#3BC4A0] mb-2 hover:bg-[#FF6D2E] rounded-2xl">	
 				<button slot="header" class="flex gap-2" on:click={() => { goto('./taquillas'); }}>
-					<ChartPieSolid class="mt-2"/>
+					<LockOpenOutline class="mt-2"/>
 					Taquillas
 				</button>
 				<p>Reserva o comprueba el estado de una taquilla</p>

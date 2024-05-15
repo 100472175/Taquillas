@@ -38,6 +38,8 @@
 		DrawSquareOutline,
 		HomeSolid,
 		BarsOutline,
+		LockOpenOutline,
+		LockTimeOutline
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	import { onMount } from 'svelte';
@@ -93,7 +95,7 @@
 
 <header class="bg-[#3BC4A0] grid grid-cols-5">
 	<button class="w-10" on:click={() => (hidden2 = !hidden2)}>
-		<BarsOutline class="w-10 h-10 ml-2 rounded-2xl"/>
+		<BarsOutline class="w-10 h-10 ml-2 rounded-2xl" />
 	</button>
 	<img class="w-12 h-auto" src="logo.png" alt="logo" />
 	<button
@@ -107,7 +109,9 @@
 			<a href="/gestion_usuarios"><p class="text-white italic text-center text-sm">{name}</p></a>
 			<a href="/gestion_usuarios"><Avatar src={image} /></a>
 		</div>
-		<button on:click={() => logout()} class="bg-red-500 text-white rounded-2xl h-8 mt-2 ml-24 w-2/5">Sign-out</button>
+		<button on:click={() => logout()} class="bg-red-500 text-white rounded-2xl h-8 mt-2 ml-24 w-2/5"
+			>Sign-out</button
+		>
 	{:else}
 		{#if doing_login}
 			<div class="text-right mt-2">
@@ -151,7 +155,7 @@
 				</SidebarItem>
 				<SidebarItem label="Taquillas" href="taquillas" on:click={() => hideNavBar()}>
 					<svelte:fragment slot="icon">
-						<ChartPieSolid
+						<LockOpenOutline
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
 					</svelte:fragment>

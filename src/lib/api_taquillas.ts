@@ -37,7 +37,7 @@ function taquillasLibresSeccion(edificio: String, planta: String, seccion: Strin
     return []
 }
 
-//GET /api/taquillas/libres
+// GET /api/taquillas/libres
 function numeroTaquillasLibres() {
     // Llamada a la API de taquillas para obtener las taquillas libres
 
@@ -47,7 +47,7 @@ function numeroTaquillasLibres() {
     }
 }
 
-//GET /api/taquillas/ocupadas
+// GET /api/taquillas/ocupadas
 function numeroTaquillasOcupadas() {
     // Llamada a la API de taquillas para obtener las taquillas ocupadas
 
@@ -57,7 +57,7 @@ function numeroTaquillasOcupadas() {
     }
 }
 
-//GET /api/taquillas/ocupacion-seccion
+// GET /api/taquillas/ocupacion-seccion
 function ocupacionPorSección(edificio: String, planta: String, seccion: String) {
     // Llamada a la API de taquillas para obtener la ocupación por sección
 
@@ -65,7 +65,7 @@ function ocupacionPorSección(edificio: String, planta: String, seccion: String)
     return 0
 }
 
-//GET /api/taquillas/status
+// GET /api/taquillas/status
 function statusTaquilla(taquilla: String) {
     // Llamada a la API de taquillas para obtener el estado de una taquilla
 
