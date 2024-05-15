@@ -57,7 +57,7 @@
 					},
 
 					title: {
-						display: true,
+						display: false,
 						text: 'Índice de participación por grado',
 						font: {
 							family: 'Montserrat',
@@ -100,7 +100,7 @@
 
 <body class=" self-center">
 	<div class=" text-center">
-		<h1 class=" text-black font-bold font-montserrat">
+		<h1 class=" text-black font-bold font-montserrat mt-4">
 			Realiza la encuesta de evaluación
 			<a
 				class=" text-orange-500 font-bolder"

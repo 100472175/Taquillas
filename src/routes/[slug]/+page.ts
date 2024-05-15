@@ -10,7 +10,7 @@ export const load: PageLoad = ({ params }) => {
 	}
 	if (params.slug === 'entrada-supersecretisima') {
 		return {
-			title: 'Entrada supersecretísima',
+			title: 'Entrada<a class="cursor-text" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUIcmlja3JvbGw%3D">&nbsp</a>supersecretísima',
 			content: `Enhorabuena, has encontrado la entrada supersecretísima. ¡Felicidades! <br />
 			Con esta entrada podrás acceder a la zona VIP de la web. ¡Disfrútala! <br />
 			No todo el mundo ha podido llegar hasta aquí, así que siéntete afortunado. ¡Enhorabuena! <br />

@@ -92,7 +92,7 @@
 />
 
 <header class="bg-[#3BC4A0] grid grid-cols-5">
-	<button on:click={() => (hidden2 = !hidden2)}>
+	<button class="w-10" on:click={() => (hidden2 = !hidden2)}>
 		<BarsOutline class="w-10 h-10 ml-2 rounded-2xl"/>
 	</button>
 	<img class="w-12 h-auto" src="logo.png" alt="logo" />
@@ -104,10 +104,10 @@
 	>
 	{#if $page.data.session}
 		<div class="flex items-center space-x-4 rtl:space-x-reverse">
-			<p class="text-white italic text-center text-sm">{name}</p>
-			<Avatar src={image} />
+			<a href="/gestion_usuarios"><p class="text-white italic text-center text-sm">{name}</p></a>
+			<a href="/gestion_usuarios"><Avatar src={image} /></a>
 		</div>
-		<button on:click={() => logout()} class="bg-red-500 text-white rounded-2xl h-8 mt-2 ml-8 w-4/5">Sign-out</button>
+		<button on:click={() => logout()} class="bg-red-500 text-white rounded-2xl h-8 mt-2 ml-24 w-2/5">Sign-out</button>
 	{:else}
 		{#if doing_login}
 			<div class="text-right mt-2">
@@ -116,7 +116,7 @@
 		{:else}
 			<div></div>
 		{/if}
-		<button class="bg-white rounded-2xl h-8 mt-2 ml-8 w-4/5" on:click={() => login()}>
+		<button class="bg-white rounded-2xl h-8 mt-2 ml-24 w-2/5" on:click={() => login()}>
 			Log-in
 		</button>
 	{/if}
