@@ -53,7 +53,7 @@
 			Delegación gestiona las taquillas de la universidad. Si quieres alquilar una, simplemente tendrás que elegir la que quieres y luego rellenar un formulario para reservarla.
 		</p>
 	</div>
-	<button class="text-white text-3xl px-8 py-3 bg-[#FF6D2E] rounded-2xl w-1/3 flex gap-2"
+	<button class="text-white text-3xl px-8 py-3 bg-[#FF6D2E] hover:bg-[#ff8647] rounded-2xl w-1/3 flex gap-2"
 			on:click={() => {goto('./taquillas');}}>
 		<LockOpenOutline class="mt-2 w-1/4"/> 
 		<p class="text-left w-full">Ir a Taquillas</p>
