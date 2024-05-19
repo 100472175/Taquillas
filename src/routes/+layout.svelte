@@ -23,7 +23,7 @@
 		DrawSquareOutline,
 		HomeSolid,
 		BarsOutline,
-		LockOpenOutline,
+		LockOpenOutline
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	import { onMount } from 'svelte';
@@ -57,7 +57,7 @@
 		let _breadcrumItems = [];
 		_breadcrumItems = urlSegments.map((segment) => {
 			return {
-				text: segment.charAt(0).toUpperCase() + segment.slice(1),
+				text: segment.charAt(0).toUpperCase() + segment.slice(1).replace('_', ' '),
 				href: `/${segment}`
 			};
 		});
@@ -75,7 +75,6 @@
 
 	$: session = $page.data.session;
 </script>
-
 
 <link
 	href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto&display=swap"

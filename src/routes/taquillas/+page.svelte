@@ -4,8 +4,6 @@
 	import type { PageData, ActionData } from './$types';
 	import { onMount } from 'svelte';
 	import { _handleResult } from './+page.ts';
-
-	export let data: PageData;
 </script>
 
 <div class="grid-rows-2 grid">
