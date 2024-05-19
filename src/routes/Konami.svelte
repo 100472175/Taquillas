@@ -2,8 +2,10 @@
 
 <script>
 	import { goto } from '$app/navigation';
-	export let konami = false
 	
+	/**
+	 * @type {any[]}
+	 */
 	let combo = []
 	let time = Date.now()
 	
