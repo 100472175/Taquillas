@@ -4,14 +4,9 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import {
-		ChartPieSolid,
-		UsersSolid,
 		AnnotationSolid,
 		DrawSquareOutline,
-		HomeSolid,
-
 		LockOpenOutline
-
 	} from 'flowbite-svelte-icons';
 	import Konami from './Konami.svelte'
 

@@ -1,24 +1,10 @@
-<script context="module" lang="ts">
-</script>
-
 <script lang="ts">
 	import '../app.css';
 	import { signIn, signOut } from '@auth/sveltekit/client';
 	import { goto, afterNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { readable } from 'svelte/store';
-
-	let name: string | undefined | null = '';
-	let image: string | undefined | null = null;
-
-	if ($page.data.session) {
-		name = $page.data.session?.user?.name;
-		image = $page.data.session?.user?.image;
-	}
-
 	import {
 		Avatar,
-		Button,
 		Breadcrumb,
 		BreadcrumbItem,
 		CloseButton,
@@ -32,17 +18,16 @@
 		Spinner
 	} from 'flowbite-svelte';
 	import {
-		ChartPieSolid,
 		UsersSolid,
 		AnnotationSolid,
 		DrawSquareOutline,
 		HomeSolid,
 		BarsOutline,
 		LockOpenOutline,
-		LockTimeOutline
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	import { onMount } from 'svelte';
+
 	let hidden2 = true;
 	let spanClass = 'flex-1 ms-3 whitespace-nowrap';
 	let transitionParams = {
@@ -50,6 +35,7 @@
 		duration: 200,
 		easing: sineIn
 	};
+
 	function hideNavBar() {
 		hidden2 = true;
 	}
@@ -86,7 +72,10 @@
 	afterNavigate(() => {
 		breadcrumItems = _generateBreadcrums();
 	});
+
+	$: session = $page.data.session;
 </script>
+
 
 <link
 	href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto&display=swap"
@@ -104,10 +93,12 @@
 			goto('./');
 		}}>Delegación EPS</button
 	>
-	{#if $page.data.session}
+	{#if session}
 		<div class="flex items-center space-x-4 rtl:space-x-reverse">
-			<a href="/gestion_usuarios"><p class="text-white italic text-center text-sm">{name}</p></a>
-			<a href="/gestion_usuarios"><Avatar src={image} /></a>
+			<a href="/gestion_usuarios"
+				><p class="text-white italic text-center text-sm">{session.user?.name}</p></a
+			>
+			<a href="/gestion_usuarios"><Avatar src={session.user?.image} /></a>
 		</div>
 		<button on:click={() => logout()} class="bg-red-500 text-white rounded-2xl h-8 mt-2 ml-24 w-2/5"
 			>Sign-out</button
