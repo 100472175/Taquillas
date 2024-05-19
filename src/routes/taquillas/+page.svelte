@@ -16,3 +16,11 @@
 		</div>
 	</div>
 </div>
+
+<form method="post">
+	<label for="taquilla">Taquilla</label>
+	<input type="text" id="taquilla" name="taquilla" />
+	<label for="nia">NIA</label>
+	<input type="text" id="nia" name="nia" />
+	<button class="bg-black text-white h-10 w-20 rounded-2xl mt-8">Reservar</button>
+</form>

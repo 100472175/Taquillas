@@ -1,12 +1,44 @@
 // POST /api/taquillas/reservar
-function reservaTaquilla(taquilla: String, usuario: Number) {
+export async function reservaTaquilla(taquilla: String, usuario: Number) {
     // Llamada a la API de taquillas para reservar la taquilla
+    
+    try {
+        const response = await fetch('http://127.0.0.1:18080/reservaTaquilla', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                taquilla: taquilla,
+                usuario: usuario,
+            }),
+        });
 
-    // Devolver la respuesta de la API
-    return {
-        taquilla: taquilla,
-        usuario: usuario,
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            return data;
+        } else {
+            console.error('Server response was not OK', response.status, response.statusText);
+        }
+    } catch (error) {
+        console.error('Error:', error);
     }
+    
+   /*
+   try {
+    const response = await fetch('http://127.0.0.1:18080');
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+    return data;
+} catch (error) {
+    console.error('Error:', error);
+}
+*/
 }
 
 // DELETE /api/taquillas/liberar
@@ -95,5 +127,36 @@ function cambiarTaquilla(taquilla: String, nuevaTaquilla: String) {
     return {
         taquilla: taquilla,
         nuevaTaquilla: nuevaTaquilla,
+    }
+}
+
+
+
+
+
+
+//////////////////////
+
+export async function prueba(taquilla: FormDataEntryValue|null, nia: FormDataEntryValue|null) {
+    try {
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            },
+            body: JSON.stringify({
+                taquilla: taquilla,
+                usuario: nia,
+            }),
+        }
+        const response = await fetch('http://127.0.0.1:18080/api/reservaTaquilla', options);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
     }
 }
