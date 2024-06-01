@@ -85,11 +85,11 @@
 	<button class="w-10" on:click={() => (hidden2 = !hidden2)}>
 		<BarsOutline class="w-10 h-10 ml-2 rounded-2xl" />
 	</button>
-	<img class="w-12 h-auto" src="logo.png" alt="logo" />
+	<img class="w-12 h-auto" src="/logo.png" alt="logo" />
 	<button
 		class="font-bold-italic text-white text-center py-2 text-2xl hover:underline"
 		on:click={() => {
-			goto('./');
+			goto('/');
 		}}>Delegación EPS</button
 	>
 	{#if session}

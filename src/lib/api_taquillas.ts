@@ -1,12 +1,13 @@
 // POST /api/taquillas/reservar
-export async function reservaTaquilla(taquilla: String, usuario: Number) {
+export async function reservaTaquilla(taquilla: FormDataEntryValue | null | String, usuario: FormDataEntryValue | null | Number) {
 	// Llamada a la API de taquillas para reservar la taquilla
 
 	try {
-		const response = await fetch('http://127.0.0.1:18080/reservaTaquilla', {
+		const response = await fetch('http://127.0.0.1:18080/api/reservaTaquilla', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*'
 			},
 			body: JSON.stringify({
 				taquilla: taquilla,
@@ -40,6 +41,8 @@ export async function reservaTaquilla(taquilla: String, usuario: Number) {
 }
 */
 }
+
+/*
 
 // DELETE /api/taquillas/liberar
 function liberarTaquilla(taquilla: String) {
@@ -129,7 +132,7 @@ function cambiarTaquilla(taquilla: String, nuevaTaquilla: String) {
 		nuevaTaquilla: nuevaTaquilla
 	};
 }
-
+*/
 //////////////////////
 
 export async function prueba(taquilla: FormDataEntryValue | null, nia: FormDataEntryValue | null) {
@@ -153,5 +156,5 @@ export async function prueba(taquilla: FormDataEntryValue | null, nia: FormDataE
 		return data;
 	} catch (error) {
 		console.error('Error:', error);
-	}
+	}	
 }

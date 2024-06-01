@@ -89,7 +89,7 @@
 		});
 		breadcrumItems.shift();
 		breadcrumItems.shift();
-		console.log(breadcrumItems);
+		//console.log(breadcrumItems);
 	}
 
 	onMount(() => {

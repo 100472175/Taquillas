@@ -11,8 +11,8 @@ const { handle: authHandle } = SvelteKitAuth({
 	],
 	useSecureCookies: true,
 	trustHost: true,
-	debug: true,
-	secret: process.env.AUTH_SECRET
+	debug: false,
+	secret: process.env.AUTH_SECRET,
 });
 
 export const handle = async ({ event, resolve }: any) => {
