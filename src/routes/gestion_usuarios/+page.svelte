@@ -62,7 +62,7 @@
 				</Label>
 			</div>
 			<div class="w-screen grid grid-cols-1 place-items-center">
-				<Button type="submit" class="bg-[#3BC4A0] text-black mt-10 hover:bg-[#3BB4A0]">Crear Usuario</Button>
+				<Button type="submit" class="bg-[#3BC4A0] text-white mt-8 w-1/6 text-xl hover:bg-[#3BB4A0]">Crear Usuario</Button>
 			<div>
 		</form>
 	</TabItem>
