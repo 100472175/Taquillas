@@ -35,7 +35,7 @@
 
 <h1 class="text-4xl text-center text-[#3BC4A0] m-5">Gestión de usuarios</h1>
 <Tabs tabStyle="underline" contentClass="p-4 bg-white">
-	<TabItem open title="Añadir Rol" class="hover:text-[#3BC4A0]" inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4">
+	<TabItem open title="Añadir Rol" class="hover:text-[#3BC4A0]" inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4 sm:text-base text-xs">
 		<form on:submit={add_user}>
 			<div class="grid grid-cols-1">
 				<div>
@@ -43,18 +43,16 @@
 					<Input type="text" id="NIA_add" placeholder="NIA del usuario..." pattern={"100[0-9]{6}"} required class="w-4/5 m-auto" bind:value={NIA_add} />
 				</div>
 			</div>
-			<div class="w-screen grid grid-cols-1 place-items-center mt-4">
-				<Label class="text-xl text-[#3BC4A0]">
-					Selecciona un rol
-					<Select class="mt-2 w-full" items={rols} bind:value={rol_add} required placeholder="Rol"/>
-				</Label>
+			<div class="w-screen grid grid-cols-1 mt-4 place-items-center">
+				<Label class="text-xl w-auto text-[#3BC4A0]">Selecciona un rol</Label>
+				<Select class="mt-2 w-1/5" items={rols} bind:value={rol_add} required placeholder="Rol"/>
 			</div>
 			<div class="w-screen grid grid-cols-1 place-items-center">
 				<Button type="submit" class="bg-[#3BC4A0] text-white mt-8 px-8 py-2 text-xl hover:bg-[#3BB4A0]">Añadir rol</Button>
 			<div>
 		</form>
 	</TabItem>
-	<TabItem title="Eliminar Rol" class="hover:text-[#3BC4A0]" inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4">
+	<TabItem title="Eliminar Rol" class="hover:text-[#3BC4A0]" inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4 sm:text-base text-xs">
 		<form on:submit={delete_user}>
 			<div class="grid grid-cols-1">
 				<div>
@@ -67,6 +65,6 @@
 			</div>
 		</form>
 	</TabItem>
-	<TabItem title="Gestionar Reservas" class="hover:text-[#3BC4A0]" inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4">
+	<TabItem title="Gestionar Reservas" class="hover:text-[#3BC4A0]" inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4 sm:text-base text-xs">
 	</TabItem>
 </Tabs>

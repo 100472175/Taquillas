@@ -83,13 +83,13 @@
 	rel="stylesheet"
 />
 
-<header class="bg-[#3BC4A0] grid grid-cols-5">
-	<button class="w-10" on:click={() => (hidden2 = !hidden2)}>
-		<BarsOutline class="w-10 h-10 ml-2 rounded-2xl" />
+<header class="bg-[#3BC4A0] grid sm:grid-cols-5 grid-cols-4 gap-x-10">
+	<button on:click={() => (hidden2 = !hidden2)}>
+		<BarsOutline class="sm:w-10 sm:h-10 w-8 h-8" />
 	</button>
-	<img class="w-12 h-auto" src="/logo.png" alt="logo" />
+	<img class="sm:w-12 sm:h-auto w-10 h-auto sm:block hidden" src="/logo.png" alt="logo" />
 	<button
-		class="font-bold-italic text-white text-center py-2 text-2xl hover:underline"
+		class="font-bold-italic text-white text-center py-2 lg:text-2xl sm:text-lg text-sm hover:underline"
 		on:click={() => {
 			goto('/');
 		}}>Delegación EPS</button
@@ -97,11 +97,11 @@
 	{#if session}
 		<div class="flex items-center space-x-4 rtl:space-x-reverse">
 			<a href="/gestion_usuarios"
-				><p class="text-white italic text-center text-sm">{session.user?.name}</p></a
+				><p class="text-white italic text-center text-xs lg:text-sm sm:block hidden">{session.user?.name}</p></a
 			>
-			<a href="/gestion_usuarios"><Avatar src={session.user?.image} /></a>
+			<a href="/gestion_usuarios"><Avatar src={session.user?.image} class="lg:w-11 sm:w-20 h-auto"/></a>
 		</div>
-		<button on:click={() => logout()} class="bg-red-500 text-white rounded-2xl h-8 mt-2 ml-24 w-2/5"
+		<button on:click={() => logout()} class="bg-red-500 text-white rounded-2xl sm:text-base text-xs w-auto mr-2 mt-2 h-8 sm:mt-2 sm:ml-12 sm:w-3/5 lg:w-2/5 lg:ml-24"
 			>Sign-out</button
 		>
 	{:else}
@@ -112,7 +112,7 @@
 		{:else}
 			<div></div>
 		{/if}
-		<button class="bg-white rounded-2xl h-8 mt-2 ml-24 w-2/5" on:click={() => login()}>
+		<button class="bg-white rounded-2xl h-8 mt-2 w-2/5" on:click={() => login()}>
 			Log-in
 		</button>
 	{/if}
