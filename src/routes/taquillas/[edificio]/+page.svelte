@@ -18,23 +18,25 @@
 <svelte:window bind:innerWidth bind:outerWidth bind:innerHeight bind:outerHeight />
 
 <h1
-	class="text-7xl sm:text-8xl md:text-9xl lg:text-7xl xl:text-7xl 2xl:text-7xl text-center font-montserrat"
+	class="text-7xl sm:text-8xl md:text-9xl lg:text-7xl xl:text-7xl 2xl:text-6xl text-center font-montserrat mt-4 mb-8 text-[#3BC4A0]"
 >
-	Te encuentras en el edificio {data.edificio}.
+	Edificio {building}
 </h1>
 
 <div class="flex flex-col items-center">
 	{#each pisos as i}
-		<a href="{data.edificio}/{i}" class="flex justify-center">
+		<a href="{building}/{i}" class="flex justify-center group relative">
 			<img
 				src={`../edificios/${data.edificio}/${i}.jpg`}
-				class="object-cover hover:opacity-60 transition duration-300 ease-in-out"
+				class="object-cover w-auto group-hover:opacity-60 transition duration-500 ease-in-out"
 				alt={`Edificio ${data.edificio}. ${i}`}
 			/>
+			<h1 
+				class="hidden absolute left-1/2 top-1/2 text-5xl text-[#3BC4A0] px-6 py-2 group-hover:block"
+				style="transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.7)"
+			>Piso {i}</h1>
 		</a>
-		{#if i !== pisos[pisos.length - 1]}
-			<Hr classHr="w-48 h-1 my-4 rounded md:my-1" />
-		{/if}
+		
 	{/each}
 </div>
 
