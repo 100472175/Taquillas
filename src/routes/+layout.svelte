@@ -75,6 +75,7 @@
 	});
 
 	$: session = $page.data.session;
+	
 </script>
 
 <link
