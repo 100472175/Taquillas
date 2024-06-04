@@ -32,7 +32,7 @@
 				alt={`Edificio ${data.edificio}. ${i}`}
 			/>
 			<h1 
-				class="hidden absolute left-1/2 top-1/2 text-5xl text-[#3BC4A0] px-6 py-2 group-hover:block"
+				class="hidden absolute left-1/2 top-1/2 text-5xl text-[#3BC4A0] px-6 py-2 rounded group-hover:block"
 				style="transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.7)"
 			>Piso {i}</h1>
 		</a>

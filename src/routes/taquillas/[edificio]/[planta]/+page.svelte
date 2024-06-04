@@ -57,15 +57,17 @@
 
 {#if block != 0}
 	<h3 class="text-center m-4">Bloque {block}, que tiene un tamaño de {data.size[data.edificio][data.planta][block]}</h3>
-	<table style="border: 1px solid black; border-collapse: 10px;" class="m-auto mb-10">
-		{#each Array(data.size[data.edificio][data.planta][block][1]) as _, i}
-			<tr>
-				{#each Array(data.size[data.edificio][data.planta][block][0]) as _, i}
-					<td style="border: 1px solid black; border-collapse: 10px" class=" p-7 bg-red-500">
-						{plants[i]}
-					</td>
-				{/each}
-			</tr>
-		{/each}
-	</table>
+	<div class="w-10/12 overflow-auto m-auto">
+		<table style="border: 1px solid black; border-collapse: 10px;" class="m-auto mb-10">
+			{#each Array(data.size[data.edificio][data.planta][block][1]) as _, i}
+				<tr>
+					{#each Array(data.size[data.edificio][data.planta][block][0]) as _, i}
+						<td style="border: 1px solid black; border-collapse: 10px" class=" p-7 bg-red-500">
+							{plants[i]}
+						</td>
+					{/each}
+				</tr>
+			{/each}
+		</table>
+	</div>
 {/if}
