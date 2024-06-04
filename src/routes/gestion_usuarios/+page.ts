@@ -3,7 +3,7 @@ import type { PageLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 
 // Lo bueno sería cargar esto de la base de datos, pero de momento va bien aqui
-let despacho_list = ['100472175'];
+let despacho_list = ['100472175', '100472310'];
 
 export const load: PageLoad = async ({ parent }) => {
 	const { session } = await parent();
