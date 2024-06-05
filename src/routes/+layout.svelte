@@ -55,7 +55,7 @@
 		const currentURL = $page.url.pathname;
 		const urlSegments = currentURL.split('/').filter((segment) => segment !== '');
 		let _breadcrumItems = [];
-		console.log(urlSegments);
+		//console.log(urlSegments);
 		for (let i = 0; i < urlSegments.length; i++) {
 			_breadcrumItems.push({
 				text: urlSegments[i].charAt(0).toUpperCase() + urlSegments[i].slice(1).replace('_', ' '),
@@ -75,7 +75,6 @@
 	});
 
 	$: session = $page.data.session;
-	
 </script>
 
 <link
@@ -97,11 +96,17 @@
 	{#if session}
 		<div class="flex items-center space-x-4 rtl:space-x-reverse">
 			<a href="/gestion_usuarios"
-				><p class="text-white italic text-center text-xs lg:text-sm sm:block hidden">{session.user?.name}</p></a
+				><p class="text-white italic text-center text-xs lg:text-sm sm:block hidden">
+					{session.user?.name}
+				</p></a
 			>
-			<a href="/gestion_usuarios"><Avatar src={session.user?.image} class="lg:w-11 sm:w-20 h-auto"/></a>
+			<a href="/gestion_usuarios"
+				><Avatar src={session.user?.image} class="lg:w-11 sm:w-20 h-auto" /></a
+			>
 		</div>
-		<button on:click={() => logout()} class="bg-red-500 text-white rounded-2xl sm:text-base text-xs w-auto mr-2 mt-2 h-8 sm:mt-2 sm:ml-12 sm:w-3/5 lg:w-2/5 lg:ml-24"
+		<button
+			on:click={() => logout()}
+			class="bg-red-500 text-white rounded-2xl sm:text-base text-xs w-auto mr-2 mt-2 h-8 sm:mt-2 sm:ml-12 sm:w-3/5 lg:w-2/5 lg:ml-24"
 			>Sign-out</button
 		>
 	{:else}
@@ -112,9 +117,7 @@
 		{:else}
 			<div></div>
 		{/if}
-		<button class="bg-white rounded-2xl h-8 mt-2 w-2/5" on:click={() => login()}>
-			Log-in
-		</button>
+		<button class="bg-white rounded-2xl h-8 mt-2 w-2/5" on:click={() => login()}> Log-in </button>
 	{/if}
 </header>
 

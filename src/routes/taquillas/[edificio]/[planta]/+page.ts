@@ -14,3 +14,14 @@ export const load = (({params, data}) => {
 			size2: data.serverMessage,
 	};
 }) satisfies PageLoad;
+
+export function _handleResult(result: any) {
+	const code = result.status;
+	const body = result.body;
+
+	if (code === 200) {
+		alert('Taquilla reservada correctamente');
+	} else {
+		alert('Error al reservar la taquilla');
+	}
+}
