@@ -24,7 +24,13 @@
 	let formModal = false;
 	let selectedTaquilla = '';
 	let NIA = data.session?.user?.email?.split('@')[0].split('.')[0] || '100XXXXXX';
-
+	let ocupacionBloques: any[];
+	let drawBlocks = false;
+	data.bloques.then((value) => {
+		ocupacionBloques = value;
+		//console.log(ocupacionBloques);
+		drawBlocks = true;
+	});
 	function closeModalAssignBlock(block_selected: string) {
 		openDropdown = false;
 		block = parseInt(block_selected);
@@ -34,8 +40,6 @@
 		selectedTaquilla = taquilla;
 		formModal = true;
 	}
-
-	console.log(data);
 </script>
 
 <h1
@@ -44,20 +48,12 @@
 	Edificio {data.edificio} - Planta {data.planta}
 </h1>
 
-<p>Aquí tendremos el selector de bloque dentro de cada planta.</p>
+<p>Aquí falta poner la imagen de los bloques.</p>
 
-<p>
-	Info <a
-		class="text-blue-500 underline"
-		href="https://www.w3schools.com/html/html_images_imagemap.asp"
-	>
-		aqui
-	</a>
-</p>
 <br />
 
 <div class="w-screen h-full grid grid-rows-2 place-items-center">
-	<h1 class="text-3xl text-[#3BC4A0] text-center">Ocupación por bloque</h1>
+	<h1 class="text-3xl text-[#3BC4A0] text-center">Selecciona el bloque:</h1>
 	<Button color="green" size="lg" class="mt-4 w-1/12">
 		Bloque {block}: <ChevronDownOutline class="w-6 h-6 ms-2 text-green-500 dark: text-blue-500" />
 	</Button>
@@ -81,31 +77,18 @@
 <h3 class="text-center m-4">
 	Bloque {block}
 </h3>
-
-{#if data.bloques}
-	<p>Hay bloques</p>
-	{#each data.bloques[block - 1] as bloque}
-		<p>{bloque}</p>
-	{/each}
-{:else}
-	<p>No hay bloques</p>
-{/if}
-
-{#if block != 0}
-	<h3 class="text-center m-4">
-		Bloque {block}, que tiene un tamaño de {data.size[data.edificio][data.planta][block]}
-	</h3>
+{#if drawBlocks}
 	<div class="w-10/12 overflow-auto m-auto">
 		<table style="border: 1px solid black; border-collapse: 10px;" class="m-auto mb-10">
-			{#each Array(data.size[data.edificio][data.planta][block][1]) as _, i}
+			{#each ocupacionBloques[block - 1] as row}
 				<tr>
-					{#each Array(data.size[data.edificio][data.planta][block][0]) as _, i}
+					{#each row as taquilla}
 						<td
 							style="border: 1px solid black; border-collapse: 10px"
 							class=" p-7 bg-red-500"
-							on:click={() => openModal(plants[i])}
+							on:click={() => openModal(taquilla.taquilla)}
 						>
-							{plants[i]}
+							{taquilla.taquilla}
 						</td>
 					{/each}
 				</tr>
