@@ -158,3 +158,17 @@ export async function prueba(taquilla: FormDataEntryValue | null, nia: FormDataE
 		console.error('Error:', error);
 	}	
 }
+
+
+export async function ocupacionBloque(edificio: String, planta: String) {
+	try {
+		const response = await fetch(`http://localhost:18080/api/ocupacionBloque/${edificio}/${planta}`);
+		if (!response.ok) {
+			throw new Error('Network response was not ok');
+		}
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Error:', error);
+	}
+}

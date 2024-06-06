@@ -34,6 +34,8 @@
 		selectedTaquilla = taquilla;
 		formModal = true;
 	}
+
+	console.log(data);
 </script>
 
 <h1
@@ -75,6 +77,19 @@
 		{/each}
 	</Dropdown>
 </div>
+
+<h3 class="text-center m-4">
+	Bloque {block}
+</h3>
+
+{#if data.bloques}
+	<p>Hay bloques</p>
+	{#each data.bloques[block - 1] as bloque}
+		<p>{bloque}</p>
+	{/each}
+{:else}
+	<p>No hay bloques</p>
+{/if}
 
 {#if block != 0}
 	<h3 class="text-center m-4">

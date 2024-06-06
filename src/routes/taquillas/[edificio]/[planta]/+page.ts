@@ -11,7 +11,7 @@ export const load = (({params, data}) => {
 			size: data.size,
 			planta: params.planta,
             edificio: params.edificio,
-			size2: data.serverMessage,
+			bloques: data.bloques
 	};
 }) satisfies PageLoad;
 
