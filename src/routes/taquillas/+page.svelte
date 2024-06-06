@@ -11,8 +11,8 @@
 		<div class="w-4/6 bg-black text-white h-48 rounded-2xl">
 			<a href="/taquillas/1">
 				<img
-					src="edificios/betancourt.png"
-					class="rounded-2xl w-1/2 object-cover"
+					src="edificios/1-betancourt.png"
+					class="rounded-2xl max-h-full max-w-full object-cover"
 					alt="Edificio 1. Agustín de Betancourt"
 				/>
 			</a>
@@ -20,8 +20,8 @@
 		<div class="w-4/6 h-10 bg-black text-white h-48 rounded-2xl">
 			<a href="/taquillas/2">
 				<img
-					src="edificios/sabatini.jpg"
-					class="rounded-2xl w-1/2 object-cover"
+					src="edificios/2-sabatini.jpg"
+					class="rounded-2xl max-h-full max-w-full object-cover"
 					alt="Edificio 2. Sabatini"
 				/>
 			</a>
@@ -29,46 +29,22 @@
 	</div>
 	<div class="grid-cols-2 grid place-items-center">
 		<div class="w-4/6 h-10 bg-black text-white h-48 rounded-2xl">
-			<p>Edificio 4. Torres Quevedo</p>
+			<a href="/taquillas/4">
+				<img
+					src="edificios/4-Torres_Quevedo.jpg"
+					class="rounded-2xl w-1/2 object-cover"
+					alt="Edificio 4. Torres Quevedo"
+				/>
+			</a>
 		</div>
 		<div class="w-4/6 h-10 bg-black text-white h-48 rounded-2xl">
-			<p>Edificio 7. Juan Benet</p>
+			<a href="/taquillas/7">
+				<img
+					src="edificios/7-Juan_Benet.jpg"
+					class="rounded-2xl w-full object-cover"
+					alt="Edificio 7. Juan Benet"
+				/>
+			</a>
 		</div>
 	</div>
 </div>
-
-<p class="text-error-500">{$page.form?.problem ?? ''}</p>
-<form
-	method="post"
-	action="?/registerTaquilla"
-	use:enhance={({ formElement }) => {
-		return async ({ result, update }) => {
-			update();
-			_handleResult(result);
-		};
-	}}
->
-	<label for="taquilla">Taquilla</label>
-	<input type="text" id="taquilla" name="taquilla" />
-	<label for="nia">NIA</label>
-	<input type="text" id="nia" name="nia" />
-	<button class="bg-black text-white h-10 w-20 rounded-2xl mt-8">Reservar</button>
-</form>
-
-<h3>Otras cositas por el otro lado</h3>
-<form
-	method="post"
-	action="?/aquireTaquilla"
-	use:enhance={({ formElement }) => {
-		return async ({ result, update }) => {
-			update();
-			_handleResult(result);
-		};
-	}}
->
-	<label for="taquilla">Taquilla</label>
-	<input type="text" id="taquilla" name="taquilla" />
-	<label for="nia">NIA</label>
-	<input type="text" id="nia" name="nia" />
-	<button class="bg-black text-white h-10 w-20 rounded-2xl mt-8">Reservar</button>
-</form>

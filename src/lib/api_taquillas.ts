@@ -17,7 +17,6 @@ export async function reservaTaquilla(taquilla: FormDataEntryValue | null | Stri
 
 		if (response.ok) {
 			const data = await response.json();
-			//console.log(data);
 			return data;
 		} else {
 			console.error('Server response was not OK', response.status, response.statusText);
@@ -26,20 +25,6 @@ export async function reservaTaquilla(taquilla: FormDataEntryValue | null | Stri
 		console.error('Error:', error);
 	}
 
-	/*
-   try {
-    const response = await fetch('http://127.0.0.1:18080');
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-    console.log(response);
-    const data = await response.json();
-    console.log(data);
-    return data;
-} catch (error) {
-    console.error('Error:', error);
-}
-*/
 }
 
 /*

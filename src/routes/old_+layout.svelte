@@ -13,7 +13,6 @@
 	import '../app.css';
 
 	// $page.data.session -> {user, image, etc...}
-	//console.log($page.data.session);
 
 	let name = '';
 	let image = null;

@@ -55,7 +55,6 @@
 		const currentURL = $page.url.pathname;
 		const urlSegments = currentURL.split('/').filter((segment) => segment !== '');
 		let _breadcrumItems = [];
-		//console.log(urlSegments);
 		for (let i = 0; i < urlSegments.length; i++) {
 			_breadcrumItems.push({
 				text: urlSegments[i].charAt(0).toUpperCase() + urlSegments[i].slice(1).replace('_', ' '),

@@ -26,11 +26,12 @@
 	let NIA = data.session?.user?.email?.split('@')[0].split('.')[0] || '100XXXXXX';
 	let ocupacionBloques: any[];
 	let drawBlocks = false;
+
 	data.bloques.then((value) => {
 		ocupacionBloques = value;
-		//console.log(ocupacionBloques);
 		drawBlocks = true;
 	});
+
 	function closeModalAssignBlock(block_selected: string) {
 		openDropdown = false;
 		block = parseInt(block_selected);
@@ -54,7 +55,7 @@
 
 <div class="w-screen h-full grid grid-rows-2 place-items-center">
 	<h1 class="text-3xl text-[#3BC4A0] text-center">Selecciona el bloque:</h1>
-	<Button color="green" size="lg" class="mt-4 w-1/12">
+	<Button color="green" size="lg" class="mt-4 w-1/10">
 		Bloque {block}: <ChevronDownOutline class="w-6 h-6 ms-2 text-green-500 dark: text-blue-500" />
 	</Button>
 	<Dropdown bind:open={openDropdown}>
@@ -83,13 +84,31 @@
 			{#each ocupacionBloques[block - 1] as row}
 				<tr>
 					{#each row as taquilla}
-						<td
-							style="border: 1px solid black; border-collapse: 10px"
-							class=" p-7 bg-red-500"
-							on:click={() => openModal(taquilla.taquilla)}
-						>
-							{taquilla.taquilla}
-						</td>
+						{#if taquilla.status == 'Ocupada'}
+							<td
+								style="border: 1px solid black; border-collapse: 10px"
+								class=" p-4 bg-red-500"
+								on:click={() => openModal(taquilla.taquilla)}
+							>
+								{taquilla.taquilla}
+							</td>
+						{:else if taquilla.status == 'libre'}
+							<td
+								style="border: 1px solid black; border-collapse: 10px"
+								class=" p-4 bg-green-500"
+								on:click={() => openModal(taquilla.taquilla)}
+							>
+								{taquilla.taquilla}
+							</td>
+						{:else}
+							<td
+								style="border: 1px solid black; border-collapse: 10px"
+								class=" p-4 bg-yellow-300"
+								on:click={() => openModal(taquilla.taquilla)}
+							>
+								{taquilla.taquilla}
+							</td>
+						{/if}
 					{/each}
 				</tr>
 			{/each}
