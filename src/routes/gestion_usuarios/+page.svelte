@@ -103,3 +103,7 @@
 		inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4 sm:text-base text-xs"
 	></TabItem>
 </Tabs>
+
+<p>Comentarios:</p>
+Estaría bien que fuera un desplegable de NIAS para borrar los roles. También tenemos que hacer una página
+para consultar las reservas de los un nia.

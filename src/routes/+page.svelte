@@ -66,7 +66,9 @@
 
 <!--Info de Taquillas-->
 
-<div class="bg-[#3BC4A0] w-full h-screen lg:flex litems-center justify-center lg:gap-24 grid grid-rows-2 place-items-center">
+<div
+	class="bg-[#3BC4A0] w-full h-screen lg:flex litems-center justify-center lg:gap-24 grid grid-rows-2 place-items-center"
+>
 	<div
 		class="rounded-full bg-white flex items-center justify-center text-center lg:aspect-square lg:w-1/2 border-solid border-4 w-11/12"
 	>
@@ -88,7 +90,9 @@
 
 <!--Info de Osciloscopios-->
 
-<div class="bg-white w-full h-screen lg:flex items-center justify-center lg:gap-24 grid grid-rows-2 place-items-center">
+<div
+	class="bg-white w-full h-screen lg:flex items-center justify-center lg:gap-24 grid grid-rows-2 place-items-center"
+>
 	<button
 		class="text-white lg:text-3xl text-xl px-8 lg:py-3 py-6 bg-[#FF6D2E] hover:bg-[#ff8647] rounded-2xl lg:w-1/3 w-5/6 flex gap-2"
 		on:click={() => {
