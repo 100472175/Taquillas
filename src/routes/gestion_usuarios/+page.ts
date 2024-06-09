@@ -3,24 +3,17 @@ import type { PageLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 
 // Lo bueno sería cargar esto de la base de datos, pero de momento va bien aqui
-let despacho_list = ['100472175', '100472310'];
 
-export const load: PageLoad = async ({ parent }) => {
+export const load: PageLoad = async ({ parent, data }) => {
 	const { session } = await parent();
-	/*
-    // Check if the user is not logged in
-    if (!session?.user?.email) {
-        // Redirect to the homepage
-        throw redirect(302, '/');
-    }*/
+	let authorizedEmails = data.authorizedEmails;
 
-	if (
-		!despacho_list.includes(session?.user?.email.substring(0, session?.user?.email.indexOf('@')))
-	) {
-		// Redirect to the homepage
+	if (authorizedEmails.includes(session?.user?.email) === -1) { 
 		throw redirect(302, '/');
 	}
+	
 	return {
-		session
+		session: session,
+		authorizedEmails: authorizedEmails
 	};
 };

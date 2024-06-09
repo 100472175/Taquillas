@@ -27,7 +27,9 @@ export const actions = {
 		const data = await request.formData();
 		const taquilla = data.get('taquilla');
 		const nia = data.get('nia');
-		const result = prueba(taquilla, nia);
+		const correo = data.get('correo');
+		const nombre = data.get('nombre');
+		const result = reservaTaquilla(taquilla, nia, correo, nombre);
 		return result;
 	},
 } satisfies Actions;

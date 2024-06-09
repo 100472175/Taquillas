@@ -6,7 +6,7 @@
 	let formModalReservation = false;
 	let formModalInformationError = false;
 	let selectedTaquilla = '';
-	let NIA = data.session?.user?.email?.split('@')[0].split('.')[0] || '100XXXXXX';
+	let NIA = data.session?.user?.email?.split('@')[0] || '100XXXXXX';
 	let claseTaquilla = '';
 
 	function openModal(taquilla: string) {
@@ -53,6 +53,10 @@
 				readonly
 			/>
 		</Label>
+
+		<Input type="hidden" id="correo" name="correo" value={data.session?.user?.email} />
+
+		<Input type="hidden" id="nombre" name="nombre" value={data.session?.user?.name} />
 
 		<Button type="submit" class="w-full1 bg-green-500 hover:bg-blue-400">Reservar Taquilla</Button>
 	</form>

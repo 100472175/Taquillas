@@ -6,7 +6,6 @@ export const load: LayoutServerLoad = async (event) => {
 	};
 };
 
-const email_list = ['100472175', '100472310'];
 
 export const _check_user: LayoutServerLoad = async ({ email }) => {
 	if (email_list.includes(email)) {

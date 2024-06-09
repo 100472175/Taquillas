@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { Tabs, TabItem, Input, Label, Helper, Button, Select } from 'flowbite-svelte';
+	import { Tabs, TabItem, Input, Label, Button, Select } from 'flowbite-svelte';
 	let session;
 
 	// Reactive statement to update session whenever $page.data.session changes

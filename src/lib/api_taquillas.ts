@@ -1,7 +1,6 @@
 // POST /api/taquillas/reservar
-export async function reservaTaquilla(taquilla: FormDataEntryValue | null | String, usuario: FormDataEntryValue | null | Number) {
-	// Llamada a la API de taquillas para reservar la taquilla
-
+export async function reservaTaquilla(taquilla: FormDataEntryValue | null | String, usuario: FormDataEntryValue | null | Number, correo: FormDataEntryValue | null | String, nombre: FormDataEntryValue | null | String) {
+	// Llamada a la API de taquillas para reservar la taquill
 	try {
 		const response = await fetch('http://127.0.0.1:18080/api/reservaTaquilla', {
 			method: 'POST',
@@ -11,7 +10,9 @@ export async function reservaTaquilla(taquilla: FormDataEntryValue | null | Stri
 			},
 			body: JSON.stringify({
 				taquilla: taquilla,
-				usuario: usuario
+				usuario: usuario,
+				correo: correo,
+				nombre: nombre,
 			})
 		});
 
