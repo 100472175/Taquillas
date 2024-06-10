@@ -1,16 +1,18 @@
 import type { PageServerLoad, Actions} from './$types';
 import size from '$lib/size';
-import { prueba, reservaTaquilla } from '$lib/api_taquillas';
+import { reservaTaquilla, BASE_URL_API } from '$lib/api_taquillas';
+
 
 
 export const load: PageServerLoad = async ({ request }) => {
-	const split_url = request.url.split('/').filter((element) => element.length <= 2);
-	split_url.shift();
+	const split_url = request.url.split('/').filter((element) => (element.length <= 2 && element.length >= 1));
+	split_url.map((url) => url.replace('?', ''));
 	const edificio = split_url[0];
-	const planta = split_url[1][0];
+	const planta = split_url[1];
 	const fetchOcupacionBloques = async () => {
-		const res = await fetch(`http://localhost:18080/api/ocupacionBloque/${edificio}/${planta}`);
+		const res = await fetch(`${BASE_URL_API}/api/ocupacionBloque/${edificio}/${planta}`);
 		const data = await res.json();
+		console.log(data);
 		return data;
 	}
 

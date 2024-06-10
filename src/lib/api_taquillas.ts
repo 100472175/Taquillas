@@ -1,5 +1,6 @@
-const BASE_URL_API = 'http://127.0.0.1:18080'
+export const BASE_URL_API = 'http://127.0.0.1:18080'
 //const BASE_URL_API = 'https://et-emirates-springs-cinema.trycloudflare.com'
+
 
 // POST /api/taquillas/reservar
 export async function reservaTaquilla(taquilla: FormDataEntryValue | null | String, usuario: FormDataEntryValue | null | Number, correo: FormDataEntryValue | null | String, nombre: FormDataEntryValue | null | String) {

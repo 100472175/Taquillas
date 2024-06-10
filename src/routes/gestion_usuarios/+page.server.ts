@@ -1,9 +1,9 @@
 import type { PageServerLoad, Actions} from './$types';
-import {addUserRol} from '$lib/api_taquillas';
+import {addUserRol, BASE_URL_API} from '$lib/api_taquillas';
 
 export const load = (async () => {
     const fetchAuthorizedEmails = async () => {
-		const res = await fetch('http://localhost:18080/api/authorizedEmails');
+		const res = await fetch(`${BASE_URL_API}/api/authorizedEmails`);
 		const data = await res.json();
 		return data;
 	};
