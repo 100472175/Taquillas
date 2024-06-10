@@ -1,4 +1,5 @@
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad, Actions} from './$types';
+import {addUserRol} from '$lib/api_taquillas';
 
 export const load = (async () => {
     const fetchAuthorizedEmails = async () => {
@@ -11,3 +12,15 @@ export const load = (async () => {
         authorizedEmails: await fetchAuthorizedEmails(),
     };
 }) satisfies PageServerLoad;
+
+
+export const actions = {
+	addUserRol: async ({ cookies, request }) => {
+		const data = await request.formData();
+		// -------- Aquí se llama a la función de la API que añade un rol a un usuario --------
+		const nia = data.get('NIA_add');
+		const rol = data.get('rol_add');
+		const result = addUserRol(nia, rol);
+		return result;
+	},
+} satisfies Actions;

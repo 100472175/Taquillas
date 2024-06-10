@@ -27,9 +27,9 @@
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	import { onMount } from 'svelte';
+	import type { LayoutData } from './$types';
 
 	let hidden2 = true;
-	let spanClass = 'flex-1 ms-3 whitespace-nowrap';
 	let transitionParams = {
 		width: 'w-40',
 		duration: 200,
@@ -67,6 +67,14 @@
 	let breadcrumItems: any[] = [];
 	onMount(() => {
 		breadcrumItems = _generateBreadcrums();
+		function checkEmailDomain(email: String | null | undefined) {
+			if (email != null)
+				if (!session?.user?.email?.endsWith('uc3m.es')) {
+					console.log('Inicia sesión con un correo adecuado', session?.user?.email);
+					signOut();
+				}
+		}
+		checkEmailDomain(session?.user?.email);
 	});
 
 	afterNavigate(() => {
@@ -74,6 +82,7 @@
 	});
 
 	$: session = $page.data.session;
+	$: authorizedEmails = $page.data.authorizedEmailsLayout;
 </script>
 
 <link
@@ -167,7 +176,7 @@
 						on:click={() => hideNavBar()}
 					/>
 				</SidebarDropdownWrapper>
-				{#if $page.data.session?.user}
+				{#if authorizedEmails.includes(session?.user?.email)}
 					<SidebarItem label="Usuarios" href="gestion_usuarios" on:click={() => hideNavBar()}>
 						<svelte:fragment slot="icon">
 							<UsersSolid

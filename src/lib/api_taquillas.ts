@@ -1,8 +1,11 @@
+const BASE_URL_API = 'http://127.0.0.1:18080'
+//const BASE_URL_API = 'https://et-emirates-springs-cinema.trycloudflare.com'
+
 // POST /api/taquillas/reservar
 export async function reservaTaquilla(taquilla: FormDataEntryValue | null | String, usuario: FormDataEntryValue | null | Number, correo: FormDataEntryValue | null | String, nombre: FormDataEntryValue | null | String) {
 	// Llamada a la API de taquillas para reservar la taquill
 	try {
-		const response = await fetch('http://127.0.0.1:18080/api/reservaTaquilla', {
+		const response = await fetch(`${BASE_URL_API}/api/reservaTaquilla`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -27,6 +30,72 @@ export async function reservaTaquilla(taquilla: FormDataEntryValue | null | Stri
 	}
 
 }
+
+
+export async function prueba(taquilla: FormDataEntryValue | null, nia: FormDataEntryValue | null) {
+	try {
+		const options = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*'
+			},
+			body: JSON.stringify({
+				taquilla: taquilla,
+				usuario: nia
+			})
+		};
+		const response = await fetch(`${BASE_URL_API}/api/reservaTaquilla`, options);
+		if (!response.ok) {
+			throw new Error('Network response was not ok');
+		}
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Error:', error);
+	}	
+}
+
+export async function ocupacionBloque(edificio: String, planta: String) {
+	try {
+		const response = await fetch(`${BASE_URL_API}/api/ocupacionBloque/${edificio}/${planta}`);
+		if (!response.ok) {
+			throw new Error('Network response was not ok');
+		}
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Error:', error);
+	}
+}
+
+export async function addUserRol(nia: FormDataEntryValue | null | String, rol: FormDataEntryValue | null | String) {
+	rol = rol?.toString().toLowerCase() || 'general';
+	try {
+		const response = await fetch(`${BASE_URL_API}/api/addUserRol`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*'
+			},
+			body: JSON.stringify({
+				nia: nia,
+				rol: rol,
+			})
+		});
+
+		if (response.ok) {
+			const data = await response.json();
+			return data;
+		} else {
+			console.error('Server response was not OK', response.status, response.statusText);
+		}
+
+	} catch (error) {
+		console.error(error);
+	}
+} 
+
 
 /*
 
@@ -120,41 +189,3 @@ function cambiarTaquilla(taquilla: String, nuevaTaquilla: String) {
 }
 */
 //////////////////////
-
-export async function prueba(taquilla: FormDataEntryValue | null, nia: FormDataEntryValue | null) {
-	try {
-		const options = {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Origin': '*'
-			},
-			body: JSON.stringify({
-				taquilla: taquilla,
-				usuario: nia
-			})
-		};
-		const response = await fetch('http://127.0.0.1:18080/api/reservaTaquilla', options);
-		if (!response.ok) {
-			throw new Error('Network response was not ok');
-		}
-		const data = await response.json();
-		return data;
-	} catch (error) {
-		console.error('Error:', error);
-	}	
-}
-
-
-export async function ocupacionBloque(edificio: String, planta: String) {
-	try {
-		const response = await fetch(`http://localhost:18080/api/ocupacionBloque/${edificio}/${planta}`);
-		if (!response.ok) {
-			throw new Error('Network response was not ok');
-		}
-		const data = await response.json();
-		return data;
-	} catch (error) {
-		console.error('Error:', error);
-	}
-}
