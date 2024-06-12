@@ -98,6 +98,34 @@ export async function addUserRol(nia: FormDataEntryValue | null | String, rol: F
 } 
 
 
+export async function add_user_db(email: String, name: String | null | undefined) {
+	const nia = email.split('@')[0];
+	try {
+		const response = await fetch(`${BASE_URL_API}/api/createUser`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*'
+			},
+			body: JSON.stringify({
+				nia: nia,
+				email: email,
+				name: name
+			})
+		});
+
+		if (response.ok) {
+			const data = await response.json();
+			return data;
+		} else {
+			console.error('Server response was not OK', response.status, response.statusText);
+		}
+
+	} catch (error) {
+		console.error(error);
+	}
+}
+
 /*
 
 // DELETE /api/taquillas/liberar

@@ -1,6 +1,6 @@
 import { signOut } from '@auth/sveltekit/client';
 import type { LayoutServerLoad } from './$types';
-import { BASE_URL_API } from '$lib/api_taquillas';
+import { BASE_URL_API, add_user_db } from '$lib/api_taquillas';
 
 // load serverside data
 export const load: LayoutServerLoad = async (event) => {
@@ -14,7 +14,9 @@ export const load: LayoutServerLoad = async (event) => {
 	//console.log(session);
 
 	// Store the user in the Database using the api
-	// TODO
+	if (session?.user?.email?.endsWith('uc3m.es')){
+		add_user_db(session?.user?.email, session?.user?.name);
+	}
 
 
 	return {
