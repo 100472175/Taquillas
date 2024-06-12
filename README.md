@@ -1,4 +1,7 @@
-# create-svelte
+Proyecto desarrollado por Eduardo Alarcón y Manuel Gómez Plana en la Delegacion de Estudiantes de la Escuela Politécnica Superior de la Universidad Carlos III de Madrid.
+
+
+## create-svelte
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
 
