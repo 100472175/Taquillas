@@ -12,7 +12,6 @@ export const load: PageServerLoad = async ({ request }) => {
 	const fetchOcupacionBloques = async () => {
 		const res = await fetch(`${BASE_URL_API}/api/ocupacionBloque/${edificio}/${planta}`);
 		const data = await res.json();
-		console.log(data);
 		return data;
 	}
 

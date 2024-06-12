@@ -5,7 +5,7 @@ import { BASE_URL_API, add_user_db } from '$lib/api_taquillas';
 // load serverside data
 export const load: LayoutServerLoad = async (event) => {
 	const fetchAuthorizedEmails = async () => {
-		const res = await fetch(`${BASE_URL_API}/api/authorizedEmails`);
+		const res = await fetch(`${BASE_URL_API}/api/authorizedEmails/escuela`);
 		const data = await res.json();
 		return data;
 	};

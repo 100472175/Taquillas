@@ -3,7 +3,7 @@ import {addUserRol, BASE_URL_API} from '$lib/api_taquillas';
 
 export const load = (async () => {
     const fetchAuthorizedEmails = async () => {
-		const res = await fetch(`${BASE_URL_API}/api/authorizedEmails`);
+		const res = await fetch(`${BASE_URL_API}/api/authorizedEmails/escuela`);
 		const data = await res.json();
 		return data;
 	};
