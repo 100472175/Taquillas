@@ -15,7 +15,7 @@
 		SidebarGroup,
 		SidebarItem,
 		SidebarWrapper,
-		Spinner
+		Spinner,
 	} from 'flowbite-svelte';
 	import {
 		UsersSolid,
@@ -23,7 +23,8 @@
 		DrawSquareOutline,
 		HomeSolid,
 		BarsOutline,
-		LockOpenOutline
+		LockOpenOutline,
+		LockOutline,
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	import { onMount } from 'svelte';
@@ -83,6 +84,7 @@
 
 	$: session = $page.data.session;
 	$: authorizedEmails = $page.data.authorizedEmailsLayout;
+
 </script>
 
 <link
@@ -103,12 +105,12 @@
 	>
 	{#if session}
 		<div class="flex items-center space-x-4 rtl:space-x-reverse">
-			<a href="/gestion_usuarios"
+			<a href="/admin"
 				><p class="text-white italic text-center text-xs lg:text-sm sm:block hidden">
 					{session.user?.name}
 				</p></a
 			>
-			<a href="/gestion_usuarios"
+			<a href="/admin"
 				><Avatar src={session.user?.image} class="lg:w-11 sm:w-20 h-auto" /></a
 			>
 		</div>
@@ -163,6 +165,13 @@
 						/>
 					</svelte:fragment>
 				</SidebarItem>
+				<SidebarItem label="Gestionar Taquillas" href="/gestion_taquillas" on:click={() => hideNavBar()}>
+					<svelte:fragment slot="icon">
+						<LockOutline
+							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+						/>
+					</svelte:fragment>
+				</SidebarItem>
 				<SidebarDropdownWrapper label="Osciloscopios">
 					<svelte:fragment slot="icon">
 						<DrawSquareOutline
@@ -178,7 +187,7 @@
 				</SidebarDropdownWrapper>
 				{#await authorizedEmails}
 					{#if authorizedEmails.includes(session?.user?.email)}
-						<SidebarItem label="Usuarios" href="gestion_usuarios" on:click={() => hideNavBar()}>
+						<SidebarItem label="Usuarios" href="admin" on:click={() => hideNavBar()}>
 							<svelte:fragment slot="icon">
 								<UsersSolid
 									class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
