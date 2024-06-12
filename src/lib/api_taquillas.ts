@@ -1,4 +1,4 @@
-export const BASE_URL_API = 'http://127.0.0.1:18080'
+export const BASE_URL_API = process.env.DESTINO_API ?? 'http://127.0.0.1:18080'
 //const BASE_URL_API = 'https://et-emirates-springs-cinema.trycloudflare.com'
 
 
