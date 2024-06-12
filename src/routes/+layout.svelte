@@ -176,15 +176,17 @@
 						on:click={() => hideNavBar()}
 					/>
 				</SidebarDropdownWrapper>
-				{#if authorizedEmails.includes(session?.user?.email)}
-					<SidebarItem label="Usuarios" href="gestion_usuarios" on:click={() => hideNavBar()}>
-						<svelte:fragment slot="icon">
-							<UsersSolid
-								class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-							/>
-						</svelte:fragment>
-					</SidebarItem>
-				{/if}
+				{#await authorizedEmails}
+					{#if authorizedEmails.includes(session?.user?.email)}
+						<SidebarItem label="Usuarios" href="gestion_usuarios" on:click={() => hideNavBar()}>
+							<svelte:fragment slot="icon">
+								<UsersSolid
+									class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+								/>
+							</svelte:fragment>
+						</SidebarItem>
+					{/if}
+				{/await}
 				<SidebarItem label="Encuestas" href="./encuestas" on:click={() => (hidden2 = !hidden2)}>
 					<svelte:fragment slot="icon">
 						<AnnotationSolid
