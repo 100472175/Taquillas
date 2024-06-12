@@ -2,6 +2,8 @@
 	import type { PageData } from './$types';
 	import { Modal, Label, Input, Button } from 'flowbite-svelte';
 	import { signIn, signOut } from '@auth/sveltekit/client';
+	import { goto } from '$app/navigation';
+	import { enhance } from '$app/forms';
 	export let ocupacion_bloques, block, data: PageData;
 	let formModalReservation = false;
 	let formModalInformationError = false;
@@ -20,7 +22,15 @@
 </script>
 
 <Modal bind:open={formModalReservation} size="xs" autoclose={false} class="w-full">
-	<form class="flex flex-col space-y-6" action="?/registerTaquilla" method="post">
+	<form
+		class="flex flex-col space-y-6"
+		action="?/registerTaquilla"
+		method="post"
+		use:enhance
+		on:submit={() => {
+			formModalReservation = false;
+		}}
+	>
 		<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Reservar Taquilla</h3>
 		<p>
 			Vas a realizar la reserva de una taquilla. El precio de las taquilla es de:
