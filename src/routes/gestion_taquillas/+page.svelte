@@ -1,6 +1,6 @@
 <script lang="ts">
-	/** @type {import('./$types').ActionData} */
-	export let form;
+	/** @type {import('./$types').ActionData | any} */
+	export let form: any;
 
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
@@ -17,7 +17,7 @@
 	let unSuccessToast = false;
 	let openModalIniciaSesion = false;
 	let deleteModal = false;
-	let currentTaquilla = "";
+	let currentTaquilla: Taquilla;
 
 	async function realizar_reserva(taquilla: String) {
 		// Call a function that only runs in the server side:
@@ -35,7 +35,9 @@
 			body: JSON.stringify({ taquilla: taquilla, email: res_email })
 		});
 		let result = await response.json();
-		if (result.message.includes('success')) {
+		result = result['result']['message'];
+		console.log(result);
+		if (result.includes('confirmada')) {
 			successToast = true;
 			setTimeout(() => {
 				successToast = false;
@@ -61,19 +63,22 @@
 			},
 			body: JSON.stringify({ taquilla: taquilla, email: res_email })
 		});
+
 		let result = await response.json();
-		if (result.message.includes('success')) {
+		result = result['result']['message'];
+		console.log(result);
+		if (result.includes('eliminada')) {
 			successToast = true;
 			setTimeout(() => {
 				successToast = false;
 				location.reload();
-			}, 1500);
+			}, 2000);
 		} else {
 			unSuccessToast = true;
 		}
 	}
 
-	function change_delete_modal(taquilla) {
+	function change_delete_modal(taquilla: Taquilla) {
 		deleteModal = true;
 		currentTaquilla = taquilla;
 	}
@@ -158,11 +163,13 @@
 						<p class="text-center p-1 text-white bg-red-500 rounded">Ocupada</p>
 					{:else}
 						<p class="text-center p-1 text-white bg-black rounded">No disponible</p>
-					{/if}	
+					{/if}
 				</div>
 				{#if taquilla['status'] === 'reservada' || taquilla['status'] === 'ocupada'}
-					<p class="text-black text-sm mt-4">Reservada por <b>{taquilla['nia']}</b> el {taquilla['date']}</p>
-				{/if}	
+					<p class="text-black text-sm mt-4">
+						Reservada por <b>{taquilla['nia']}</b> el {taquilla['date']}
+					</p>
+				{/if}
 				{#if taquilla['status'] === 'reservada'}
 					<div class="grid grid-cols-2 mt-4 place-items-center">
 						<button
@@ -229,26 +236,33 @@
 <Modal bind:open={deleteModal} size="xs" autoclose={false} class="w-full">
 	<form class="flex flex-col space-y-6">
 		<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Eliminar Reserva</h3>
-		<p>
-			Vas a eliminar una reserva con los siguientes datos:
-		</p>
+		<p>Vas a eliminar una reserva con los siguientes datos:</p>
 		<Label class="space-y-2">
 			<span>NIA:</span>
-			<Input type="text" id="nia" name="nia" value={currentTaquilla["nia"]} readonly required />
+			<Input type="text" id="nia" name="nia" value={currentTaquilla['nia']} readonly required />
 		</Label>
 		<Label class="space-y-2">
 			<span>Taquilla</span>
-			<Input type="text" id="taquilla" name="taquilla" value={currentTaquilla["taquilla"]} readonly required />
+			<Input
+				type="text"
+				id="taquilla"
+				name="taquilla"
+				value={currentTaquilla['taquilla']}
+				readonly
+				required
+			/>
 		</Label>
-		<Button type="submit" class="w-full1 bg-green-500 hover:bg-blue-400" 
+		<Button
+			type="submit"
+			class="w-full1 bg-green-500 hover:bg-blue-400"
 			on:click={(ev) => {
 				ev.preventDefault();
 				deleteModal = false;
-				eliminar_reserva(currentTaquilla["taquilla"]);
-			}}>Eliminar Reserva</Button>
+				eliminar_reserva(currentTaquilla['taquilla']);
+			}}>Eliminar Reserva</Button
+		>
 	</form>
 </Modal>
-
 
 {#if successToast}
 	<div class="fixed bottom-0 right-0 m-5">

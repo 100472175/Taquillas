@@ -7,9 +7,8 @@ export const POST: RequestHandler = async ({ request }) => {
     const { taquilla, email } = input;
     
     // Llama a la API de reserva de la base de datos:
-    const result = aceptaReserva(taquilla, email);
-    
-    return json({'message': 'Reserva confirmada correctamente, success'});
+    const result = await aceptaReserva(taquilla, email);
+    console.log(result);
 
-    return result;
+    return json({result: result});
 };
