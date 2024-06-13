@@ -159,10 +159,12 @@ export async function getReservasTaquilla(taquilla: FormDataEntryValue | null | 
 export async function aceptaReserva(taquilla: FormDataEntryValue | null | String, responsable: FormDataEntryValue | null | String){
 	console.log('taquilla:', taquilla, 'responsable:', responsable);
 	const taquilla_res = taquilla || '';
-	const responsable_res = responsable || '';
+	let responsable_res = responsable || '';
 	if (taquilla_res === '' || responsable_res === '') {
 		return JSON.stringify({status: 'Error, datos incompletos'});
 	}
+
+	responsable_res = responsable_res.toString().split('@')[0];
 
 	try {
 		const response = await fetch(`${BASE_URL_API}/api/aceptaReserva`, {
@@ -193,10 +195,12 @@ export async function aceptaReserva(taquilla: FormDataEntryValue | null | String
 export async function eliminaReserva(taquilla: FormDataEntryValue | null | String, responsable: FormDataEntryValue | null | String){
 	console.log('taquilla:', taquilla, 'responsable:', responsable);
 	const taquilla_res = taquilla || '';
-	const responsable_res = responsable || '';
+	let responsable_res = responsable || '';
 	if (taquilla_res === '' || responsable_res === '') {
 		return JSON.stringify({status: 'Error, datos incompletos'});
 	}
+
+	responsable_res = responsable_res.toString().split('@')[0];
 
 	try {
 		const response = await fetch(`${BASE_URL_API}/api/eliminaReserva`, {
