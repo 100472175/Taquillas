@@ -10,6 +10,8 @@
 		{ value: 'atencion', name: 'Atención' },
 		{ value: 'general', name: 'General'}
 	];
+	
+	export let data;
 
 </script>
 
@@ -46,6 +48,9 @@
 					placeholder="Rol"
 				/>
 			</div>
+			<Input type="hidden" id="nia_admin" name="nia_admin" value={data.session?.user?.email?.split('@')[0]} />	
+
+			<Input type="hidden" id="nombre_admin" name="nombre_admin" value={data.session?.user?.name} />
 			<div class="w-screen grid grid-cols-1 place-items-center">
 				<Button
 					type="submit"
