@@ -4,6 +4,7 @@
 	import { signIn, signOut } from '@auth/sveltekit/client';
 	import { goto } from '$app/navigation';
 	import { enhance } from '$app/forms';
+	import ModalIniciaSesion from './ModalIniciaSesion.svelte';
 	export let ocupacion_bloques, block, data: PageData;
 	let formModalReservation = false;
 	let formModalInformationError = false;
@@ -71,6 +72,8 @@
 		<Button type="submit" class="w-full1 bg-green-500 hover:bg-blue-400">Reservar Taquilla</Button>
 	</form>
 </Modal>
+
+<ModalIniciaSesion bind:openForm={formModalInformationError}></ModalIniciaSesion>
 
 <Modal bind:open={formModalInformationError} size="xs" autoclose={false} class="w-full">
 	<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Error</h3>

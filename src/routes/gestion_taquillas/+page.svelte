@@ -5,13 +5,71 @@
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import { Tabs, TabItem, Input, Label, Button, Modal, Card } from 'flowbite-svelte';
-	let session;
+	import ModalIniciaSesion from '../../ModalIniciaSesion.svelte';
+	let session = $page.data.session;
 
 	// Reactive statement to update session whenever $page.data.session changes
 	$: session = $page.data.session;
 
 	let formModalReservation = false;
 	let selectedTaquilla = '';
+	let successToast = false;
+	let unSuccessToast = false;
+	let openModalIniciaSesion = false;
+
+	async function realizar_reserva(taquilla: String) {
+		// Call a function that only runs in the server side:
+		let res_email = session?.user?.email || '';
+		if (res_email === '') {
+			formModalReservation = false;
+			openModalIniciaSesion = true;
+			return;
+		}
+		const response = await fetch('/api/realizar_reserva', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ taquilla: taquilla, email: res_email })
+		});
+		let result = await response.json();
+		if (result.message.includes('success')) {
+			successToast = true;
+			setTimeout(() => {
+				successToast = false;
+				location.reload();
+			}, 3000);
+		} else {
+			unSuccessToast = true;
+		}
+	}
+
+	async function eliminar_reserva(taquilla: String) {
+		// Call a function that only runs in the server side:
+		let res_email = session?.user?.email || '';
+		if (res_email === '') {
+			formModalReservation = false;
+			openModalIniciaSesion = true;
+			return;
+		}
+		const response = await fetch('/api/eliminar_reserva', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ taquilla: taquilla, email: res_email })
+		});
+		let result = await response.json();
+		if (result.message.includes('success')) {
+			successToast = true;
+			setTimeout(() => {
+				successToast = false;
+				location.reload();
+			}, 3000);
+		} else {
+			unSuccessToast = true;
+		}
+	}
 </script>
 
 <h1 class="text-4xl text-center text-[#3BC4A0] m-5">Gestión de Taquillas</h1>
@@ -90,8 +148,19 @@
 				<p class="text-black text-sm">Reservada el {taquilla['date']}</p>
 				{#if taquilla['status'] === 'reservada'}
 					<div class="grid grid-cols-2 mt-4 place-items-center">
-						<button class="w-2/3 text-white bg-green-500 rounded">Confirmar</button>
-						<button class="w-2/3 text-white bg-red-500 rounded">Eliminar</button>
+						<button
+							class="w-2/3 text-white bg-green-500 rounded"
+							on:click={() => {
+								realizar_reserva(taquilla['taquilla']);
+							}}>Confirmar</button
+						>
+
+						<button
+							class="w-2/3 text-white bg-red-500 rounded"
+							on:click={() => {
+								eliminar_reserva(taquilla['taquilla']);
+							}}>Eliminar</button
+						>
 					</div>
 				{:else if taquilla['status'] === 'libre'}
 					<div class="grid grid-cols-2 mt-4 place-items-center">
@@ -138,6 +207,22 @@
 		<Button type="submit" class="w-full1 bg-green-500 hover:bg-blue-400">Reservar Taquilla</Button>
 	</form>
 </Modal>
+
+<ModalIniciaSesion bind:openForm={openModalIniciaSesion}></ModalIniciaSesion>
+
+{#if successToast}
+	<div class="fixed bottom-0 right-0 m-5">
+		<Card class="bg-green-500 text-white">
+			<p class="p-2">Acción realizada con éxito</p>
+		</Card>
+	</div>
+{:else if unSuccessToast}
+	<div class="fixed bottom-0 right-0 m-5">
+		<Card class="bg-red-500 text-white">
+			<p class="p-2">Acción no realizada con éxito</p>
+		</Card>
+	</div>
+{/if}
 
 <p>Comentarios:</p>
 Estaría bien que fuera un desplegable de NIAS para borrar los roles. También tenemos que hacer una página

@@ -15,7 +15,7 @@
 		SidebarGroup,
 		SidebarItem,
 		SidebarWrapper,
-		Spinner,
+		Spinner
 	} from 'flowbite-svelte';
 	import {
 		UsersSolid,
@@ -24,7 +24,7 @@
 		HomeSolid,
 		BarsOutline,
 		LockOpenOutline,
-		LockOutline,
+		LockOutline
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	import { onMount } from 'svelte';
@@ -84,7 +84,6 @@
 
 	$: session = $page.data.session;
 	$: authorizedEmails = $page.data.authorizedEmailsLayout;
-
 </script>
 
 <link
@@ -96,7 +95,7 @@
 	<button on:click={() => (hidden2 = !hidden2)}>
 		<BarsOutline class="sm:w-10 sm:h-10 w-8 h-8" />
 	</button>
-	<img class="sm:w-12 sm:h-auto w-10 h-auto sm:block hidden" src="/logo.png" alt="logo" />
+	<img class="sm:w-12 sm:h-auto w-10 h-auto sm:block hidden" src="/logo.webp" alt="logo" />
 	<button
 		class="font-bold-italic text-white text-center py-2 lg:text-2xl sm:text-lg text-sm hover:underline"
 		on:click={() => {
@@ -110,9 +109,7 @@
 					{session.user?.name}
 				</p></a
 			>
-			<a href="/admin"
-				><Avatar src={session.user?.image} class="lg:w-11 sm:w-20 h-auto" /></a
-			>
+			<a href="/admin"><Avatar src={session.user?.image} class="lg:w-11 sm:w-20 h-auto" /></a>
 		</div>
 		<button
 			on:click={() => logout()}
@@ -165,7 +162,11 @@
 						/>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem label="Gestionar Taquillas" href="/gestion_taquillas" on:click={() => hideNavBar()}>
+				<SidebarItem
+					label="Gestionar Taquillas"
+					href="/gestion_taquillas"
+					on:click={() => hideNavBar()}
+				>
 					<svelte:fragment slot="icon">
 						<LockOutline
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"

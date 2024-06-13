@@ -11,13 +11,13 @@
 		<div class="w-4/6 bg-black text-white h-48 rounded-2xl">
 			<a href="/taquillas/1">
 				<img
-					src="edificios/1-betancourt.png"
+					src="edificios/1-betancourt.webp"
 					class="rounded-2xl max-h-full max-w-full object-cover"
 					alt="Edificio 1. Agustín de Betancourt"
 				/>
 			</a>
 		</div>
-		<div class="w-4/6 h-10 bg-black text-white h-48 rounded-2xl">
+		<div class="w-4/6 h-10 bg-black text-white rounded-2xl">
 			<a href="/taquillas/2">
 				<img
 					src="edificios/2-sabatini.jpg"
@@ -28,7 +28,7 @@
 		</div>
 	</div>
 	<div class="grid-cols-2 grid place-items-center">
-		<div class="w-4/6 h-10 bg-black text-white h-48 rounded-2xl">
+		<div class="w-4/6 h-10 bg-black text-white rounded-2xl">
 			<a href="/taquillas/4">
 				<img
 					src="edificios/4-Torres_Quevedo.jpg"
@@ -37,7 +37,7 @@
 				/>
 			</a>
 		</div>
-		<div class="w-4/6 h-10 bg-black text-white h-48 rounded-2xl">
+		<div class="w-4/6 h-10 bg-black text-white rounded-2xl">
 			<a href="/taquillas/7">
 				<img
 					src="edificios/7-Juan_Benet.jpg"
