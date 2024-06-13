@@ -16,6 +16,8 @@
 	let successToast = false;
 	let unSuccessToast = false;
 	let openModalIniciaSesion = false;
+	let deleteModal = false;
+	let currentTaquilla = "";
 
 	async function realizar_reserva(taquilla: String) {
 		// Call a function that only runs in the server side:
@@ -38,7 +40,7 @@
 			setTimeout(() => {
 				successToast = false;
 				location.reload();
-			}, 3000);
+			}, 2000);
 		} else {
 			unSuccessToast = true;
 		}
@@ -65,10 +67,15 @@
 			setTimeout(() => {
 				successToast = false;
 				location.reload();
-			}, 3000);
+			}, 1500);
 		} else {
 			unSuccessToast = true;
 		}
+	}
+
+	function change_delete_modal(taquilla) {
+		deleteModal = true;
+		currentTaquilla = taquilla;
 	}
 </script>
 
@@ -143,29 +150,39 @@
 			<Card class="mt-2">
 				<div class="grid grid-cols-2">
 					<h5 class="text-2xl text-[#3BC4A0]">{taquilla['taquilla']}</h5>
-					<p class="text-right pr-10 p-1 text-black">{taquilla['status']}</p>
+					{#if taquilla['status'] === 'reservada'}
+						<p class="text-center p-1 text-white bg-yellow-400 rounded">Reservada</p>
+					{:else if taquilla['status'] === 'libre'}
+						<p class="text-center p-1 text-white bg-green-500 rounded">Libre</p>
+					{:else if taquilla['status'] === 'ocupada'}
+						<p class="text-center p-1 text-white bg-red-500 rounded">Ocupada</p>
+					{:else}
+						<p class="text-center p-1 text-white bg-black rounded">No disponible</p>
+					{/if}	
 				</div>
-				<p class="text-black text-sm">Reservada el {taquilla['date']}</p>
+				{#if taquilla['status'] === 'reservada' || taquilla['status'] === 'ocupada'}
+					<p class="text-black text-sm mt-4">Reservada por <b>{taquilla['nia']}</b> el {taquilla['date']}</p>
+				{/if}	
 				{#if taquilla['status'] === 'reservada'}
 					<div class="grid grid-cols-2 mt-4 place-items-center">
 						<button
-							class="w-2/3 text-white bg-green-500 rounded"
+							class="w-2/3 text-white bg-green-500 rounded p-1"
 							on:click={() => {
 								realizar_reserva(taquilla['taquilla']);
 							}}>Confirmar</button
 						>
 
 						<button
-							class="w-2/3 text-white bg-red-500 rounded"
+							class="w-2/3 text-white bg-red-500 rounded p-1"
 							on:click={() => {
-								eliminar_reserva(taquilla['taquilla']);
+								change_delete_modal(taquilla);
 							}}>Eliminar</button
 						>
 					</div>
 				{:else if taquilla['status'] === 'libre'}
-					<div class="grid grid-cols-2 mt-4 place-items-center">
+					<div class="grid grid-cols-1 mt-4 place-items-center">
 						<button
-							class="w-2/3 text-white bg-green-500 rounded"
+							class="w-1/2 text-white bg-green-500 rounded p-1"
 							on:click={() => {
 								selectedTaquilla = taquilla['taquilla'];
 								formModalReservation = true;
@@ -198,7 +215,6 @@
 			<span>Taquilla</span>
 			<Input type="text" id="taquilla" name="taquilla" value={selectedTaquilla} readonly required />
 		</Label>
-
 		<Label>
 			<span>Nombre:</span>
 			<Input type="text" id="nombre" name="nombre" required />
@@ -209,6 +225,30 @@
 </Modal>
 
 <ModalIniciaSesion bind:openForm={openModalIniciaSesion}></ModalIniciaSesion>
+
+<Modal bind:open={deleteModal} size="xs" autoclose={false} class="w-full">
+	<form class="flex flex-col space-y-6">
+		<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Eliminar Reserva</h3>
+		<p>
+			Vas a eliminar una reserva con los siguientes datos:
+		</p>
+		<Label class="space-y-2">
+			<span>NIA:</span>
+			<Input type="text" id="nia" name="nia" value={currentTaquilla["nia"]} readonly required />
+		</Label>
+		<Label class="space-y-2">
+			<span>Taquilla</span>
+			<Input type="text" id="taquilla" name="taquilla" value={currentTaquilla["taquilla"]} readonly required />
+		</Label>
+		<Button type="submit" class="w-full1 bg-green-500 hover:bg-blue-400" 
+			on:click={(ev) => {
+				ev.preventDefault();
+				deleteModal = false;
+				eliminar_reserva(currentTaquilla["taquilla"]);
+			}}>Eliminar Reserva</Button>
+	</form>
+</Modal>
+
 
 {#if successToast}
 	<div class="fixed bottom-0 right-0 m-5">
@@ -223,7 +263,3 @@
 		</Card>
 	</div>
 {/if}
-
-<p>Comentarios:</p>
-Estaría bien que fuera un desplegable de NIAS para borrar los roles. También tenemos que hacer una página
-para consultar las reservas de los un nia.

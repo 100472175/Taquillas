@@ -88,10 +88,8 @@
 		<ButtonGroup class="space-x-px">
 			<Button pill color="green" on:click={() => substractBlock()}>
 				<ArrowLeftOutline />
-				Previo
 			</Button>
 			<Button pill color="green" on:click={() => addBlock()}>
-				Siguiente
 				<ArrowRightOutline />
 			</Button>
 		</ButtonGroup>
