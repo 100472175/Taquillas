@@ -92,7 +92,7 @@
 		class="hover:text-[#3BC4A0]"
 		inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4"
 		on:focus={() => {
-			form = null;
+			form = '';
 		}}
 	>
 		<form action="?/busquedaNia" method="post" use:enhance>
@@ -122,7 +122,7 @@
 		class="hover:text-[#3BC4A0]"
 		inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4"
 		on:focus={() => {
-			form = null;
+			form = '';
 		}}
 	>
 		<form class="w-screen" action="?/busquedaTaquilla" method="post" use:enhance>

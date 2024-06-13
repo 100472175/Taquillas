@@ -56,7 +56,7 @@
 					}}
 				>
 					<AnnotationSolid class="mt-2" />
-					Encuestas
+					Encuestas 2ºC 2024
 				</button>
 				<p class="sm:text-base text-sm">Consulta el índice de participación de las encuestas</p>
 			</AccordionItem>
