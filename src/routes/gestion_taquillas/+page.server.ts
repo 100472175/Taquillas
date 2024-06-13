@@ -17,14 +17,14 @@ export const load = (async () => {
 export const actions = {
 	busquedaNia: async ({ cookies, request }) => {
 		const data = await request.formData();
-		// -------- Aquí se llama a la función de la API que añade un rol a un usuario --------
+		// -------- Aquí se llama a la función de la API que busca las taquillas asociadas a un NIA --------
 		const nia = data.get('NIA_s');
 		const result = getReservasNia(nia);
 		return result;
 	},
 	busquedaTaquilla: async ({ cookies, request }) => {
 		const data = await request.formData();
-		// -------- Aquí se llama a la función de la API que añade un rol a un usuario --------
+		// -------- Aquí se llama a la función de la API que busca el estado de una Taquilla --------
 		const taquilla = data.get('Taquilla_s');
 		const result = getReservasTaquilla(taquilla);
 		return result;

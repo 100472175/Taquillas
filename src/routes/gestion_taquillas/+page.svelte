@@ -79,7 +79,7 @@
 	</TabItem>
 </Tabs>
 
-<div class="w-screen grid grid-cols-2 place-items-center mt-2">
+<div class="w-screen grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 place-items-center mt-2">
 	{#if form != null && form}
 		{#each form.reservas as taquilla}
 			<Card class="mt-2">
