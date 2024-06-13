@@ -70,7 +70,7 @@ export async function ocupacionBloque(edificio: String, planta: String) {
 	}
 }
 
-export async function addUserRol(nia: FormDataEntryValue | null | String, rol: FormDataEntryValue | null | String) {
+export async function addUserRol(nia: FormDataEntryValue | null | String, rol: FormDataEntryValue | null | String, nia_delegado: String, nombre: String) {
 	rol = rol?.toString().toLowerCase() || 'general';
 	try {
 		const response = await fetch(`${BASE_URL_API}/api/addUserRol`, {
@@ -82,6 +82,8 @@ export async function addUserRol(nia: FormDataEntryValue | null | String, rol: F
 			body: JSON.stringify({
 				nia: nia,
 				rol: rol,
+				nia_delegado: nia_delegado,
+				nombre: nombre
 			})
 		});
 

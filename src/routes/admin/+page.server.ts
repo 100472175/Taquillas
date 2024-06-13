@@ -20,7 +20,7 @@ export const actions = {
 		// -------- Aquí se llama a la función de la API que añade un rol a un usuario --------
 		const nia = data.get('NIA_add');
 		const rol = data.get('rol_add');
-		const result = addUserRol(nia, rol);
+		const result = addUserRol(nia, rol, "1", "A");
 		return result;
 	},
 } satisfies Actions;
