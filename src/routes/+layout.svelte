@@ -178,19 +178,23 @@
 				</SidebarItem>
 				{#await authorizedEmailsEscuela then}
 					{#await authorizedEmailsDespacho then}
-						{#if (authorizedEmailsEscuela != null || authorizedEmailsDespacho != null) && (authorizedEmailsEscuela.includes(session?.user?.email) == true || authorizedEmailsDespacho.includes(session?.user?.email) == true)}
-							<SidebarItem
-								label="Gestionar Taquillas"
-								href="/gestion_taquillas"
-								on:click={() => hideNavBar()}
-							>
-								<svelte:fragment slot="icon">
-									<LockOutline
-										class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-									/>
-								</svelte:fragment>
-							</SidebarItem>
-						{/if}
+						{#await session then}
+							{#if session?.user?.email != null}
+								{#if (authorizedEmailsEscuela != null || authorizedEmailsDespacho != null) && (authorizedEmailsEscuela.includes(session?.user?.email) == true || authorizedEmailsDespacho.includes(session?.user?.email) == true)}
+									<SidebarItem
+										label="Gestionar Taquillas"
+										href="/gestion_taquillas"
+										on:click={() => hideNavBar()}
+									>
+										<svelte:fragment slot="icon">
+											<LockOutline
+												class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+											/>
+										</svelte:fragment>
+									</SidebarItem>
+								{/if}
+							{/if}
+						{/await}
 					{/await}
 				{/await}
 
