@@ -19,7 +19,14 @@ export const load: LayoutServerLoad = async (event) => {
 	}
 
 	let emailsDespacho = await fetchAuthorizedEmails('atencion');
-	emailsDespacho = emailsDespacho.concat(await fetchAuthorizedEmails('escuela'));
+	if (emailsDespacho === null) {
+		emailsDespacho = [];
+	}
+	let emailsEscuela = await fetchAuthorizedEmails('escuela');
+	if (emailsEscuela === null) {
+		emailsEscuela = [];
+	}
+	emailsDespacho = emailsDespacho.concat(emailsEscuela);
 	// remove null values
 	emailsDespacho = emailsDespacho.filter((email: String) => email !== null);
 
