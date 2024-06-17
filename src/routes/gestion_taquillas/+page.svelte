@@ -190,7 +190,7 @@
 				<TableHeadCell>Status</TableHeadCell>
 			</TableHead>
 			<TableBody tableBodyClass="divide-y">
-				{#each TablaPabloItems as item}
+				{#each filteredItems as item}
 					<TableBodyRow>
 						<TableBodyCell>{item.nombre}</TableBodyCell>
 						<TableBodyCell>{item.nia}</TableBodyCell>
@@ -212,7 +212,7 @@
 				<div class="grid grid-cols-2">
 					<h5 class="text-2xl text-[#3BC4A0]">{taquilla['taquilla']}</h5>
 					{#if taquilla['status'] === 'reservada'}
-						<p class="text-center p-1 text-white bg-yellow-400 rounded">Reservada</p>
+						<p class="text-center p-1 text-white bg-yellow-400 rounded">Reservada: {taquilla["codigo"]}</p>
 					{:else if taquilla['status'] === 'libre'}
 						<p class="text-center p-1 text-white bg-green-500 rounded">Libre</p>
 					{:else if taquilla['status'] === 'ocupada'}
