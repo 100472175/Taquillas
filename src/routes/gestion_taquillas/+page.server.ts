@@ -8,8 +8,15 @@ export const load = (async () => {
 		return data;
 	};
 
+	const fetchTablaPablo = async () => {
+		const res = await fetch(`${BASE_URL_API}/api/tablaPablo`);
+		const data = await res.json();
+		return data;
+	};
+
     return {
         authorizedEmails: await fetchAuthorizedEmails(),
+		tablaPablo: await fetchTablaPablo(),
     };
 }) satisfies PageServerLoad;
 

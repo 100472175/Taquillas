@@ -5,11 +5,31 @@
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import { Tabs, TabItem, Input, Label, Button, Modal, Card } from 'flowbite-svelte';
+	import {
+		Table,
+		TableBody,
+		TableBodyCell,
+		TableBodyRow,
+		TableHead,
+		TableHeadCell,
+		TableSearch
+	} from 'flowbite-svelte';
 	import ModalIniciaSesion from '../../ModalIniciaSesion.svelte';
 	let session = $page.data.session;
 
 	// Reactive statement to update session whenever $page.data.session changes
 	$: session = $page.data.session;
+
+	interface Taquilla {
+		codigo: string;
+		date: string;
+		nia: number;
+		nombre: string;
+		status: string;
+		taquilla: string;
+	}
+
+	let TablaPabloItems: [Taquilla] = $page.data.tablaPablo;
 
 	let formModalReservation = false;
 	let selectedTaquilla = '';
@@ -18,6 +38,11 @@
 	let openModalIniciaSesion = false;
 	let deleteModal = false;
 	let currentTaquilla: Taquilla;
+	let searchTerm = '';
+
+	$: filteredItems = TablaPabloItems.filter(
+		(item) => item.nombre.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+	);
 
 	async function realizar_reserva(taquilla: String) {
 		// Call a function that only runs in the server side:
@@ -147,6 +172,37 @@
 			</div>
 		</form>
 	</TabItem>
+	<TabItem
+		title="Tabla Pablo"
+		class="hover:text-[#3BC4A0]"
+		inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4"
+		on:focus={() => {
+			form = '';
+		}}
+	>
+		<TableSearch placeholder="Busca por Nombre" hoverable={true} bind:inputValue={searchTerm}>
+			<TableHead>
+				<TableHeadCell>Nombre</TableHeadCell>
+				<TableHeadCell>Nia</TableHeadCell>
+				<TableHeadCell>Taquilla</TableHeadCell>
+				<TableHeadCell>Código</TableHeadCell>
+				<TableHeadCell>Fecha</TableHeadCell>
+				<TableHeadCell>Status</TableHeadCell>
+			</TableHead>
+			<TableBody tableBodyClass="divide-y">
+				{#each TablaPabloItems as item}
+					<TableBodyRow>
+						<TableBodyCell>{item.nombre}</TableBodyCell>
+						<TableBodyCell>{item.nia}</TableBodyCell>
+						<TableBodyCell>{item.taquilla}</TableBodyCell>
+						<TableBodyCell>{item.codigo}</TableBodyCell>
+						<TableBodyCell>{item.date}</TableBodyCell>
+						<TableBodyCell>{item.status}</TableBodyCell>
+					</TableBodyRow>
+				{/each}
+			</TableBody>
+		</TableSearch></TabItem
+	>
 </Tabs>
 
 <div class="w-screen grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 place-items-center mt-2">

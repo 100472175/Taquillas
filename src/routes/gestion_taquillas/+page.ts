@@ -6,7 +6,16 @@ import { redirect } from '@sveltejs/kit';
 
 export const load: PageLoad = async ({ parent, data }) => {
 	const { session } = await parent();
+
 	let authorizedEmails = data.authorizedEmails ?? [];
+	let tablaPablo = data.tablaPablo ?? [{
+			nombre: "No se ha ",
+			nia: "Podido encontrar",
+			taquilla: "ninguna taquilla.",
+			codigo: "La base está al",
+			fecha: 100000000,
+			status: "% de su capacidad.",
+		}];
 
 	if (authorizedEmails.includes(session?.user?.email) === -1 || !session?.user?.email || authorizedEmails.includes(session?.user?.email) === false) { 
 		throw redirect(302, '/');
@@ -14,6 +23,7 @@ export const load: PageLoad = async ({ parent, data }) => {
 	
 	return {
 		session: session,
-		authorizedEmails: authorizedEmails
+		authorizedEmails: authorizedEmails,
+		tablaPablo : tablaPablo
 	};
 };
