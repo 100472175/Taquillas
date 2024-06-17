@@ -10,7 +10,7 @@
 <!--Página principal de home-->
 
 <h1 class="sm:text-5xl text-3xl text-center w-full py-6">Servicios de Delegación</h1>
-<div class="grid grid-rows-2 md:grid-rows-4 md:h-full place-items-center">
+<div class="grid grid-rows-2 md:grid-rows-4 md:h-4/5 place-items-center">
 	<Accordion class="md:w-1/2 w-11/12 ">
 		<AccordionItem
 			class="text-white sm:text-3xl text-2xl px-8 py-3 bg-[#3BC4A0] mb-2 hover:bg-[#FF6D2E] rounded-2xl"
