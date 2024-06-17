@@ -90,7 +90,7 @@
 </Modal>
 
 <div class="w-10/12 overflow-auto m-auto p-8">
-	<table style="border: 1px solid black; border-collapse: 10px;" class="m-auto mb-10">
+	<table style="border: 1px solid black; border-collapse: 10px;" class="m-auto mb-10 ">
 		{#each ocupacion_bloques[block - 1] as row}
 			<tr>
 				{#each row as taquilla}
