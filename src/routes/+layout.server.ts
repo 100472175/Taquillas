@@ -33,7 +33,7 @@ export const load: LayoutServerLoad = async (event) => {
 
 	return {
 		session: session,
-		authorizedEmailsLayoutEscuela: await fetchAuthorizedEmails('escuela'),
+		authorizedEmailsLayoutEscuela: emailsEscuela,
 		authorizedEmailsLayoutDespacho: emailsDespacho,
 	};
 };
