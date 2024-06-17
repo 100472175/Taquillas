@@ -18,25 +18,16 @@ export const load: LayoutServerLoad = async (event) => {
 		add_user_db(session?.user?.email, session?.user?.name);
 	}
 
-	console.log("Escuela", await fetchAuthorizedEmails('escuela'));
+	let emailsDespacho = await fetchAuthorizedEmails('atencion');
+	emailsDespacho = emailsDespacho.concat(await fetchAuthorizedEmails('escuela'));
+	// remove null values
+	emailsDespacho = emailsDespacho.filter((email: String) => email !== null);
 
 
 	return {
 		session: session,
 		authorizedEmailsLayoutEscuela: await fetchAuthorizedEmails('escuela'),
-		authorizedEmailsLayoutDespacho: await fetchAuthorizedEmails('despacho'),
+		authorizedEmailsLayoutDespacho: emailsDespacho,
 	};
 };
 
-
-export const _check_user: LayoutServerLoad = async ({ email }) => {
-	if (email_list.includes(email)) {
-		return {
-			status: 200
-		};
-	} else {
-		return {
-			status: 401
-		};
-	}
-};
