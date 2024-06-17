@@ -190,7 +190,7 @@
 				<TableHeadCell>Status</TableHeadCell>
 			</TableHead>
 			<TableBody tableBodyClass="divide-y">
-				{#each TablaPabloItems as item}
+				{#each filteredItems as item}
 					<TableBodyRow>
 						<TableBodyCell>{item.nombre}</TableBodyCell>
 						<TableBodyCell>{item.nia}</TableBodyCell>

@@ -29,6 +29,7 @@
 	import { sineIn } from 'svelte/easing';
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
+	import { _toLeftRightCenter } from 'chart.js/helpers';
 
 	let hidden2 = true;
 	let transitionParams = {
@@ -83,7 +84,15 @@
 	});
 
 	$: session = $page.data.session;
-	$: authorizedEmails = $page.data.authorizedEmailsLayout;
+	$: authorizedEmailsEscuela = $page.data.authorizedEmailsLayoutEscuela;
+	$: authorizedEmailsDespacho = $page.data.authorizedEmailsLayoutDespacho;
+
+	// Wait for the session to be loaded
+	$: if (session) {
+		console.log('Despacho: ', authorizedEmailsDespacho);
+		console.log('Escuela: ', authorizedEmailsEscuela);
+		console.log(session?.user?.email);
+	}
 </script>
 
 <link
@@ -167,17 +176,24 @@
 						/>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem
-					label="Gestionar Taquillas"
-					href="/gestion_taquillas"
-					on:click={() => hideNavBar()}
-				>
-					<svelte:fragment slot="icon">
-						<LockOutline
-							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-						/>
-					</svelte:fragment>
-				</SidebarItem>
+				{#await authorizedEmailsEscuela then}
+					{#await authorizedEmailsDespacho then}
+						{#if (authorizedEmailsEscuela != null || authorizedEmailsDespacho != null) && (authorizedEmailsEscuela.includes(session?.user?.email) == true || authorizedEmailsDespacho.includes(session?.user?.email) == true)}
+							<SidebarItem
+								label="Gestionar Taquillas"
+								href="/gestion_taquillas"
+								on:click={() => hideNavBar()}
+							>
+								<svelte:fragment slot="icon">
+									<LockOutline
+										class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+									/>
+								</svelte:fragment>
+							</SidebarItem>
+						{/if}
+					{/await}
+				{/await}
+
 				<SidebarDropdownWrapper label="Osciloscopios">
 					<svelte:fragment slot="icon">
 						<DrawSquareOutline
@@ -191,8 +207,8 @@
 						on:click={() => hideNavBar()}
 					/>
 				</SidebarDropdownWrapper>
-				{#await authorizedEmails}
-					{#if authorizedEmails.includes(session?.user?.email)}
+				{#await authorizedEmailsEscuela}
+					{#if authorizedEmailsEscuela.includes(session?.user?.email)}
 						<SidebarItem label="Usuarios" href="admin" on:click={() => hideNavBar()}>
 							<svelte:fragment slot="icon">
 								<UsersSolid
