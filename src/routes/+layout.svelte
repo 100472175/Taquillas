@@ -101,7 +101,7 @@
 	rel="stylesheet"
 />
 
-<header class="bg-[#3BC4A0] grid sm:grid-cols-5 grid-cols-4 gap-x-4 md:gap-x-10 dark:bg-[#269275]">
+<header class="bg-[#3BC4A0] grid sm:grid-cols-5 grid-cols-4 gap-x-4 md:gap-x-10 dark:bg-dark-primary">
 	<button on:click={() => (hidden2 = !hidden2)}>
 		<BarsOutline class="sm:w-10 sm:h-10 w-8 h-8" />
 	</button>
