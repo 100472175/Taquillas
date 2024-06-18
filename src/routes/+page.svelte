@@ -9,11 +9,11 @@
 
 <!--Página principal de home-->
 
-<h1 class="sm:text-5xl text-3xl text-center w-full py-6 dark:text-white dark:bg-cyan-950">Servicios de Delegación</h1>
-<div class="grid grid-rows-2 md:grid-rows-4 md:h-4/5 place-items-center dark:bg-cyan-950">
+<h1 class="sm:text-5xl text-3xl text-center w-full py-6 dark:text-white dark:bg-[#070a17]">Servicios de Delegación</h1>
+<div class="grid grid-rows-2 md:grid-rows-4 md:h-4/5 place-items-center dark:bg-[#070a17]">
 	<Accordion class="md:w-1/2 w-11/12">
 		<AccordionItem
-			class="text-white sm:text-3xl text-2xl px-8 py-3 bg-[#3BC4A0] mb-2 rounded-2xl hover:bg-[#FF6D2E] dark:hover:bg-[#FF6D2E] dark:text-white dark:border-black dark:bg-[#269275]"
+			class="text-white sm:text-3xl text-2xl px-8 py-3 bg-[#3BC4A0] mb-2 rounded-2xl hover:bg-[#FF6D2E] dark:hover:bg-[#7962e5] dark:text-white dark:border-black dark:bg-[#2854b0]"
 			activeClass="bg-[#FF6D2E]"
 		>
 			<button
@@ -29,7 +29,7 @@
 			<p class="sm:text-base text-sm dark:text-white">Reserva o comprueba el estado de una taquilla</p>
 		</AccordionItem>
 		<AccordionItem
-			class="text-white sm:text-3xl text-2xl px-8 py-3 bg-[#3BC4A0] mb-2 hover:bg-[#FF6D2E] dark:hover:bg-[#FF6D2E] rounded-2xl dark:text-white dark:border-black dark:bg-[#269275]"
+			class="text-white sm:text-3xl text-2xl px-8 py-3 bg-[#3BC4A0] mb-2 hover:bg-[#FF6D2E] dark:hover:bg-[#7962e5] rounded-2xl dark:text-white dark:border-black dark:bg-[#2854b0]"
 			activeClass="bg-[#FF6D2E]"
 		>
 			<button
@@ -45,7 +45,7 @@
 			<p class="sm:text-base text-sm dark:text-white">Reserva un osciloscopio en el despacho</p>
 		</AccordionItem>
 		<AccordionItem
-			class="text-white sm:text-3xl text-2xl px-8 py-3 bg-[#3BC4A0] hover:bg-[#FF6D2E] dark:hover:bg-[#FF6D2E] rounded-2xl dark:text-white dark:border-black dark:bg-[#269275]"
+			class="text-white sm:text-3xl text-2xl px-8 py-3 bg-[#3BC4A0] hover:bg-[#FF6D2E] dark:hover:bg-[#7962e5] rounded-2xl dark:text-white dark:border-black dark:bg-[#2854b0]"
 			activeClass="bg-[#FF6D2E]"
 		>
 			<button

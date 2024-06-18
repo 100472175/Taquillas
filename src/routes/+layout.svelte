@@ -143,7 +143,7 @@
 	{/if}
 </header>
 
-<Breadcrumb solidClass='flex px-5 py-3 text-gray-700 border border-gray-200 rounded-none bg-gray-50 dark:bg-cyan-900 dark:border-black' aria-label="Solid background breadcrumb example" solid>
+<Breadcrumb solidClass='flex px-5 py-3 text-gray-700 border border-gray-200 rounded-none bg-gray-50 dark:bg-[#111719] dark:border-black' aria-label="Solid background breadcrumb example" solid>
 	<BreadcrumbItem href="/" home>Home</BreadcrumbItem>
 	{#each breadcrumItems as item}
 		<BreadcrumbItem href={item.href}>{item.text}</BreadcrumbItem>

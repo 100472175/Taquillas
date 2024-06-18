@@ -109,7 +109,7 @@
 	}
 </script>
 
-<h1 class="text-4xl text-center text-[#3BC4A0] m-5">Gestión de Taquillas</h1>
+<h1 class="text-4xl text-center text-[#3BC4A0] m-5 dark:bg-cyan-950dark:border-black dark:bg-[#269275]">Gestión de Taquillas</h1>
 <Tabs tabStyle="underline" contentClass="p-4 bg-white">
 	<TabItem
 		open
