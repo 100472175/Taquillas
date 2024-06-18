@@ -8,6 +8,7 @@
 		Breadcrumb,
 		BreadcrumbItem,
 		CloseButton,
+		DarkMode,
 		Drawer,
 		Sidebar,
 		SidebarDropdownItem,
@@ -100,7 +101,7 @@
 	rel="stylesheet"
 />
 
-<header class="bg-[#3BC4A0] grid sm:grid-cols-5 grid-cols-4 gap-x-4 md:gap-x-10">
+<header class="bg-[#3BC4A0] grid sm:grid-cols-5 grid-cols-4 gap-x-4 md:gap-x-10 dark:bg-[#269275]">
 	<button on:click={() => (hidden2 = !hidden2)}>
 		<BarsOutline class="sm:w-10 sm:h-10 w-8 h-8" />
 	</button>
@@ -142,7 +143,7 @@
 	{/if}
 </header>
 
-<Breadcrumb class="mt-0" aria-label="Solid background breadcrumb example" solid>
+<Breadcrumb solidClass='flex px-5 py-3 text-gray-700 border border-gray-200 rounded-none bg-gray-50 dark:bg-cyan-900 dark:border-black' aria-label="Solid background breadcrumb example" solid>
 	<BreadcrumbItem href="/" home>Home</BreadcrumbItem>
 	{#each breadcrumItems as item}
 		<BreadcrumbItem href={item.href}>{item.text}</BreadcrumbItem>
@@ -231,6 +232,9 @@
 						/>
 					</svelte:fragment>
 				</SidebarItem>
+				
+				<DarkMode />
+				
 			</SidebarGroup>
 		</SidebarWrapper>
 	</Sidebar>

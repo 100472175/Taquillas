@@ -9,11 +9,12 @@
 
 <!--Página principal de home-->
 
-<h1 class="sm:text-5xl text-3xl text-center w-full py-6">Servicios de Delegación</h1>
-<div class="grid grid-rows-2 md:grid-rows-4 md:h-4/5 place-items-center">
-	<Accordion class="md:w-1/2 w-11/12 ">
+<h1 class="sm:text-5xl text-3xl text-center w-full py-6 dark:text-white dark:bg-cyan-950">Servicios de Delegación</h1>
+<div class="grid grid-rows-2 md:grid-rows-4 md:h-4/5 place-items-center dark:bg-cyan-950">
+	<Accordion class="md:w-1/2 w-11/12">
 		<AccordionItem
-			class="text-white sm:text-3xl text-2xl px-8 py-3 bg-[#3BC4A0] mb-2 hover:bg-[#FF6D2E] rounded-2xl"
+			class="text-white sm:text-3xl text-2xl px-8 py-3 bg-[#3BC4A0] mb-2 rounded-2xl hover:bg-[#FF6D2E] dark:hover:bg-[#FF6D2E] dark:text-white dark:border-black dark:bg-[#269275]"
+			activeClass="bg-[#FF6D2E]"
 		>
 			<button
 				slot="header"
@@ -22,13 +23,14 @@
 					goto('./taquillas');
 				}}
 			>
-				<LockOpenOutline class="mt-2" />
+				<LockOpenOutline class="mt-1 h-8 w-8" />
 				Taquillas
 			</button>
-			<p class="sm:text-base text-sm">Reserva o comprueba el estado de una taquilla</p>
+			<p class="sm:text-base text-sm dark:text-white">Reserva o comprueba el estado de una taquilla</p>
 		</AccordionItem>
 		<AccordionItem
-			class="text-white sm:text-3xl text-2xl px-8 py-3 bg-[#3BC4A0] mb-2 hover:bg-[#FF6D2E] rounded-2xl"
+			class="text-white sm:text-3xl text-2xl px-8 py-3 bg-[#3BC4A0] mb-2 hover:bg-[#FF6D2E] dark:hover:bg-[#FF6D2E] rounded-2xl dark:text-white dark:border-black dark:bg-[#269275]"
+			activeClass="bg-[#FF6D2E]"
 		>
 			<button
 				slot="header"
@@ -37,13 +39,14 @@
 					goto('./osciloscopio');
 				}}
 			>
-				<DrawSquareOutline class="mt-2" />
+				<DrawSquareOutline class="mt-1 h-8 w-8" />
 				Osciloscopio
 			</button>
-			<p class="sm:text-base text-sm">Reserva un osciloscopio en el despacho</p>
+			<p class="sm:text-base text-sm dark:text-white">Reserva un osciloscopio en el despacho</p>
 		</AccordionItem>
 		<AccordionItem
-			class="text-white sm:text-3xl text-2xl px-8 py-3 bg-[#3BC4A0] hover:bg-[#FF6D2E] rounded-2xl"
+			class="text-white sm:text-3xl text-2xl px-8 py-3 bg-[#3BC4A0] hover:bg-[#FF6D2E] dark:hover:bg-[#FF6D2E] rounded-2xl dark:text-white dark:border-black dark:bg-[#269275]"
+			activeClass="bg-[#FF6D2E]"
 		>
 			<button
 				slot="header"
@@ -52,10 +55,10 @@
 					goto('./encuestas');
 				}}
 			>
-				<AnnotationSolid class="mt-2" />
+				<AnnotationSolid class="mt-1 h-8 w-8" />
 				Encuestas 2ºC 2024
 			</button>
-			<p class="sm:text-base text-sm">Consulta el índice de participación de las encuestas</p>
+			<p class="sm:text-base text-sm dark:text-white">Consulta el índice de participación de las encuestas</p>
 		</AccordionItem>
 	</Accordion>
 </div>
@@ -63,10 +66,10 @@
 <!--Info de Taquillas-->
 
 <div
-	class="bg-[#3BC4A0] w-full py-6 lg:flex litems-center justify-center lg:gap-24 grid grid-rows-2 place-items-center"
+	class="bg-[#3BC4A0] w-full py-6 lg:flex litems-center justify-center lg:gap-24 grid grid-rows-2 place-items-center dark:bg-[#269275]"
 >
 	<div
-		class="rounded-full bg-white flex items-center justify-center text-center lg:aspect-square lg:w-1/2 border-solid border-4 w-11/12"
+		class="rounded-full bg-white flex items-center justify-center text-center lg:aspect-square lg:w-1/2 border-solid border-4 w-11/12 dark:bg-cyan-950 dark:text-white dark:border-black"
 	>
 		<p class="flex items-center justify-center text-lg lg:px-4 p-8 sm:text-2xl">
 			Delegación gestiona las taquillas de la universidad. Si quieres alquilar una, simplemente
@@ -88,7 +91,7 @@
 <!--Info de Osciloscopios-->
 
 <div
-	class="bg-white w-full py-8 lg:flex items-center justify-center lg:gap-24 grid grid-rows-2 place-items-center"
+	class="bg-white w-full py-8 lg:flex items-center justify-center lg:gap-24 grid grid-rows-2 place-items-center dark:bg-cyan-950"
 >
 	<button
 		class="text-white lg:text-3xl text-xl px-8 lg:py-3 py-6 bg-[#FF6D2E] hover:bg-[#ff8647] rounded-2xl lg:w-1/3 w-5/6 flex gap-2"
@@ -100,7 +103,7 @@
 		<p class="text-left text-2xl w-full">Ir a Osciloscopios</p>
 	</button>
 	<div
-		class="rounded-full bg-[#3BC4A0] py-6 flex items-center justify-center text-center lg:aspect-square lg:w-1/2 border-solid border-4 text-white w-11/12"
+		class="rounded-full bg-[#3BC4A0] py-6 flex items-center justify-center text-center lg:aspect-square lg:w-1/2 border-solid border-4 text-white w-11/12 dark:border-black dark:bg-[#269275]"
 	>
 		<p class="flex items-center justify-center text-lg lg:px-4 p-8 sm:text-2xl">
 			El despacho de delegación cuenta con tres osciloscopios que los estudiantes pueden usar. Si
@@ -112,10 +115,10 @@
 <!--Info de encuestas-->
 
 <div
-	class="bg-[#3BC4A0] w-full py-6 lg:flex litems-center justify-center lg:gap-24 grid grid-rows-2 place-items-center"
+	class="bg-[#3BC4A0] w-full py-6 lg:flex litems-center justify-center lg:gap-24 grid grid-rows-2 place-items-center dark:bg-[#269275]"
 >
 	<div
-		class="rounded-full bg-white flex items-center justify-center text-center lg:aspect-square lg:w-1/2 border-solid border-4 w-11/12"
+		class="rounded-full bg-white flex items-center justify-center text-center lg:aspect-square lg:w-1/2 border-solid border-4 w-11/12 dark:bg-cyan-950 dark:text-white dark:border-black"
 	>
 		<p class="flex items-center justify-center text-lg lg:px-4 p-8 sm:text-2xl">
 			Si quieres saber el porcentaje de participación por grado en las encuestas de evaluación del

@@ -27,12 +27,12 @@
 </script>
 
 <h1
-	class="text-3xl sm:text-4xl lg:text-5xl xl:text-7xl text-center font-montserrat mt-4 mb-8 text-[#3BC4A0]"
+	class="text-3xl sm:text-4xl lg:text-5xl xl:text-7xl text-center font-montserrat mt-4 mb-8 text-[#3BC4A0] dark:text-[#269275] dark:bg-cyan-950"
 >
 	Selección de Edificio
 </h1>
 
-<div class="grid grid-cols-1 place-items-center w-screen mt-10">
+<div class="grid grid-cols-1 place-items-center w-screen mt-10  dark:bg-cyan-950">
 	<div class="max-w-4xl space-y-4">
 		<Carousel {images} let:Indicators let:Controls>
 			<a class="group" slot="slide" href={images[index]?.href} let:Slide let:index>
