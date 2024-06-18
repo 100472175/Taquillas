@@ -11,7 +11,6 @@ export const load: LayoutServerLoad = async (event) => {
 	};
 
 	let session = await event.locals.auth();
-	//console.log(session);
 
 	// Store the user in the Database using the api
 	if (session?.user?.email?.endsWith('uc3m.es')){

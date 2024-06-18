@@ -157,7 +157,6 @@ export async function getReservasTaquilla(taquilla: FormDataEntryValue | null | 
 }
 	
 export async function aceptaReserva(taquilla: FormDataEntryValue | null | String, responsable: FormDataEntryValue | null | String){
-	console.log('taquilla:', taquilla, 'responsable:', responsable);
 	const taquilla_res = taquilla || '';
 	let responsable_res = responsable || '';
 	if (taquilla_res === '' || responsable_res === '') {
@@ -193,7 +192,6 @@ export async function aceptaReserva(taquilla: FormDataEntryValue | null | String
 }
 
 export async function eliminaReserva(taquilla: FormDataEntryValue | null | String, responsable: FormDataEntryValue | null | String){
-	console.log('taquilla:', taquilla, 'responsable:', responsable);
 	const taquilla_res = taquilla || '';
 	let responsable_res = responsable || '';
 	if (taquilla_res === '' || responsable_res === '') {

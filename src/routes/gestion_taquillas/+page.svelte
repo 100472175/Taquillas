@@ -61,7 +61,6 @@
 		});
 		let result = await response.json();
 		result = result['result']['message'];
-		console.log(result);
 		if (result.includes('confirmada')) {
 			successToast = true;
 			setTimeout(() => {
@@ -91,7 +90,6 @@
 
 		let result = await response.json();
 		result = result['result']['message'];
-		console.log(result);
 		if (result.includes('eliminada')) {
 			successToast = true;
 			setTimeout(() => {

@@ -8,7 +8,6 @@ export const POST: RequestHandler = async ({ request }) => {
     
     // Llama a la API de reserva de la base de datos:
     const result = await eliminaReserva(taquilla, email);
-    console.log(result);
     	
     return json({result: result});
 };
