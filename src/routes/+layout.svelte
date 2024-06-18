@@ -87,13 +87,6 @@
 	$: session = $page.data.session;
 	$: authorizedEmailsEscuela = $page.data.authorizedEmailsLayoutEscuela;
 	$: authorizedEmailsDespacho = $page.data.authorizedEmailsLayoutDespacho;
-
-	// Wait for the session to be loaded
-	$: if (session) {
-		console.log('Despacho: ', authorizedEmailsDespacho);
-		console.log('Escuela: ', authorizedEmailsEscuela);
-		console.log(session?.user?.email);
-	}
 </script>
 
 <link
@@ -101,7 +94,9 @@
 	rel="stylesheet"
 />
 <body class="dark:bg-dark-background">
-	<header class="bg-[#3BC4A0] grid sm:grid-cols-5 grid-cols-4 gap-x-4 md:gap-x-10 dark:bg-dark-primary">
+	<header
+		class="bg-[#3BC4A0] grid sm:grid-cols-5 grid-cols-4 gap-x-4 md:gap-x-10 dark:bg-dark-primary"
+	>
 		<button on:click={() => (hidden2 = !hidden2)}>
 			<BarsOutline class="sm:w-10 sm:h-10 w-8 h-8" />
 		</button>
@@ -143,7 +138,11 @@
 		{/if}
 	</header>
 
-	<Breadcrumb solidClass='flex px-5 py-3 text-gray-700 border border-gray-200 rounded-none bg-gray-50 dark:bg-[#111719] dark:border-black' aria-label="Solid background breadcrumb example" solid>
+	<Breadcrumb
+		solidClass="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-none bg-gray-50 dark:bg-[#111719] dark:border-black"
+		aria-label="Solid background breadcrumb example"
+		solid
+	>
 		<BreadcrumbItem href="/" home>Home</BreadcrumbItem>
 		{#each breadcrumItems as item}
 			<BreadcrumbItem href={item.href}>{item.text}</BreadcrumbItem>
@@ -203,7 +202,11 @@
 								class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 							/>
 						</svelte:fragment>
-						<SidebarDropdownItem label="Reserva" href="/osciloscopios" on:click={() => hideNavBar()} />
+						<SidebarDropdownItem
+							label="Reserva"
+							href="/osciloscopios"
+							on:click={() => hideNavBar()}
+						/>
 						<SidebarDropdownItem
 							label="Estado servicio"
 							href="/estado_osciloscopios"
@@ -232,13 +235,13 @@
 							/>
 						</svelte:fragment>
 					</SidebarItem>
-					
+
 					<DarkMode />
-					
 				</SidebarGroup>
 			</SidebarWrapper>
 		</Sidebar>
 	</Drawer>
+	<DarkMode btnClass="hidden" />
 
 	<slot />
 </body>

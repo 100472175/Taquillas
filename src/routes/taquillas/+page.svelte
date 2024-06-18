@@ -14,7 +14,7 @@
 			src: 'edificios/4-Torres_Quevedo.webp',
 			href: '/taquillas/4'
 		},
-		{ alt: 'Edificio 7. Juan Benet', src: 'edificios/7-Juan_Benet.jpg', href: '/taquillas/7' }
+		{ alt: 'Edificio 7. Juan Benet', src: 'edificios/7-Juan_Benet.webp', href: '/taquillas/7' }
 	];
 	let index = 0;
 	let forward = true;
