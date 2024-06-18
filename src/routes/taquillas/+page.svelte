@@ -18,7 +18,7 @@
 	];
 	let index = 0;
 	let forward = true;
-	let titulos = {
+	const titulos = {
 		0: 'Edificio 1. Agustín de Betancourt',
 		1: 'Edificio 2. Sabatini',
 		2: 'Edificio 4. Torres Quevedo',
@@ -34,7 +34,7 @@
 
 <div class="grid grid-cols-1 place-items-center w-screen mt-10">
 	<div class="max-w-4xl space-y-4">
-		<Carousel {images} let:Indicators let:Controls>
+		<Carousel {images} {forward} let:Indicators let:Controls bind:index>
 			<a class="group" slot="slide" href={images[index]?.href} let:Slide let:index>
 				<Slide image={images[index]} />
 				<h1
