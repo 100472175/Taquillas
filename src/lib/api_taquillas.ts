@@ -226,6 +226,58 @@ export async function eliminaReserva(taquilla: FormDataEntryValue | null | Strin
 	
 }
 
+export async function backupDB(email: FormDataEntryValue | null | String) {
+	try {
+		const response = await fetch(`${BASE_URL_API}/api/backupDB/`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*'
+			},
+			body: JSON.stringify({
+				email: email
+			})
+		
+		});
+		if (response.ok) {
+			const data = await response.json();
+			return data;
+		} else {
+			console.error('Server response was not OK when backing up DB', response.status, response.statusText);
+		}
+	
+	} catch (error) {
+		console.error(error);
+	}
+}
+
+export async function restoreDB(email: FormDataEntryValue | null | String, file: FormDataEntryValue | null | File) {
+	try {
+		const response = await fetch(`${BASE_URL_API}/api/fileUpload`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*'
+			},
+			body: JSON.stringify({
+				email: email,
+				file: file
+			})
+		
+		});
+		if (response.ok) {
+			const data = await response.json();
+			return data;
+		} else {
+			console.error('Server response was not OK when deleting DB', response.status, response.statusText);
+		}
+	
+	} catch (error) {
+		console.error(error);
+	}
+}
+
+
 
 /*
 

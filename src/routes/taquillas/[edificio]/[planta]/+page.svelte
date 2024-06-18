@@ -21,7 +21,6 @@
 	let drawBlocks = false;
 
 	let urlMapa = `/mapas/${data.edificio}.${data.planta}.webp`;
-	console.log(urlMapa);
 
 	data.bloques.then((value) => {
 		ocupacionBloques = value;
@@ -102,7 +101,7 @@
 		</ButtonGroup>
 	</div>
 	<div class="w-screen grid grid-rows-1 place-items-center mt-4 px-4">
-		<img src={urlMapa} alt="Mapa" class="max-w-[800px] md:w-7/12 w-10/12" />
+		<img src={urlMapa} alt="Mapa" class="max-w-[800px] md:w-7/12 w-10/12 dark:invert" />
 	</div>
 {:else}
 	<p class="text-center p-6 dark:text-dark-primary">Loading...</p>
@@ -124,7 +123,7 @@
 				<span class="sr-only">Error icon</span>
 			</svelte:fragment>
 			{form.message}
-			{handleReload()}
 		</Toast>
+		{handleReload()}
 	{/if}
 {/if}

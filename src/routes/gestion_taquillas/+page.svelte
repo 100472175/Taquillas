@@ -107,8 +107,10 @@
 	}
 </script>
 
-<h1 class="text-4xl text-center text-[#3BC4A0] m-5 dark:bg-dark-background dark:text-dark-primary">Gestión de Taquillas</h1>
-<Tabs tabStyle="underline" contentClass="p-4">
+<h1 class="text-4xl text-center text-[#3BC4A0] m-5 dark:bg-dark-background dark:text-dark-primary">
+	Gestión de Taquillas
+</h1>
+<Tabs tabStyle="underline" contentClass="p-4" class="px-8">
 	<TabItem
 		open
 		title="Búsqueda por NIA"
@@ -134,7 +136,9 @@
 				</div>
 			</div>
 			<div class="w-screen mt-8 grid grid-cols-1 place-items-center">
-				<Button type="submit" class="bg-[#3BC4A0] text-white px-8 py-2 text-xl hover:bg-[#3BB4A0] dark:bg-dark-primary dark:hover:bg-dark-accent"
+				<Button
+					type="submit"
+					class="bg-[#3BC4A0] text-white px-8 py-2 text-xl hover:bg-[#3BB4A0] dark:bg-dark-primary dark:hover:bg-dark-accent"
 					>Buscar</Button
 				>
 			</div>
@@ -164,7 +168,9 @@
 				</div>
 			</div>
 			<div class="w-screen grid grid-cols-1 place-items-center">
-				<Button type="submit" class="bg-[#3BC4A0] text-white mt-8 px-8 py-2 text-xl hover:bg-[#3BB4A0] dark:bg-dark-primary dark:hover:bg-dark-accent"
+				<Button
+					type="submit"
+					class="bg-[#3BC4A0] text-white mt-8 px-8 py-2 text-xl hover:bg-[#3BB4A0] dark:bg-dark-primary dark:hover:bg-dark-accent"
 					>Buscar</Button
 				>
 			</div>
@@ -207,10 +213,14 @@
 	{#if form != null && form}
 		{#each form.reservas as taquilla}
 			<Card class="mt-2">
-				<div class="grid grid-cols-2">
-					<h5 class="text-2xl text-[#3BC4A0] dark:text-dark-primary">{taquilla['taquilla']}</h5>
+				<div class="flex place-content-between">
+					<h5 class="text-2xl font-medium underline text-[#3BC4A0] dark:text-dark-primary">
+						{taquilla['taquilla']}
+					</h5>
 					{#if taquilla['status'] === 'reservada'}
-						<p class="text-center p-1 text-white bg-yellow-400 rounded">Reservada: {taquilla["codigo"]}</p>
+						<p class="text-center p-1 text-white bg-yellow-400 rounded">
+							Reservada: {taquilla['codigo']}
+						</p>
 					{:else if taquilla['status'] === 'libre'}
 						<p class="text-center p-1 text-white bg-green-500 rounded">Libre</p>
 					{:else if taquilla['status'] === 'ocupada'}
@@ -220,8 +230,10 @@
 					{/if}
 				</div>
 				{#if taquilla['status'] === 'reservada' || taquilla['status'] === 'ocupada'}
-					<p class="text-black text-sm mt-4 dark:text-white	">
-						Reservada por <b>{taquilla['nia']}</b> el {taquilla['date']}
+					<p class="text-black text-sm mt-4 dark:text-white">
+						Reservada por <b>{taquilla['nia']}</b> el {taquilla['date']} a las {taquilla[
+							'date'
+						].split(' ')[1]}
 					</p>
 				{/if}
 				{#if taquilla['status'] === 'reservada'}
@@ -281,7 +293,11 @@
 			<Input type="text" id="nombre" name="nombre" required />
 		</Label>
 
-		<Button type="submit" class="w-full1 bg-green-500 hover:bg-[#FF6D2E] dark:bg-dark-primary dark:hover:bg-dark-accent">Reservar Taquilla</Button>
+		<Button
+			type="submit"
+			class="w-full1 bg-green-500 hover:bg-[#FF6D2E] dark:bg-dark-primary dark:hover:bg-dark-accent"
+			>Reservar Taquilla</Button
+		>
 	</form>
 </Modal>
 
