@@ -24,7 +24,7 @@
 	{#each pisos as i}
 		<a href="{building}/{i}" class="flex justify-center group relative">
 			<img
-				src={`../edificios/${data.edificio}/${i}.jpeg`}
+				src={`../edificios/${data.edificio}/${i}.webp`}
 				class="object-cover w-auto group-hover:opacity-60 transition duration-500 ease-in-out"
 				alt={`Edificio ${data.edificio}. ${i}`}
 			/>

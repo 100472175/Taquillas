@@ -241,7 +241,7 @@
 			</SidebarWrapper>
 		</Sidebar>
 	</Drawer>
-	<DarkMode btnClass="hidden" />
 
 	<slot />
+	<DarkMode btnClass="hidden" />
 </body>

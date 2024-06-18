@@ -8,7 +8,7 @@
 			src: 'edificios/1-betancourt.webp',
 			href: '/taquillas/1'
 		},
-		{ alt: 'Edificio 2. Sabatini', src: 'edificios/2-sabatini.jpg', href: '/taquillas/2' },
+		{ alt: 'Edificio 2. Sabatini', src: 'edificios/2-sabatini.webp', href: '/taquillas/2' },
 		{
 			alt: 'Edificio 4. Torres Quevedo',
 			src: 'edificios/4-Torres_Quevedo.webp',
