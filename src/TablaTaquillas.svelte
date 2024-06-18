@@ -69,7 +69,7 @@
 
 		<Input type="hidden" id="nombre" name="nombre" value={data.session?.user?.name} />
 
-		<Button type="submit" class="w-full1 bg-green-500 hover:bg-blue-400">Reservar Taquilla</Button>
+		<Button type="submit" class="w-full1 bg-green-500 hover:bg-[#FF6D2E] dark:bg-dark-primary dark:hover:bg-dark-accent">Reservar Taquilla</Button>
 	</form>
 </Modal>
 
@@ -80,7 +80,7 @@
 	<p>Debes iniciar sesión para reservar una taquilla</p>
 	<Button
 		type="button"
-		class="w-full1 bg-green-500 hover:bg-blue-400"
+		class="w-full1 bg-green-500 hover:bg-[#FF6D2E] dark:bg-dark-primary dark:hover:bg-dark-accent"
 		on:click={() => {
 			signIn();
 		}}

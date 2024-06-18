@@ -54,13 +54,13 @@
 </script>
 
 <h1
-	class="text-3xl sm:text-4xl lg:text-5xl xl:text-7xl text-center font-montserrat mt-4 mb-8 text-[#3BC4A0]"
+	class="text-3xl sm:text-4xl lg:text-5xl xl:text-7xl text-center font-montserrat mt-4 mb-8 text-[#3BC4A0] dark:text-dark-primary"
 >
 	Edificio {data.edificio} - Planta {data.planta}
 </h1>
 
 <div class="w-screen h-full grid grid-rows-2 place-items-center">
-	<h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-6xl text-[#3BC4A0] text-center">Selecciona el bloque:</h1>
+	<h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-6xl text-[#3BC4A0] dark:text-dark-primary text-center">Selecciona el bloque:</h1>
 	<Button color="green" size="lg" class="mt-4 w-1/10">
 		Bloque {block}: <ChevronDownOutline class="w-6 h-6 ms-2 text-green-500 dark:text-blue-500" />
 	</Button>

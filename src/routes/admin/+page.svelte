@@ -15,12 +15,12 @@
 
 </script>
 
-<Tabs tabStyle="underline" contentClass="p-4 bg-white">
+<Tabs tabStyle="underline" contentClass="p-4">
 	<TabItem
 		open
-		title="Añadir Rol"
-		class="hover:text-[#3BC4A0]"
-		inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4"
+		title="Cambiar Rol"
+		class="hover:text-[#3BC4A0] dark:hover:text-dark-accent dark:text-dark-accent"
+		inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4 dark:hover:text-dark-accent"
 	>
 		<form action="?/addUserRol" method="post" use:enhance>
 			<div class="grid grid-cols-1">
@@ -54,8 +54,8 @@
 			<div class="w-screen grid grid-cols-1 place-items-center">
 				<Button
 					type="submit"
-					class="bg-[#3BC4A0] text-white mt-8 px-8 py-2 text-xl hover:bg-[#3BB4A0]"
-					>Añadir rol</Button
+					class="bg-[#3BC4A0] text-white mt-8 px-8 py-2 text-xl hover:bg-[#3BB4A0] dark:bg-dark-primary dark:hover:bg-dark-accent"
+					>Cambiar rol</Button
 				>
 				<div></div>
 			</div>

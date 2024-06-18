@@ -99,10 +99,10 @@
 
 <body class=" self-center">
 	<div class=" text-center">
-		<h1 class=" text-black font-bold font-montserrat mt-4">
+		<h1 class=" text-black font-bold font-montserrat mt-4 dark:text-white">
 			Realiza la encuesta de evaluación
 			<a
-				class=" text-orange-500 font-bolder"
+				class="text-orange-500 font-bolder dark:text-dark-primary"
 				href="https://aplicaciones.uc3m.es/encuestas/home/index">aquí</a
 			>
 		</h1>
