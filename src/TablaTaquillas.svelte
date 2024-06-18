@@ -69,7 +69,11 @@
 
 		<Input type="hidden" id="nombre" name="nombre" value={data.session?.user?.name} />
 
-		<Button type="submit" class="w-full1 bg-green-500 hover:bg-[#FF6D2E] dark:bg-dark-primary dark:hover:bg-dark-accent">Reservar Taquilla</Button>
+		<Button
+			type="submit"
+			class="w-full1 bg-green-500 hover:bg-[#FF6D2E] dark:bg-dark-primary dark:hover:bg-dark-accent"
+			>Reservar Taquilla</Button
+		>
 	</form>
 </Modal>
 
@@ -90,7 +94,7 @@
 </Modal>
 
 <div class="w-10/12 overflow-auto m-auto p-8">
-	<table style="border: 1px solid black; border-collapse: 10px;" class="m-auto mb-10 ">
+	<table style="border: 1px solid black; border-collapse: 10px;" class="m-auto mb-10">
 		{#each ocupacion_bloques[block - 1] as row}
 			<tr>
 				{#each row as taquilla}
@@ -99,7 +103,7 @@
 							class:py-8={taquilla.taquilla.includes('G')}
 							class:p-4={taquilla.taquilla.includes('P')}
 							style="border: 1px solid black; border-collapse: 10px"
-							class="bg-green-500 cursor-pointer hover:bg-green-400 text-center"
+							class="bg-green-500 cursor-pointer hover:bg-green-400 text-center px-3"
 							on:click={() => openModal(taquilla.taquilla)}
 						>
 							{taquilla.taquilla}

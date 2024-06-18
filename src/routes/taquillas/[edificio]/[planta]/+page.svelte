@@ -20,6 +20,9 @@
 	let ocupacionBloques: any[];
 	let drawBlocks = false;
 
+	let urlMapa = `/mapas/${data.edificio}.${data.planta}.webp`;
+	console.log(urlMapa);
+
 	data.bloques.then((value) => {
 		ocupacionBloques = value;
 		drawBlocks = true;
@@ -60,7 +63,11 @@
 </h1>
 
 <div class="w-screen h-full grid grid-rows-2 place-items-center">
-	<h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-6xl text-[#3BC4A0] dark:text-dark-primary text-center">Selecciona el bloque:</h1>
+	<h1
+		class="text-2xl sm:text-3xl lg:text-4xl xl:text-6xl text-[#3BC4A0] dark:text-dark-primary text-center"
+	>
+		Selecciona el bloque:
+	</h1>
 	<Button color="green" size="lg" class="mt-4 w-1/10">
 		Bloque {block}: <ChevronDownOutline class="w-6 h-6 ms-2 text-green-500 dark:text-blue-500" />
 	</Button>
@@ -84,7 +91,7 @@
 {#if drawBlocks}
 	<TablaTaquillas bind:ocupacion_bloques={ocupacionBloques} bind:block bind:data></TablaTaquillas>
 
-	<div class="w-screen h-auto grid grid-rows-2 place-items-center mt-4">
+	<div class="w-screen h-auto grid grid-rows-3 place-items-center -mt-8">
 		<ButtonGroup class="space-x-px">
 			<Button pill color="green" on:click={() => substractBlock()}>
 				<ArrowLeftOutline />
@@ -94,8 +101,11 @@
 			</Button>
 		</ButtonGroup>
 	</div>
+	<div class="w-screen grid grid-rows-1 place-items-center mt-4 px-4">
+		<img src={urlMapa} alt="Mapa" class="max-w-[800px] md:w-7/12 w-10/12" />
+	</div>
 {:else}
-	<p class="text-center p-6">Loading...</p>
+	<p class="text-center p-6 dark:text-dark-primary">Loading...</p>
 {/if}
 
 {#if form}
