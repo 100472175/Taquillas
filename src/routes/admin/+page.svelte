@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { Tabs, TabItem, Input, Label, Button, Select } from 'flowbite-svelte';
+	import { Tabs, TabItem, Input, Label, Button, Select, Modal, Card } from 'flowbite-svelte';
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 
@@ -12,12 +12,49 @@
 	];
 
 	export let data;
-
+	let openConfirmation = false;
+	let successToast = false;
+	let unSuccessToast = false;
 	$: session = $page.data.session;
+
 
 	setTimeout(() => {
 		console.log(session?.user?.email);
 	}, 1000);
+
+	function change_confirmation_modal() {
+		openConfirmation = true;
+	}
+
+	async function eliminar_db() {
+		openConfirmation = true;
+
+		// Call a function that only runs in the server side:
+		let res_email = session?.user?.email || '';
+		if (res_email === '') {
+			openConfirmation = false;
+			return;
+		}
+		const response = await fetch('/api/deleteDB', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ email: res_email })
+		});
+
+		let result = await response.json();
+		result = result['result']['message'];
+		if (result.includes('eliminada')) {
+			successToast = true;
+			setTimeout(() => {
+				successToast = false;
+				location.reload();
+			}, 2000);
+		} else {
+			unSuccessToast = true;
+		}
+	}
 </script>
 
 <Tabs tabStyle="underline" contentClass="p-4" class="px-8">
@@ -100,7 +137,7 @@
 			</section>
 
 			<section>
-				<form action="?/DeleteDB" method="post" use:enhance class="mt-8">
+				<form method="post" use:enhance class="mt-8">
 					<Input
 						type="hidden"
 						required
@@ -109,8 +146,8 @@
 						value={session?.user?.email}
 					/>
 					<Button
-						type="submit"
 						class="w-full1 bg-red-500 hover:bg-[#FF6D2E] dark:bg-red-500 dark:hover:bg-dark-accent"
+						on:click={() => {change_confirmation_modal();}}
 					>
 						Eliminar la base de datos</Button
 					>
@@ -144,3 +181,33 @@
 		</section>
 	</TabItem>
 </Tabs>
+
+<Modal bind:open={openConfirmation} size="xs" autoclose={false} class="w-full">
+	<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Eliminar la base de datos</h3>
+	<p>Antes de eliminar la base de datos, se te mandará un correo con una copia de seguridad. Haz click en el siguiente botón para confirmar el borrado.</p>
+	<div class="grid grid-cols-1 place-items-center">
+		<Button
+			type="button"
+			class="w-full1 bg-green-500 hover:bg-[#FF6D2E] dark:bg-dark-primary dark:hover:bg-dark-accent"
+			on:click={() => {
+				eliminar_db();
+			}}
+		>
+			Borrar la Base de Datos
+		</Button>
+	</div>
+</Modal>
+
+{#if successToast}
+	<div class="fixed bottom-0 right-0 m-5">
+		<Card class="bg-green-500 text-white">
+			<p class="p-2">Base de datos borrada con éxito.</p>
+		</Card>
+	</div>
+{:else if unSuccessToast}
+	<div class="fixed bottom-0 right-0 m-5">
+		<Card class="bg-red-500 text-white">
+			<p class="p-2">No se ha podido borrar la base de datos.</p>
+		</Card>
+	</div>
+{/if}

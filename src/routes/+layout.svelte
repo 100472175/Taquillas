@@ -130,7 +130,7 @@
 				<div></div>
 			{/if}
 			<button
-				class="bg-white text-black rounded-2xl sm:text-base text-xs w-auto mr-2 mt-2 h-8 sm:mt-2 sm:ml-12 sm:w-3/5 lg:w-2/5 lg:ml-24"
+				class="bg-white text-black rounded-2xl sm:text-base text-xs w-auto mr-2 mt-1 h-8 sm:mt-2 sm:ml-12 sm:w-3/5 lg:w-2/5 lg:ml-24"
 				on:click={() => login()}
 			>
 				Log-in
@@ -217,7 +217,7 @@
 						{#await session then}
 							{#if session?.user?.email != null}
 								{#if authorizedEmailsEscuela != null && authorizedEmailsEscuela.includes(session?.user?.email) == true}
-									<SidebarItem label="Usuarios" href="/admin" on:click={() => hideNavBar()}>
+									<SidebarItem label="Admin" href="/admin" on:click={() => hideNavBar()}>
 										<svelte:fragment slot="icon">
 											<UsersSolid
 												class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
