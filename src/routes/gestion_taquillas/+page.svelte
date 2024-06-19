@@ -115,13 +115,14 @@
 		open
 		title="Búsqueda por NIA"
 		class="hover:text-[#3BC4A0] dark:hover:text-dark-accent dark:text-dark-accent"
-		inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4 dark:hover:text-dark-accent"
+		activeClasses="sm:text-base text-xs p-4"
+		inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4 dark:hover:text-dark-accent sm:text-base text-xs"
 		on:focus={() => {
 			form = '';
 		}}
 	>
 		<form action="?/busquedaNia" method="post" use:enhance>
-			<div class="grid grid-cols-1">
+			<div class="grid grid-cols-1 w-auto">
 				<div>
 					<Label class="w-4/5 m-auto text-xl text-[#3BC4A0]">NIA</Label>
 					<Input
@@ -135,7 +136,7 @@
 					/>
 				</div>
 			</div>
-			<div class="w-screen mt-8 grid grid-cols-1 place-items-center">
+			<div class="mt-8 grid grid-cols-1 w-auto place-items-center">
 				<Button
 					type="submit"
 					class="bg-[#3BC4A0] text-white px-8 py-2 text-xl hover:bg-[#3BB4A0] dark:bg-dark-primary dark:hover:bg-dark-accent"
@@ -147,13 +148,14 @@
 	<TabItem
 		title="Búsqueda por Taquilla"
 		class="hover:text-[#3BC4A0] dark:hover:text-dark-accent dark:text-dark-accent"
-		inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4 dark:hover:text-dark-accent"
+		activeClasses="sm:text-base text-xs p-4"
+		inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4 dark:hover:text-dark-accent sm:text-base text-xs"
 		on:focus={() => {
 			form = '';
 		}}
 	>
-		<form class="w-screen" action="?/busquedaTaquilla" method="post" use:enhance>
-			<div class="grid grid-cols-1">
+		<form action="?/busquedaTaquilla" method="post" use:enhance>
+			<div class="grid grid-cols-1 w-auto">
 				<div>
 					<Label class="w-4/5 m-auto text-xl text-[#3BC4A0]">Taquilla</Label>
 					<Input
@@ -167,7 +169,7 @@
 					/>
 				</div>
 			</div>
-			<div class="w-screen grid grid-cols-1 place-items-center">
+			<div class="grid grid-cols-1 w-auto place-items-center">
 				<Button
 					type="submit"
 					class="bg-[#3BC4A0] text-white mt-8 px-8 py-2 text-xl hover:bg-[#3BB4A0] dark:bg-dark-primary dark:hover:bg-dark-accent"
@@ -179,7 +181,8 @@
 	<TabItem
 		title="Tabla Pablo"
 		class="hover:text-[#3BC4A0] dark:hover:text-dark-accent dark:text-dark-accent"
-		inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4 dark:hover:text-dark-accent"
+		activeClasses="sm:text-base text-xs p-4"
+		inactiveClasses="text-gray-500 hover:text-[#3BC4A0] p-4 dark:hover:text-dark-accent sm:text-base text-xs"
 		on:focus={() => {
 			form = '';
 		}}

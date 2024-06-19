@@ -98,11 +98,11 @@
 		class="bg-[#3BC4A0] grid sm:grid-cols-5 grid-cols-4 gap-x-4 md:gap-x-10 dark:bg-dark-primary"
 	>
 		<button on:click={() => (hidden2 = !hidden2)}>
-			<BarsOutline class="sm:w-10 sm:h-10 w-8 h-8" />
+			<BarsOutline class="sm:w-10 sm:h-10 w-8 h-8 ml-2" />
 		</button>
 		<img class="sm:w-12 sm:h-auto w-10 h-auto sm:block hidden" src="/logo.webp" alt="logo" />
 		<button
-			class="font-bold-italic text-white text-center py-2 lg:text-2xl sm:text-xl text-2xl hover:underline w-auto"
+			class="font-bold-italic text-white text-center py-2 lg:text-2xl sm:text-xl text-xs hover:underline w-auto"
 			on:click={() => {
 				goto('/');
 			}}>Delegación EPS</button
@@ -114,11 +114,11 @@
 						{session.user?.name}
 					</p></a
 				>
-				<a href="/admin"><Avatar src={session.user?.image} class="lg:w-11 sm:w-20 h-auto" /></a>
+				<a href="/admin"><Avatar src={session.user?.image} class="lg:w-11 sm:w-24 h-auto" /></a>
 			</div>
 			<button
 				on:click={() => logout()}
-				class="bg-red-500 text-white rounded-2xl sm:text-base text-xs w-auto mr-2 mt-2 h-8 sm:mt-2 sm:ml-12 sm:w-3/5 lg:w-2/5 lg:ml-24"
+				class="bg-red-500 text-white rounded-2xl sm:text-base text-xs w-auto mr-2 mt-1 h-8 sm:mt-2 sm:ml-12 sm:w-3/5 lg:w-2/5 lg:ml-24"
 				>Sign-out</button
 			>
 		{:else}
@@ -143,7 +143,7 @@
 		aria-label="Solid background breadcrumb example"
 		solid
 	>
-		<BreadcrumbItem href="/" home>Home</BreadcrumbItem>
+		<BreadcrumbItem href="/" home>Inicio</BreadcrumbItem>
 		{#each breadcrumItems as item}
 			<BreadcrumbItem href={item.href}>{item.text}</BreadcrumbItem>
 		{/each}

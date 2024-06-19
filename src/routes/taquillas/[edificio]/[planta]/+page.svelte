@@ -67,8 +67,8 @@
 	>
 		Selecciona el bloque:
 	</h1>
-	<Button color="green" size="lg" class="mt-4 w-1/10">
-		Bloque {block}: <ChevronDownOutline class="w-6 h-6 ms-2 text-green-500 dark:text-blue-500" />
+	<Button size="lg" class="mt-4 w-1/10 bg-[#3BC4A0] hover:bg-[#FF6D2E] dark:bg-dark-primary dark:hover:bg-dark-accent">
+		Bloque {block} <ChevronDownOutline class="w-6 h-6 ms-2 text-black dark:text-red-500" />
 	</Button>
 	<Dropdown bind:open={openDropdown}>
 		<div slot="header" class="px-4 py-2">
@@ -92,10 +92,10 @@
 
 	<div class="w-screen h-auto grid grid-rows-3 place-items-center -mt-8">
 		<ButtonGroup class="space-x-px">
-			<Button pill color="green" on:click={() => substractBlock()}>
+			<Button pill class="dark:bg-dark-primary dark:hover:bg-dark-accent bg-[#3BC4A0] hover:bg-[#FF6D2E]" on:click={() => substractBlock()}>
 				<ArrowLeftOutline />
 			</Button>
-			<Button pill color="green" on:click={() => addBlock()}>
+			<Button pill class="dark:bg-dark-primary dark:hover:bg-dark-accent bg-[#3BC4A0] hover:bg-[#FF6D2E]" on:click={() => addBlock()}>
 				<ArrowRightOutline />
 			</Button>
 		</ButtonGroup>
