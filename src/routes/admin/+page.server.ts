@@ -1,5 +1,5 @@
 import type { PageServerLoad, Actions} from './$types';
-import {addUserRol, backupDB, restoreDB, BASE_URL_API} from '$lib/api_taquillas';
+import {addUserRol, backupDB, deleteDB, BASE_URL_API} from '$lib/api_taquillas';
 
 export const load = (async (event) => {
     const fetchAuthorizedEmails = async () => {
@@ -30,18 +30,17 @@ export const actions = {
 		const data = await request.formData();
 		// -------- Aquí se llama a la función de la API que añade un rol a un usuario --------
 		const email_admin = data.get('email_admin');
+		console.log('email_admin:', email_admin);
 		const result = backupDB(email_admin);
 
-		return data;
+		return result;
 	},
-	RestoreDB : async ({ request }) => {
+	DeleteDB : async ({ request }) => {
 		const data = await request.formData();
-		const file = data.get('file');
 		// -------- Aquí se llama a la función de la API que añade un rol a un usuario --------
 		const email_admin = data.get('email_admin');
-		const result = restoreDB(email_admin, file);
-
-		return data;
+		const result = deleteDB(email_admin);
+		return result;
 	}
 
 } satisfies Actions;

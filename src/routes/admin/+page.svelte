@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import { Tabs, TabItem, Input, Label, Button, Select } from 'flowbite-svelte';
 	import { enhance } from '$app/forms';
+	import { page } from '$app/stores';
 
 	// Users' rols
 	const rols = [
@@ -11,6 +12,12 @@
 	];
 
 	export let data;
+
+	$: session = $page.data.session;
+
+	setTimeout(() => {
+		console.log(session?.user?.email);
+	}, 1000);
 </script>
 
 <Tabs tabStyle="underline" contentClass="p-4" class="px-8">
@@ -76,12 +83,36 @@
 		<section class="grid grid-rows-3 place-items-center mt-8">
 			<section>
 				<form action="?/BackupDB" method="post" use:enhance>
-					<Input type="hidden" id="nia_admin" name="nia_admin" value={data.session?.user?.email} />
+					<Input
+						type="hidden"
+						required
+						id="email_admin"
+						name="email_admin"
+						value={session?.user?.email}
+					/>
 					<Button
 						type="submit"
 						class="w-full1 bg-green-500 hover:bg-[#FF6D2E] dark:bg-dark-primary dark:hover:bg-dark-accent"
 					>
 						Hacer una copia de seguridad</Button
+					>
+				</form>
+			</section>
+
+			<section>
+				<form action="?/DeleteDB" method="post" use:enhance class="mt-8">
+					<Input
+						type="hidden"
+						required
+						id="email_admin"
+						name="email_admin"
+						value={session?.user?.email}
+					/>
+					<Button
+						type="submit"
+						class="w-full1 bg-red-500 hover:bg-[#FF6D2E] dark:bg-red-500 dark:hover:bg-dark-accent"
+					>
+						Eliminar la base de datos</Button
 					>
 				</form>
 			</section>
@@ -107,18 +138,6 @@
 						class="w-full1 bg-green-500 hover:bg-[#FF6D2E] dark:bg-dark-primary dark:hover:bg-dark-accent"
 					>
 						Restaurar la copia de seguridad del archivo subido</Button
-					>
-				</form>
-			</section>
-
-			<section>
-				<form action="?/DeleteDB" method="post" use:enhance class="mt-8">
-					<Input type="hidden" id="nia_admin" name="nia_admin" value={data.session?.user?.email} />
-					<Button
-						type="submit"
-						class="w-full1 bg-red-500 hover:bg-[#FF6D2E] dark:bg-red-500 dark:hover:bg-dark-accent"
-					>
-						Eliminar la base de datos</Button
 					>
 				</form>
 			</section>

@@ -228,7 +228,8 @@ export async function eliminaReserva(taquilla: FormDataEntryValue | null | Strin
 
 export async function backupDB(email: FormDataEntryValue | null | String) {
 	try {
-		const response = await fetch(`${BASE_URL_API}/api/backupDB/`, {
+		console.log('email:', email);
+		const response = await fetch(`${BASE_URL_API}/api/backupDB`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -241,6 +242,7 @@ export async function backupDB(email: FormDataEntryValue | null | String) {
 		});
 		if (response.ok) {
 			const data = await response.json();
+			console.log(data);
 			return data;
 		} else {
 			console.error('Server response was not OK when backing up DB', response.status, response.statusText);
@@ -251,9 +253,10 @@ export async function backupDB(email: FormDataEntryValue | null | String) {
 	}
 }
 
-export async function restoreDB(email: FormDataEntryValue | null | String, file: FormDataEntryValue | null | File) {
+export async function deleteDB(email: FormDataEntryValue | null | String) {
 	try {
-		const response = await fetch(`${BASE_URL_API}/api/fileUpload`, {
+		console.log('email:', email);
+		const response = await fetch(`${BASE_URL_API}/api/deleteDB`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -261,7 +264,6 @@ export async function restoreDB(email: FormDataEntryValue | null | String, file:
 			},
 			body: JSON.stringify({
 				email: email,
-				file: file
 			})
 		
 		});
