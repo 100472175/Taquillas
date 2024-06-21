@@ -339,14 +339,14 @@
 
 {#if successToast}
 	<div class="fixed bottom-0 right-0 m-5">
-		<Card class="bg-green-500 text-white">
+		<Card class="bg-green-500 dark:bg-red-500 text-white">
 			<p class="p-2">Acción realizada con éxito</p>
 		</Card>
 	</div>
 {:else if unSuccessToast}
 	<div class="fixed bottom-0 right-0 m-5">
-		<Card class="bg-red-500 text-white">
-			<p class="p-2">Acción no realizada con éxito</p>
+		<Card class="bg-red-500 dark:bg-red-500 text-white">
+			<p class="p-2">La acción ha fallado</p>
 		</Card>
 	</div>
 {/if}
