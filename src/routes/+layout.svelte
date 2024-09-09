@@ -25,12 +25,20 @@
 		HomeSolid,
 		BarsOutline,
 		LockOpenOutline,
-		LockOutline
+		LockOutline,
+		UserCircleOutline,
+		ArrowLeftToBracketOutline
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
 	import { _toLeftRightCenter } from 'chart.js/helpers';
+	import { dev } from '$app/environment';
+    import { inject } from '@vercel/analytics';
+	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
+
+	injectSpeedInsights();
+	inject({ mode: dev ? 'development' : 'production' });
 
 	let hidden2 = true;
 	let transitionParams = {
@@ -58,9 +66,26 @@
 		const currentURL = $page.url.pathname;
 		const urlSegments = currentURL.split('/').filter((segment) => segment !== '');
 		let _breadcrumItems = [];
+		let text: String;
+		let inTaquillas = false;
+		let inEdificio = true;		
 		for (let i = 0; i < urlSegments.length; i++) {
+			text = urlSegments[i].charAt(0).toUpperCase() + urlSegments[i].slice(1).replace('_', ' ');
+			if (inTaquillas) {
+
+				if (inEdificio) {
+					text = "Edificio " + text;
+					inEdificio = false;
+				}
+				else {
+					text = "Planta " + text;
+				}
+			}
+			if (text === "Taquillas") {
+				inTaquillas = true;
+			}
 			_breadcrumItems.push({
-				text: urlSegments[i].charAt(0).toUpperCase() + urlSegments[i].slice(1).replace('_', ' '),
+				text: text,
 				href: `/${urlSegments.slice(0, i + 1).join('/')}`
 			});
 		}
@@ -93,47 +118,51 @@
 	href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto&display=swap"
 	rel="stylesheet"
 />
+
 <body class="dark:bg-dark-background">
 	<header
-		class="bg-[#3BC4A0] grid sm:grid-cols-5 grid-cols-4 gap-x-4 md:gap-x-10 dark:bg-dark-primary"
+		class="bg-dele-color grid sm:grid-cols-5 grid-cols-4 gap-x-4 md:gap-x-10 dark:bg-dark-primary"
 	>
-		<button on:click={() => (hidden2 = !hidden2)}>
+		<button class="sm:w-12 sm:h-12 w-16 h-10" on:click={() => (hidden2 = !hidden2)}>
 			<BarsOutline class="sm:w-10 sm:h-10 w-8 h-8 ml-2" />
 		</button>
-		<img class="sm:w-12 sm:h-auto w-10 h-auto sm:block hidden" src="/logo.webp" alt="logo" />
+		<a href="/" class="sm:block hidden p-1">
+			<img class="sm:w-12 sm:h-auto w-10 h-auto bg-white dark:bg-dark-primary rounded-xl p-1" src="/eps_logo.png" alt="logo" />
+		</a>
 		<button
-			class="font-bold-italic text-white text-center py-2 lg:text-2xl sm:text-xl text-xs hover:underline w-auto"
+			class="font-bold-italic text-white text-center py-2 lg:text-2xl sm:text-xl text-base hover:underline w-auto"
 			on:click={() => {
 				goto('/');
 			}}>Delegación EPS</button
 		>
 		{#if session}
-			<div class="flex items-center space-x-4 rtl:space-x-reverse">
-				<a href="/admin"
-					><p class="text-white italic text-center text-xs lg:text-sm sm:block hidden">
-						{session.user?.name}
-					</p></a
-				>
-				<a href="/admin"><Avatar src={session.user?.image} class="lg:w-11 sm:w-24 h-auto" /></a>
+			<div class="grid sm:grid-cols-12 grid-cols-1 place-items-center rtl:space-x-reverse">
+				<div class="sm:block hidden col-span-9">
+					<a href="/perfil" class="">
+						<p class="text-white italic text-center text-xs lg:text-sm">
+							{session.user?.name}
+						</p>
+					</a>
+				</div>
+				<div class="min-w-10 w-auto ml-12 col-span-3">
+					<a href="/perfil" class="">
+						<Avatar src={session?.user?.image} class="h-10 w-10" />
+					</a>
+				</div>
 			</div>
-			<button
-				on:click={() => logout()}
-				class="bg-red-500 text-white rounded-2xl sm:text-base text-xs w-auto mr-2 mt-1 h-8 sm:mt-2 sm:ml-12 sm:w-3/5 lg:w-2/5 lg:ml-24"
-				>Sign-out</button
-			>
+			<button on:click={() => logout()} class="bg-red-500 rounded-3xl h-10 w-10 place-self-center">
+				<ArrowLeftToBracketOutline class="h-8 w-8 m-auto" />
+			</button>
 		{:else}
 			{#if doing_login}
 				<div class="text-right mt-2">
-					<Spinner size={8} color="orange" />
+					<Spinner size={8} color="red" />
 				</div>
 			{:else}
 				<div></div>
 			{/if}
-			<button
-				class="bg-white text-black rounded-2xl sm:text-base text-xs w-auto mr-2 mt-1 h-8 sm:mt-2 sm:ml-12 sm:w-3/5 lg:w-2/5 lg:ml-24"
-				on:click={() => login()}
-			>
-				Log-in
+			<button on:click={() => login()} class="bg-white rounded-3xl h-10 w-10 place-self-center">
+				<UserCircleOutline class="h-8 w-8 m-auto" />
 			</button>
 		{/if}
 	</header>
@@ -149,11 +178,17 @@
 		{/each}
 	</Breadcrumb>
 
-	<Drawer transitionType="fly" {transitionParams} bind:hidden={hidden2} id="sidebar2" divClass='overflow-y-auto z-50 p-4 bg-white dark:bg-dark-secondary'>
+	<Drawer
+		transitionType="fly"
+		{transitionParams}
+		bind:hidden={hidden2}
+		id="sidebar2"
+		divClass="overflow-y-auto z-50 p-4 bg-white dark:bg-dark-secondary"
+	>
 		<div class="flex items-center">
 			<h5
 				id="drawer-navigation-label-3"
-				class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400"
+				class="text-base font-semibold text-gray-600 uppercase dark:text-gray-400"
 			>
 				Menu de Navegación
 			</h5>
@@ -169,6 +204,17 @@
 							/>
 						</svelte:fragment>
 					</SidebarItem>
+					{#await session then}
+						{#if session?.user?.email != null}
+							<SidebarItem label="Perfil" href="/perfil" on:click={() => hideNavBar()}>
+								<svelte:fragment slot="icon">
+									<UserCircleOutline
+										class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+									/>
+								</svelte:fragment>
+							</SidebarItem>
+						{/if}
+					{/await}
 					<SidebarItem label="Taquillas" href="/taquillas" on:click={() => hideNavBar()}>
 						<svelte:fragment slot="icon">
 							<LockOpenOutline

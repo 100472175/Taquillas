@@ -23,58 +23,124 @@
 </script>
 
 <Modal bind:open={formModalReservation} size="xs" autoclose={false} class="w-full">
-	<form
+	{#if data.session?.user?.email?.endsWith('@alumnos.uc3m.es')}
+		<form
+			class="flex flex-col space-y-6"
+			action="?/registerTaquilla"
+			method="post"
+			use:enhance
+			on:submit={() => {
+				formModalReservation = false;
+			}}
+		>
+			<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Reservar Taquilla</h3>
+			<p class="dark:text-white">
+				La reserva de la taquilla {selectedTaquilla}. El precio de las taquilla
+				{#if selectedTaquilla.includes('G')}al ser <span class="italic">grande</span> es de
+					<span class="font-bold">6€</span> para
+				{:else}
+					al ser <span class="italic">pequeña</span> es de <span class="font-bold"> 4€ </span>para
+				{/if} el año completo y la mitad para el segundo cuatrimestre. Este importe se abona en delegación
+				de estudiantes
+				<a
+					href="https://maps.app.goo.gl/QaxfXbWVz5AvqsCW6"
+					class="underline hover:dark:text-dark-accent hover:text-accent">(1.0.H01)</a
+				>.
+			</p>
+			<Label class="space-y-2">
+				<span>NIA:</span>
+				<Input
+					type="text"
+					id="nia"
+					name="nia"
+					placeholder="100xxxxxx@alumnos.uc3m.es"
+					value={NIA}
+					required
+					readonly
+				/>
+			</Label>
+			<Label class="space-y-2">
+				<span>Taquilla</span>
+				<Input
+					type="text"
+					id="taquilla"
+					name="taquilla"
+					placeholder="x.y.z.ssss"
+					value={selectedTaquilla}
+					required
+					readonly
+				/>
+			</Label>
+
+			<Input type="hidden" id="correo" name="correo" value={data.session?.user?.email} />
+
+			<Input type="hidden" id="nombre" name="nombre" value={data.session?.user?.name} />
+
+			<Button
+				type="submit"
+				class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent"
+				>Reservar Taquilla</Button
+			>
+		</form>
+	{:else if data.session?.user?.email?.endsWith("uc3m.es")}
+		<form
 		class="flex flex-col space-y-6"
-		action="?/registerTaquilla"
+		action="?/registerTaquillaAssociation"
 		method="post"
 		use:enhance
 		on:submit={() => {
 			formModalReservation = false;
 		}}
-	>
-		<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Reservar Taquilla</h3>
-		<p>
-			Vas a realizar la reserva de una taquilla. El precio de las taquilla es de:
-			{#if selectedTaquilla.includes('G')}<span class="font-bold"> 6€ </span>
-			{:else}<span class="font-bold"> 4€ </span>
-			{/if} el año completo y la mitad por el segundo cuatrimestre. Este importe se abona en delegación
-			de estudiantes.
-		</p>
-		<Label class="space-y-2">
-			<span>NIA:</span>
-			<Input
-				type="text"
-				id="nia"
-				name="nia"
-				placeholder="100xxxxxx@alumnos.uc3m.es"
-				value={NIA}
-				required
-				readonly
-			/>
-		</Label>
-		<Label class="space-y-2">
-			<span>Taquilla</span>
-			<Input
-				type="text"
-				id="taquilla"
-				name="taquilla"
-				placeholder="x.y.z.ssss"
-				value={selectedTaquilla}
-				required
-				readonly
-			/>
-		</Label>
-
-		<Input type="hidden" id="correo" name="correo" value={data.session?.user?.email} />
-
-		<Input type="hidden" id="nombre" name="nombre" value={data.session?.user?.name} />
-
-		<Button
-			type="submit"
-			class="w-full1 bg-green-500 hover:bg-[#FF6D2E] dark:bg-dark-primary dark:hover:bg-dark-accent"
-			>Reservar Taquilla</Button
 		>
-	</form>
+			<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Reservar Taquilla</h3>
+			<p class="dark:text-white">
+				La reserva de la taquilla {selectedTaquilla}. El precio de las taquilla
+				{#if selectedTaquilla.includes('G')}al ser <span class="italic">grande</span> es de
+					<span class="font-bold">6€</span> para
+				{:else}
+					al ser <span class="italic">pequeña</span> es de <span class="font-bold"> 4€ </span>para
+				{/if} el año completo y la mitad para el segundo cuatrimestre. Este importe se abona en delegación
+				de estudiantes
+				<a
+					href="https://maps.app.goo.gl/QaxfXbWVz5AvqsCW6"
+					class="underline hover:dark:text-dark-accent hover:text-accent">(1.0.H01)</a
+				>.
+			</p>
+			
+			<Label class="space-y-2">
+				<span>Nombre Asociación</span>
+				<Input
+					type="text"
+					id="nombre"
+					name="nombre"
+					value={data.session?.user?.name}
+					required
+					readonly
+				/>
+			</Label>
+
+			<Label class="space-y-2">
+				<span>Taquilla</span>
+				<Input
+					type="text"
+					id="taquilla"
+					name="taquilla"
+					placeholder="x.y.z.ssss"
+					value={selectedTaquilla}
+					required
+					readonly
+				/>
+			</Label>
+
+			<Input type="hidden" id="correo" name="correo" value={data.session?.user?.email} />
+
+			<Button
+				type="submit"
+				class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent"
+				>Reservar Taquilla
+			</Button>
+		</form>
+	{/if}
 </Modal>
 
 <ModalIniciaSesion bind:openForm={formModalInformationError}></ModalIniciaSesion>
@@ -84,7 +150,7 @@
 	<p>Debes iniciar sesión para reservar una taquilla</p>
 	<Button
 		type="button"
-		class="w-full1 bg-green-500 hover:bg-[#FF6D2E] dark:bg-dark-primary dark:hover:bg-dark-accent"
+		class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent"
 		on:click={() => {
 			signIn();
 		}}
@@ -93,8 +159,11 @@
 	</Button>
 </Modal>
 
-<div class="w-10/12 overflow-auto m-auto p-8">
-	<table style="border: 1px solid black; border-collapse: 10px;" class="m-auto mb-10">
+<div class="w-10/12 overflow-auto m-auto mt-6">
+	<table
+		style="border: 2px solid black; border-collapse: 10px; border-radius: 13px; border-spacing: 0; "
+		class="m-auto"
+	>
 		{#each ocupacion_bloques[block - 1] as row}
 			<tr>
 				{#each row as taquilla}

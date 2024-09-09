@@ -33,14 +33,18 @@ const config = {
     disappear: 'disappear 0.8s 1'
    },
    colors: {
-    'primary': '#333',
-    'secondary': '#666',
-    'accent': '#2563eb',
-    'background': '#2c3e50',
-    'dark-primary': '#2854b0',
-    'dark-secondary': '#111719',
-    'dark-accent': '#7962e5',
-    'dark-background': '#070a17'
+    'primary': '#333',  // #303030 -- Gris oscuro
+    'secondary': '#666',  //#070a17 -- Gris claro
+    'accent': '#2563eb',  // #2563eb -- Azul electrico claro
+    'background': '#2c3e50',  // #2c3e50 -- Azul grisaceo
+    'dark-primary': '#2854b0',  // #2854b0 -- Azul  oscuro
+    'dark-secondary': '#111719',  // #111719 -- Negro
+    'dark-accent': '#7962e5',   // #7962e5 -- Morado
+    'dark-background': '#070a17',  // #070a17 -- Negro
+    'dele-color': '#3BC4A0', // Color de la delegación EPS
+    'dele-accent': '#FF6D2E', // Color de acento de la delegación EPS
+    'dele-accent-hove': '#ff8647', 
+                    
       },
    
   },

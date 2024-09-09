@@ -5,6 +5,13 @@ import { redirect } from '@sveltejs/kit';
 export const load: PageLoad = async ({ parent, data }) => {
 	const { session } = await parent();
 	let authorizedEmails = data.authorizedEmails ?? [];
+	let users = data.users ?? [{
+		nombre: "No se ha",
+		nia: "podido encontrar",
+		correo: "ninguna",
+		rango: "persona.",
+	}];
+
 
 	if (authorizedEmails.includes(session?.user?.email) === -1 || !session?.user?.email || authorizedEmails.includes(session?.user?.email) === false) { 
 		throw redirect(302, '/');
@@ -12,6 +19,7 @@ export const load: PageLoad = async ({ parent, data }) => {
 	
 	return {
 		session: session,
-		authorizedEmails: authorizedEmails
+		authorizedEmails: authorizedEmails,
+		users: users,
 	};
 };

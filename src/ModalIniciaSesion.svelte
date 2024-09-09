@@ -11,7 +11,7 @@
 	<p>Debes iniciar sesión para reservar una taquilla</p>
 	<Button
 		type="button"
-		class="w-full1 bg-green-500 hover:bg-[#FF6D2E] dark:bg-dark-primary dark:hover:bg-dark-accent"
+		class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent"
 		on:click={() => {
 			signIn();
 		}}
