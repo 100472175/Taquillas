@@ -11,7 +11,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 		Google({
 			clientId: process.env.GOOGLE_CLIENT_ID,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-			
 		})
 		// Add more providers here, but for this app we only need Google
 	],
