@@ -27,7 +27,8 @@
 		LockOpenOutline,
 		LockOutline,
 		UserCircleOutline,
-		ArrowLeftToBracketOutline
+		ArrowLeftToBracketOutline,
+		DrawSquareSolid
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	import { onMount } from 'svelte';
@@ -238,23 +239,33 @@
 						{/await}
 					{/await}
 
-					<SidebarDropdownWrapper label="Osciloscopios">
+					<SidebarItem label="Puestos de Electrónica" href="/osciloscopio" on:click={() => hideNavBar()}>
 						<svelte:fragment slot="icon">
 							<DrawSquareOutline
 								class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 							/>
 						</svelte:fragment>
-						<SidebarDropdownItem
-							label="Reserva"
-							href="/osciloscopios"
-							on:click={() => hideNavBar()}
-						/>
-						<SidebarDropdownItem
-							label="Estado servicio"
-							href="/estado_osciloscopios"
-							on:click={() => hideNavBar()}
-						/>
-					</SidebarDropdownWrapper>
+					</SidebarItem>
+					{#await authorizedEmailsDespacho then}
+						{#await session then}
+							{#if session?.user?.email != null}
+								{#if authorizedEmailsDespacho != null && authorizedEmailsDespacho.includes(session?.user?.email) == true}
+									<SidebarItem
+										label="Gestionar Puestos"
+										href="/gestion_osciloscopios"
+										on:click={() => hideNavBar()}
+									>
+										<svelte:fragment slot="icon">
+											<DrawSquareSolid
+												class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+											/>
+										</svelte:fragment>
+									</SidebarItem>
+								{/if}
+							{/if}
+						{/await}
+					{/await}
+
 					{#await authorizedEmailsEscuela then}
 						{#await session then}
 							{#if session?.user?.email != null}

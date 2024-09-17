@@ -8,7 +8,8 @@
 		UsersSolid,
 		LockOutline,
 		QuestionCircleSolid,
-		UserCircleOutline
+		UserCircleOutline,
+		DrawSquareSolid
 	} from 'flowbite-svelte-icons';
 	import { page } from '$app/stores';
 	import Konami from './Konami.svelte';
@@ -48,7 +49,7 @@
 		<p class=" dark:text-white text-sm sm:text-base text-justify">
 			Para poder reservar una <span class="underline hover:dark:text-dark-accent hover:text-accent"
 				><a href="/taquillas">taquilla</a></span
-			>, o un osciloscopio, necesitas
+			>, o un puesto de electrónica, necesitas
 			<button
 				on:click={() => {
 					signIn('google');
@@ -147,11 +148,11 @@
 				class="flex gap-2 w-full"
 			>
 				<DrawSquareOutline class="mt-1 h-8 w-8" />
-				Osciloscopios [WIP]
+				Puestos de Electrónica
 			</p>
 			<div class="grid sm:grid-cols-3 grid-cols-1 place-items-center">
 				<button class="sm:col-span-2 sm:text-base text-sm text-white dark:text-white bg-dele-color dark:bg-dark-primary p-2 sm:mb-0 mb-2 rounded-xl cursor-pointer hover:bg-dele-accent dark:hover:bg-dark-accent" on:click={() => {goto("./osciloscopio")}}>
-					Reserva un osciloscopio en el despacho [WIP]
+					Reserva un puesto de electrónica en el despacho
 				</button>
 				<button class="w-auto sm:text-base text-sm text-white dark:text-white bg-dele-color dark:bg-dark-primary p-2 px-4 rounded-xl hover:bg-dele-accent hover:dark:bg-dark-accent cursor-pointer">
 					<a href="#Osciloscopios" class="w-auto">
@@ -160,6 +161,31 @@
 				</button>
 			</div>
 		</AccordionItem>
+		{#await authorizedEmailsDespacho then}
+			{#await session then}
+				{#if session?.user?.email != null}
+					{#if authorizedEmailsDespacho != null && authorizedEmailsDespacho.includes(session?.user?.email) == true}
+						<AccordionItem
+							class="text-white sm:text-3xl text-2xl px-8 py-3 mb-2 bg-dele-color hover:bg-dele-accent dark:hover:bg-dark-accent rounded-2xl dark:text-white dark:border-black dark:bg-dark-primary"
+							activeClass="bg-dele-accent"
+						>
+							<p
+								slot="header"
+								class="flex gap-2 w-full"
+							>
+								<DrawSquareSolid class="mt-1 h-8 w-8" />
+								Gestión de Puestos
+							</p>
+							<div class="w-full grid grid-cols-1 place-items-center">
+								<button class="sm:text-base text-sm text-white dark:text-white bg-dele-color dark:bg-dark-primary p-2 sm:mb-0 mb-2 rounded-xl cursor-pointer hover:bg-dele-accent dark:hover:bg-dark-accent" on:click={() => {goto("./gestion_osciloscopios")}}>
+									Administra y consulta las reservas de los puestos de electrónica
+								</button>
+							</div>
+						</AccordionItem>
+					{/if}
+				{/if}
+			{/await}
+		{/await}
 		{#await authorizedEmailsEscuela then}
 			{#await session then}
 				{#if session?.user?.email != null}
@@ -253,18 +279,18 @@
 	<button
 		class="text-white lg:text-3xl text-xl px-8 lg:py-3 py-6 bg-dele-accent hover:bg-dele-accent-hove rounded-2xl lg:w-1/3 w-5/6 flex gap-2 dark:bg-dark-primary dark:hover:bg-dark-accent"
 		on:click={() => {
-			goto('./osciloscopios');
+			goto('./osciloscopio');
 		}}
 	>
 		<DrawSquareOutline class="mt-1 h-8 w-1/4" />
-		<p class="text-left text-2xl w-full">Osciloscopios</p>
+		<p class="text-left text-2xl w-full">Puestos de Electrónica</p>
 	</button>
 	<div
 		class="rounded-full bg-dele-color py-6 flex items-center justify-center text-center lg:aspect-square lg:w-1/2 border-solid border-4 text-white w-11/12 dark:border-dark-primary dark:bg-dark-secondary"
 	>
 		<p class="flex items-center justify-center text-lg sm:p-12 p-16 sm:text-2xl">
-			El despacho de delegación cuenta con tres osciloscopios que los estudiantes pueden usar. Esta
-			página está actualmente en mantenimiento, pero estará habilitada en un futuro.
+			El despacho de delegación cuenta con tres puestos de electrónica que los estudiantes pueden usar y prestamos un servicio de reserva.
+			Para dar servicio a la máxima cantidad posible de estudiantes, sólo se podrá reservar una franja de 2 horas por semana.
 		</p>
 	</div>
 </div>
@@ -296,4 +322,33 @@
 		<AnnotationSolid class="mt-1 h-8 w-1/4" />
 		<p class="text-left text-2xl w-full">Ver las encuestas</p>
 	</button>
+</div>
+
+<div class="text-justified" style="min-height: 50vh;">
+	<h1 class="sm:text-4xl text-2xl text-center w-full py-6 dark:text-white dark:bg-[#070a17] mt-6 mb-6">
+		INFORMACIÓN BÁSICA SOBRE PROTECCIÓN DE DATOS
+	</h1>
+	<div class="w-10/12 m-auto grid grid-cols-3">
+		<h2 class="w-11/12 text-dele-color dark:text-dark-primary">RESPONSABLE DEL TRATAMIENTO
+			<p class="text-black dark:text-white">Universidad Carlos III de Madrid</p>
+		</h2> 
+		<h2 class="w-11/12 text-dele-color dark:text-dark-primary">IDENTIFICACIÓN DEL TRATAMIENTO
+			<p class="text-black dark:text-white">Gestión de taquillas EPS</p>
+		</h2>
+		<h2 class="w-11/12 text-dele-color dark:text-dark-primary">FINALIDAD
+			<p class="text-black dark:text-white">Gestión del uso de las taquillas por los estudiantes y empleados de la universidad<p>
+		</h2>
+		<h2 class="w-11/12 text-dele-color dark:text-dark-primary">EJERCICIO DE DERECHOS
+			<p class="text-black dark:text-white">Podrá ejercer sus derechos de acceso, rectificación, supresión, limitación, portabilidad y oposición a su tratamiento, mediante el envío de un correo a la siguiente dirección: dpd@uc3m.es</p>
+		</h2> 
+		<h2 class="w-11/12 text-dele-color dark:text-dark-primary">INFORMACIÓN ADICIONAL
+			<p class="text-black dark:text-white">Puede consultar la información adicional y detallada sobre nuestra Política de Privacidad 
+				<a href="https://www.uc3m.es/protecciondedatos" 
+				   class="underline text-dele-color dark:text-dark-primary hover:text-dele-accent dark:hover:text-dark-accent">
+						aquí
+				</a>
+				.
+			</p><br>
+		</h2> 
+	</div>
 </div>

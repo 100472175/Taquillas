@@ -60,7 +60,7 @@
 	function handleReload() {
 		setTimeout(() => {
 			location.reload();
-		}, 4000);
+		}, 2000);
 	}
 
 	function clearForm(time: number) {

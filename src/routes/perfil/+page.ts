@@ -7,8 +7,10 @@ import { redirect } from '@sveltejs/kit';
 export const load: PageLoad = async ({ parent, data }) => {
 	const { session } = await parent();
 	let reservas = data.reservas ?? [];
+	let osciloscopios = data.osciloscopios ?? [];
 	
 	return {
 		reservas: reservas,
+		osciloscopios: osciloscopios,
 	}
 };

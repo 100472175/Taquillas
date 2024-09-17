@@ -11,6 +11,7 @@ export const load: PageLoad = async ({ parent, data }) => {
 		correo: "ninguna",
 		rango: "persona.",
 	}];
+	let plantilla = data.plantilla ?? {"plantilla": {}};
 
 
 	if (authorizedEmails.includes(session?.user?.email) === -1 || !session?.user?.email || authorizedEmails.includes(session?.user?.email) === false) { 
@@ -21,5 +22,6 @@ export const load: PageLoad = async ({ parent, data }) => {
 		session: session,
 		authorizedEmails: authorizedEmails,
 		users: users,
+		plantilla: plantilla
 	};
 };

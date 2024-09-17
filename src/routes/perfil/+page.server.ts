@@ -8,6 +8,12 @@ export const load = (async (event) => {
 		return data;
 	};
 
+	const fetchReservasOsciloscopios = async (nia) => {
+		const res = await fetch(`${BASE_URL_API}/api/getReservasOsciloscopios/perfil/${nia}${TOKEN}`);
+		const data = await res.json();
+		return data;
+	};
+
 	let session = await event.locals.auth();
 	let nia = session?.user?.email?.split('@')[0];
 	let nombre = session?.user?.name;
@@ -27,6 +33,7 @@ export const load = (async (event) => {
 
 	return {
 		reservas: reserva,
+		osciloscopios: await fetchReservasOsciloscopios(nia),
 	};
 }) satisfies PageServerLoad;
 

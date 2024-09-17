@@ -7,6 +7,7 @@
 
 	let session = $page.data.session;
 	let reservas = $page.data.reservas.reservas;
+	let osciloscopios = $page.data.osciloscopios.reservas;
 
 	// Reactive statement to update session whenever $page.data.session changes
 	$: session = $page.data.session;
@@ -55,6 +56,41 @@
 							</p>
 						{/if}
 						
+					</Card>
+				{/each}
+			{:else}
+				<p class="text-4xl text-center text-dele-color mt-5 col-span-3 dark:text-white">Todavía no has hecho ninguna reserva</p>
+			{/if}
+		</div>
+	</TabItem>
+	<TabItem
+		title="Mis Puestos de Electrónica"
+		class=""
+		activeClasses="sm:text-base text-xs p-4 text-dele-accent dark:text-dark-accent"
+		inactiveClasses="text-gray-500 hover:text-dele-color p-4 dark:hover:text-dark-primary sm:text-base text-xs"
+	>
+		<div class="w-auto grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 place-items-center mt-6">
+			{#if osciloscopios != null && osciloscopios.length != 0}
+				{#each osciloscopios as reserva}
+					<Card class="mt-2">
+						<div class="flex place-content-between">
+							<h5 class="text-2xl font-medium underline text-dele-color dark:text-dark-primary">
+								{reserva['fecha']} {(reserva['hora']) + ":00 - " + (reserva['hora'] + 2) + ":00"}
+							</h5>
+							{#if reserva['estado'] === 'reservada'}
+								<p class="text-center p-1 text-white bg-red-500 rounded">
+									Reservada
+								</p>
+							{:else if reserva['estado'] === 'completada'}
+								<p class="text-center p-1 text-white bg-black rounded">Completa</p>
+							{:else}
+								<p class="text-center p-1 text-white bg-black rounded">No disponible</p>
+							{/if}
+
+						</div>
+						<p class="text-black text-sm mt-4 dark:text-white">
+							Puesto Reservado: {reserva["puesto"]}
+						</p>	
 					</Card>
 				{/each}
 			{:else}
