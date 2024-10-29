@@ -25,9 +25,7 @@
 				acc[key] = value;
 				return acc;
 			}, {});
-    	} else {
-        	console.error("Value is null or undefined.");
-    	}
+    	} 
 	});
 
 	const days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
@@ -39,7 +37,11 @@
 		selectedDia = day;
 		selectedHora = start_hour;
 		current_week = moment(selectedDia).isoWeek();
-		if (selectedDia < new Date()) {
+		let currentDate = new Date();
+
+		console.log(selectedDia, currentDate)
+		console.log(selectedHora, currentDate.getHours())
+		if (selectedDia < currentDate && selectedHora < currentDate.getHours()) {
 			formModalDateError = true;
 		}
 		else if (NIA != '100XXXXXX') {
@@ -60,7 +62,7 @@
 
 </script>
 
-<Modal bind:open={formModalReservation} size="md" autoclose={false} class="w-full">
+<Modal bind:open={formModalReservation} size="md" autoclose={false} class="w-full recompensa:bg-recompensa-secondary">
 	<form
 		class="flex flex-col space-y-6"
 		action="?/registerOsciloscopio"
@@ -70,15 +72,15 @@
 			formModalReservation = false;
 		}}
 	>
-		<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Reservar Puesto</h3>
-		<p class="dark:text-white">
+		<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white recompensa:text-white">Reservar Puesto</h3>
+		<p class="dark:text-white recompensa:text-white">
 			Vas a reservar el puesto {puesto} el día {selectedDia.getDate()}/{selectedDia.getMonth()+1}/{selectedDia.getFullYear()}, de {selectedHora}:00 a {selectedHora+2}:00. 
 			Para reservarlo, debes de estar de acuerdo con estas normas:
 			<br><br>
 			- Como mucho podrán acudir 3 personas al puesto reservado. <br>
 			- Eres responsable de lo que le ocurra al puesto durante tu reserva. <br>
 		</p>
-		<Label class="space-y-2">
+		<Label class="space-y-2 recompensa:text-white">
 			<span>Puesto de Electrónica</span>
 			<Input
 				type="text"
@@ -91,7 +93,7 @@
 			/>
 		</Label>
 
-		<Label class="space-y-2">
+		<Label class="space-y-2 recompensa:text-white">
 			<span>Día de Reserva</span>
 			<Input
 				type="text"
@@ -104,7 +106,7 @@
 			/>
 		</Label>
 
-		<Label class="space-y-2">
+		<Label class="space-y-2 recompensa:text-white">
 			<span>Franja Horaria</span>
 			<Input
 				type="text"
@@ -127,7 +129,7 @@
 		
 		<Button
 			type="submit"
-			class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent"
+			class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent recompensa:bg-recompensa-primary hover:recompensa:bg-recompensa-accent"
 			>Reservar Hora</Button
 		>
 	</form>
@@ -135,12 +137,12 @@
 
 <ModalIniciaSesion bind:openForm={formModalInformationError}></ModalIniciaSesion>
 
-<Modal bind:open={formModalInformationError} size="xs" autoclose={false} class="w-full">
-	<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Error</h3>
-	<p>Debes iniciar sesión para reservar un puesto</p>
+<Modal bind:open={formModalInformationError} size="xs" autoclose={false} class="w-full recompensa:bg-recompensa-secondary">
+	<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white recompensa:text-white">Error</h3>
+	<p class="dark:text-white recompensa:text-white">Debes iniciar sesión para reservar un puesto</p>
 	<Button
 		type="button"
-		class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent"
+		class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent recompensa:bg-recompensa-primary hover:recompensa:bg-recompensa-accent"
 		on:click={() => {
 			signIn();
 		}}
@@ -149,19 +151,19 @@
 	</Button>
 </Modal>
 
-<Modal bind:open={formModalDateError} size="xs" autoclose={false} class="w-full">
-	<h3 class="text-xl font-medium text-gray-900 dark:text-white">Fecha Errónea</h3>
-	<p>Esta fecha ya no está disponible.</p>
+<Modal bind:open={formModalDateError} size="xs" autoclose={false} class="w-full recompensa:bg-recompensa-secondary">
+	<h3 class="text-xl font-medium text-gray-900 dark:text-white recompensa:text-white">Fecha Errónea</h3>
+	<p class="dark:text-white recompensa:text-white">Esta fecha ya no está disponible.</p>
 </Modal>
 
 {#if selectedWeek == week1} 
-	<h1 class="sm:text-5xl text-3xl text-center w-full py-6 dark:text-white dark:bg-[#070a17]">Semana Actual</h1>
+	<h1 class="sm:text-5xl text-3xl text-center w-full py-6 dark:text-white recompensa:text-white dark:bg-[#070a17] recompensa:bg-recompensa-background">Semana Actual</h1>
 {:else}
-	<h1 class="sm:text-5xl text-3xl text-center w-full py-6 dark:text-white dark:bg-[#070a17]">Semana Siguiente</h1>
+	<h1 class="sm:text-5xl text-3xl text-center w-full py-6 dark:text-white recompensa:text-white dark:bg-[#070a17] recompensa:bg-recompensa-background">Semana Siguiente</h1>
 {/if}
 
 <div class="grid grid-cols-1 place-self-center mt-6">
-	<div class="w-auto m-auto dark:text-white grid sm:grid-cols-3 grid-cols-2">
+	<div class="w-auto m-auto dark:text-white recompensa:text-white grid sm:grid-cols-3 grid-cols-2">
 		<span class="flex items-center"
 			><Indicator size="lg" color="green" class="me-1.5" />Libre</span
 		>
@@ -237,7 +239,7 @@
 </div>
 
 <div class="grid grid-cols-1 place-items-center mt-6 mb-12">
-	<Button class="dark:bg-dark-primary dark:hover:bg-dark-accent bg-[#3BC4A0] hover:bg-[#FF6D2E]"
+	<Button class="dark:bg-dark-primary dark:hover:bg-dark-accent recompensa:bg-recompensa-primary hover:recompensa:bg-recompensa-accent bg-[#3BC4A0] hover:bg-[#FF6D2E]"
 		on:click={() => change_week()}>
 		Cambiar de Semana
 	</Button>

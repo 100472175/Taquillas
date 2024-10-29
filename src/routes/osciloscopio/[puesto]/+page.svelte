@@ -48,34 +48,34 @@
 	
 </script>
 
-<h1 class="text-3xl sm:text-4xl lg:text-5xl xl:text-7xl text-center font-montserrat mt-4 mb-4 text-dele-color dark:text-dark-primary">
+<h1 class="text-3xl sm:text-4xl lg:text-5xl xl:text-7xl text-center font-montserrat mt-4 mb-4 text-dele-color dark:text-dark-primary recompensa:text-recompensa-primary">
 	Selección de Hora
 </h1>
 
 <TablaOsciloscopios bind:week1 bind:week2 bind:data></TablaOsciloscopios>
 
 {#if form}
-	{#if form.message.includes('Error')}
+	{#if form.message.includes('Error') || form.message.includes('Ya') || form.message.includes('sancionado')}
 		<div
-			class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-dashed border-4 border-red-500 dark:border-red-500 p-4 mx-auto text-center"
+			class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-dashed border-4 border-red-500 dark:border-red-500 recompensa:border-red-500 p-4 mx-auto text-center"
 		>
-			<Card class="text-white bg-red-500 dark:text-white dark:bg-red-500">
+			<Card class="text-white bg-red-500 dark:text-white recompensa:text-white dark:bg-red-500 recompensa:bg-red-500">
 				<p class="p-2">{form.message}</p>
 			</Card>
 		</div>
-		<div class="text-white dark:text-dark-background">
+		<div class="text-white dark:text-dark-background recompensa:text-recompensa-background">
 			{clearForm(2000)}
 		</div>
 	{:else}
 		<div
-			class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-dashed border-4 border-green-500 dark:border-green-500 p-4 mx-auto text-center"
+			class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-dashed border-4 border-green-500 dark:border-green-500 recompensa:border-green-500 p-4 mx-auto text-center"
 		>
-			<Card class="text-white bg-green-500 dark:text-white dark:bg-green-500">
+			<Card class="text-white bg-green-500 dark:text-white recompensa:text-white dark:bg-green-500 recompensa:bg-green-500">
 				<p class="p-2">{form.message}</p>
 			</Card>
 			<Confetti amount={500} x={[-0.5, 3.5]} delay={[0, 2000]} duration={2000} infinite />
 		</div>
-		<div class="text-white dark:text-dark-background">
+		<div class="text-white dark:text-dark-background recompensa:text-recompensa-background">
 			{handleReload()}
 		</div>
 	{/if}

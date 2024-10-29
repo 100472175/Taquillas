@@ -1,5 +1,5 @@
-export const BASE_URL_API = process.env.DESTINO_API ?? 'http://127.0.0.1:8502'
-export const TOKEN = process.env.TOKEN_API ?? 'noup-casi';
+export const BASE_URL_API = 'http://localhost:8502'
+export const TOKEN = '/?token=patata';
 
 //const BASE_URL_API = 'https://et-emirates-springs-cinema.trycloudflare.com'
 
@@ -8,6 +8,13 @@ export const TOKEN = process.env.TOKEN_API ?? 'noup-casi';
 export async function reservaTaquilla(taquilla: FormDataEntryValue | null | String, usuario: FormDataEntryValue | null | Number, correo: FormDataEntryValue | null | String, nombre: FormDataEntryValue | null | String) {
 	// Llamada a la API de taquillas para reservar la taquill
 	try {
+		console.log('Reservando taquilla', taquilla, usuario, correo, nombre);
+		console.log("Body:" , JSON.stringify({ 
+			taquilla: taquilla,
+			usuario: usuario,
+			correo: correo,
+			nombre: nombre
+		}))
 		const response = await fetch(`${BASE_URL_API}/api/reservaTaquilla${TOKEN}`, {
 			method: 'POST',
 			headers: {

@@ -22,7 +22,7 @@
 	}
 </script>
 
-<Modal bind:open={formModalReservation} size="xs" autoclose={false} class="w-full">
+<Modal bind:open={formModalReservation} size="xs" autoclose={false} class="w-full recompensa:bg-recompensa-secondary">
 	{#if data.session?.user?.email?.endsWith('@alumnos.uc3m.es')}
 		<form
 			class="flex flex-col space-y-6"
@@ -33,8 +33,8 @@
 				formModalReservation = false;
 			}}
 		>
-			<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Reservar Taquilla</h3>
-			<p class="dark:text-white">
+			<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white recompensa:text-white">Reservar Taquilla</h3>
+			<p class="dark:text-white recompensa:text-white">
 				La reserva de la taquilla {selectedTaquilla}. El precio de las taquilla
 				{#if selectedTaquilla.includes('G')}al ser <span class="italic">grande</span> es de
 					<span class="font-bold">6€</span> para
@@ -44,10 +44,10 @@
 				de estudiantes
 				<a
 					href="https://maps.app.goo.gl/QaxfXbWVz5AvqsCW6"
-					class="underline hover:dark:text-dark-accent hover:text-accent">(1.0.H01)</a
+					class="underline hover:dark:text-dark-accent hover:recompensa:text-recompensa-accent hover:text-accent">(1.0.H01)</a
 				>.
 			</p>
-			<Label class="space-y-2">
+			<Label class="space-y-2 recompensa:text-white">
 				<span>NIA:</span>
 				<Input
 					type="text"
@@ -59,7 +59,7 @@
 					readonly
 				/>
 			</Label>
-			<Label class="space-y-2">
+			<Label class="space-y-2 recompensa:text-white">
 				<span>Taquilla</span>
 				<Input
 					type="text"
@@ -78,7 +78,7 @@
 
 			<Button
 				type="submit"
-				class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent"
+				class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent recompensa:bg-recompensa-primary hover:recompensa:bg-recompensa-accent"
 				>Reservar Taquilla</Button
 			>
 		</form>
@@ -92,8 +92,8 @@
 			formModalReservation = false;
 		}}
 		>
-			<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Reservar Taquilla</h3>
-			<p class="dark:text-white">
+			<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white recompensa:text-white">Reservar Taquilla</h3>
+			<p class="dark:text-white recompensa:text-white">
 				La reserva de la taquilla {selectedTaquilla}. El precio de las taquilla
 				{#if selectedTaquilla.includes('G')}al ser <span class="italic">grande</span> es de
 					<span class="font-bold">6€</span> para
@@ -103,7 +103,7 @@
 				de estudiantes
 				<a
 					href="https://maps.app.goo.gl/QaxfXbWVz5AvqsCW6"
-					class="underline hover:dark:text-dark-accent hover:text-accent">(1.0.H01)</a
+					class="underline hover:dark:text-dark-accent hover:recompensa:text-recompensa-accent hover:text-accent">(1.0.H01)</a
 				>.
 			</p>
 			
@@ -136,7 +136,7 @@
 
 			<Button
 				type="submit"
-				class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent"
+				class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent recompensa:bg-recompensa-primary hover:recompensa:bg-recompensa-accent"
 				>Reservar Taquilla
 			</Button>
 		</form>
@@ -145,12 +145,12 @@
 
 <ModalIniciaSesion bind:openForm={formModalInformationError}></ModalIniciaSesion>
 
-<Modal bind:open={formModalInformationError} size="xs" autoclose={false} class="w-full">
-	<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Error</h3>
-	<p>Debes iniciar sesión para reservar una taquilla</p>
+<Modal bind:open={formModalInformationError} size="xs" autoclose={false} class="w-full recompensa:bg-recompensa-secondary">
+	<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white recompensa:text-white">Error</h3>
+	<p class="dark:text-white recompensa:text-white">Debes iniciar sesión para reservar una taquilla</p>
 	<Button
 		type="button"
-		class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent"
+		class="w-full bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent recompensa:bg-recompensa-primary hover:recompensa:bg-recompensa-accent"
 		on:click={() => {
 			signIn();
 		}}

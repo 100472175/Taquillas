@@ -14,7 +14,8 @@ export const load: PageLoad = ({ params }) => {
 				'Entrada<a class="cursor-text" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUIcmlja3JvbGw%3D">&nbsp</a>supersecretísima',
 			content: `Enhorabuena, has encontrado la entrada supersecretísima. ¡Felicidades! <br />
 			Con esta entrada podrás acceder a la zona VIP de la web. ¡Disfrútala! <br />
-			No todo el mundo ha podido llegar hasta aquí, así que siéntete afortunado. ¡Enhorabuena! <br />
+			No todo el mundo ha podido llegar hasta aquí, así que siéntete afortunado. ¡Enhorabuena! <br /><br />
+			Además, si pasas una captura de esta página a algun administrador de la misma, podrás desbloquear una recompensa.<br />
 			Y ahora, ¡a disfrutar de la web!, pero no sin antes leer nuestro lema: <br /> <br /> <br />
 			Danzando entre desafíos, surge la luz del bienestar, <br />
 			Entrelazando caminos, en el devenir del azar, <br />
@@ -28,7 +29,9 @@ export const load: PageLoad = ({ params }) => {
 			Navegando en la vida, con su barca al navegar, <br />
 			Elevando el espíritu, con su canto al cantar, <br />
 			Preservando la vida, con su amor al amar, <br />
-			Sintiendo la alegría, con su risa al reír. <br />`
+			Sintiendo la alegría, con su risa al reír. <br />
+			
+			P.D: ¿Encontrarás el segundo easter egg?`
 		};
 	}
 

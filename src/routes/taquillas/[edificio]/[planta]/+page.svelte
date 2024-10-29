@@ -73,7 +73,7 @@
 </script>
 
 <h1
-	class="text-3xl sm:text-4xl lg:text-5xl xl:text-7xl text-center font-montserrat mt-4 mb-4 text-dele-color dark:text-dark-primary"
+	class="text-3xl sm:text-4xl lg:text-5xl xl:text-7xl text-center font-montserrat mt-4 mb-4 text-dele-color dark:text-dark-primary recompensa:text-recompensa-primary"
 >
 	Selección de Taquilla
 </h1>
@@ -81,14 +81,14 @@
 <div class="w-screen grid grid-cols-1 place-items-center mb-4">
 	<Button
 		id="pop_edificio"
-		class="dark:text-dark-primary dark:hover:text-dark-accent text-dele-color hover:text-dele-accent"
+		class="dark:text-dark-primary dark:hover:text-dark-accent recompensa:text-recompensa-primary hover:recompensa:text-recompensa-accent text-dele-color hover:text-dele-accent"
 	>
 		<QuestionCircleSolid class="md:h-8 md:w-8 h-10 w-10" />
 	</Button>
 </div>
 
 <Popover
-	class="text-black dark:text-white dark:bg-dark-secondary md:w-1/3 sm:w-1/2 w-10/12 sm:text-md text-sm"
+	class="text-black dark:text-white dark:bg-dark-secondary recompensa:text-white recompensa:bg-recompensa-secondary md:w-1/3 sm:w-1/2 w-10/12 sm:text-md text-sm"
 	title="Tutorial Taquillas - Selección de Taquilla"
 	triggeredBy="#pop_edificio"
 >
@@ -102,23 +102,23 @@
 <div class="w-screen h-full grid grid-rows-1 place-items-center">
 	<Button
 		size="lg"
-		class="w-1/10 bg-dele-color hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent"
+		class="w-1/10 bg-dele-color hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent recompensa:bg-recompensa-primary hover:recompensa:bg-recompensa-accent"
 	>
 		Bloque {block}
 		<ChevronDownOutline class="w-6 h-6 ms-2 text-black dark:text-red-500" />
 	</Button>
-	<Dropdown bind:open={openDropdown}>
-		<div slot="header" class="px-4 py-2">
-			<span class="block text-sm text-gray-900 dark:text-white">Selecciona un bloque</span>
+	<Dropdown bind:open={openDropdown} class="recompensa:bg-recompensa-secondary">
+		<div slot="header" class="px-4 py-2 recompensa:bg-recompensa-secondary"> 
+			<span class="block text-sm text-gray-900 dark:text-white recompensa:text-white">Selecciona un bloque</span>
 		</div>
 		{#each floor_size as bloque}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<li
-				class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600"
+				class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600 recompensa:bg-recompensa-secondary hover:recompensa:bg-recompensa-accent "
 				on:click={() => closeModalAssignBlock(bloque)}
 			>
-				<Radio name="block" bind:group={block} value={bloque}>Bloque {bloque}</Radio>
+				<Radio name="block" bind:group={block} value={bloque} class="recompensa:text-white">Bloque {bloque}</Radio>
 			</li>
 		{/each}
 	</Dropdown>
@@ -126,7 +126,7 @@
 
 {#if drawBlocks}
 	<div class="grid grid-cols-1 place-self-center mt-6">
-		<div class="w-auto m-auto dark:text-white grid sm:grid-cols-4 grid-cols-2">
+		<div class="w-auto m-auto dark:text-white recompensa:text-white grid sm:grid-cols-4 grid-cols-2">
 			<span class="flex items-center"
 				><Indicator size="lg" color="green" class="me-1.5" />Libre</span
 			>
@@ -146,14 +146,15 @@
 		<ButtonGroup class="space-x-px">
 			<Button
 				pill
-				class="dark:bg-dark-primary dark:hover:bg-dark-accent bg-[#3BC4A0] hover:bg-[#FF6D2E]"
+				class="dark:bg-dark-primary dark:hover:bg-dark-accent recompensa:bg-recompensa-primary hover:recompensa:bg-recompensa-accent bg-[#3BC4A0] hover:bg-[#FF6D2E] recompensa:border-black"
 				on:click={() => substractBlock()}
 			>
 				<ArrowLeftOutline />
 			</Button>
 			<Button
 				pill
-				class="dark:bg-dark-primary dark:hover:bg-dark-accent bg-[#3BC4A0] hover:bg-[#FF6D2E]"
+				class="dark:bg-dark-primary dark:hover:bg-dark-accent recompensa:bg-recompensa-primary
+				hover:recompensa:bg-recompensa-accent bg-[#3BC4A0] hover:bg-[#FF6D2E] recompensa:border-black"
 				on:click={() => addBlock()}
 			>
 				<ArrowRightOutline />
@@ -164,31 +165,31 @@
 		<img src={urlMapa} alt="Mapa" class="max-w-[800px] md:w-7/12 w-10/12 dark:invert" />
 	</div>
 {:else}
-	<p class="text-center p-6 dark:text-dark-primary">Loading...</p>
+	<p class="text-center p-6 dark:text-dark-primary recompensa:text-recompensa-primary">Loading...</p>
 {/if}
 
 {#if form}
 	{#if form.message.includes('Error')}
 		<div
-			class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-dashed border-4 border-red-500 dark:border-red-500 p-4 mx-auto text-center"
+			class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-dashed border-4 border-red-500 dark:border-red-500 recompensa:border-red-500 p-4 mx-auto text-center"
 		>
-			<Card class="text-white bg-red-500 dark:text-white dark:bg-red-500">
+			<Card class="text-white bg-red-500 dark:text-white dark:bg-red-500 recompensa:text-white recompensa:border-red-500">
 				<p class="p-2">{form.message}</p>
 			</Card>
 		</div>
-		<div class="text-white dark:text-dark-background">
+		<div class="text-white dark:text-dark-background recompensa:text-recompensa-background">
 			{clearForm(2000)}
 		</div>
 	{:else}
 		<div
-			class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-dashed border-4 border-green-500 dark:border-green-500 p-4 mx-auto text-center"
+			class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-dashed border-4 border-green-500 dark:border-green-500 recompensa:border-green-500 p-4 mx-auto text-center"
 		>
-			<Card class="text-white bg-green-500 dark:text-white dark:bg-green-500">
+			<Card class="text-white bg-green-500 dark:text-white dark:bg-green-500 recompensa:text-white recompensa:bg-green-500">
 				<p class="p-2">{form.message}</p>
 			</Card>
 			<Confetti amount={500} x={[-0.5, 3.5]} delay={[0, 2000]} duration={2000} infinite />
 		</div>
-		<div class="text-white dark:text-dark-background">
+		<div class="text-white dark:text-dark-background recompensa:text-recompensa-background">
 			{handleReload()}
 		</div>
 	{/if}

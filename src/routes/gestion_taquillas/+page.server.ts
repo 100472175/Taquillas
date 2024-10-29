@@ -60,7 +60,7 @@ export const actions = {
 		const data = await request.formData();
 		const taquilla = data.get('taquilla');
 		const nia = data.get('nia');
-		const correo = data.get('correo');
+		const correo = nia + "@alumnos.uc3m.es";
 		const nombre = data.get('nombre');
 		const result = reservaTaquilla(taquilla, nia, correo, nombre);
 		return result;

@@ -44,13 +44,18 @@ const config = {
     'dele-color': '#3BC4A0', // Color de la delegación EPS
     'dele-accent': '#FF6D2E', // Color de acento de la delegación EPS
     'dele-accent-hove': '#ff8647', 
-                    
-      },
-   
+    'recompensa-primary': '#757575',      // Plata
+    'recompensa-secondary': '#111719',      // Negro
+    'recompensa-accent': '#9a0f0f',         // Rojo
+    'recompensa-background': '#020202ff',  // Negro              
+    },
   },
  },
  plugins: [
   // 4. Append the Skeleton plugin (after other plugins)
+  function ({addVariant}) {
+    addVariant('recompensa', '.recompensa &')
+  },
   require('flowbite/plugin'),
   skeleton
  ]

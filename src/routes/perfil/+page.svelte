@@ -13,24 +13,24 @@
 	$: session = $page.data.session;
 </script>
 
-<h1 class="text-4xl text-center text-dele-color m-5 dark:bg-dark-background dark:text-dark-primary">
+<h1 class="text-4xl text-center text-dele-color m-5 dark:bg-dark-background dark:text-dark-primary recompensa:bg-recompensa-background recompensa:text-recompensa-primary">
 	Perfil
 </h1>
 
-<Tabs tabStyle="underline" contentClass="p-4" class="px-8">
+<Tabs defaultClass="flex flex-coll space-x-2 rtl:space-x-reverse " tabStyle="underline" contentClass="p-4" class="px-8">
 	<TabItem
 		open
 		title="Mis Taquillas"
 		class=""
-		activeClasses="sm:text-base text-xs p-4 text-dele-accent dark:text-dark-accent"
-		inactiveClasses="text-gray-500 hover:text-dele-color p-4 dark:hover:text-dark-primary sm:text-base text-xs"
+		activeClasses="sm:text-base text-xs p-4 text-dele-accent dark:text-dark-accent recompensa:text-recompensa-accent"
+		inactiveClasses="text-gray-500 hover:text-dele-color p-4 dark:hover:text-dark-primary recompensa:text-recompensa-primary hover:recompensa:text-white sm:text-base text-xs"
 	>
 		<div class="w-auto grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 place-items-center mt-6">
 			{#if reservas != null && reservas.length != 0}
 				{#each reservas as reserva}
-					<Card class="mt-2">
+					<Card class="mt-2 recompensa:bg-recompensa-primary recompensa:border-black">
 						<div class="flex place-content-between">
-							<h5 class="text-2xl font-medium underline text-dele-color dark:text-dark-primary">
+							<h5 class="text-2xl font-medium underline text-dele-color dark:text-dark-primary recompensa:text-white">
 								{reserva['taquilla']}
 							</h5>
 							{#if reserva['status'] === 'reservada'}
@@ -49,7 +49,7 @@
 
 						</div>
 						{#if reserva['status'] === 'reservada' || reserva['status'] === 'ocupada'}
-							<p class="text-black text-sm mt-4 dark:text-white">
+							<p class="text-black text-sm mt-4 dark:text-white recompensa:text-white">
 								Reservada el {reserva['date'].split(' ')[0]} a las {reserva[
 									'date'
 								].split(' ')[1]}
@@ -59,22 +59,22 @@
 					</Card>
 				{/each}
 			{:else}
-				<p class="text-4xl text-center text-dele-color mt-5 col-span-3 dark:text-white">Todavía no has hecho ninguna reserva</p>
+				<p class="text-4xl text-center text-dele-color mt-5 col-span-3 dark:text-white recompensa:text-white">Todavía no has hecho ninguna reserva</p>
 			{/if}
 		</div>
 	</TabItem>
 	<TabItem
 		title="Mis Puestos de Electrónica"
 		class=""
-		activeClasses="sm:text-base text-xs p-4 text-dele-accent dark:text-dark-accent"
-		inactiveClasses="text-gray-500 hover:text-dele-color p-4 dark:hover:text-dark-primary sm:text-base text-xs"
+		activeClasses="sm:text-base text-xs p-4 text-dele-accent dark:text-dark-accent recompensa:text-recompensa-accent"
+		inactiveClasses="text-gray-500 hover:text-dele-color p-4 dark:hover:text-dark-primary recompensa:text-recompensa-primary hover:recompensa:text-white  sm:text-base text-xs"
 	>
 		<div class="w-auto grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 place-items-center mt-6">
 			{#if osciloscopios != null && osciloscopios.length != 0}
 				{#each osciloscopios as reserva}
-					<Card class="mt-2">
+					<Card class="mt-2 recompensa:bg-recompensa-primary recompensa:border-black">
 						<div class="flex place-content-between">
-							<h5 class="text-2xl font-medium underline text-dele-color dark:text-dark-primary">
+							<h5 class="text-2xl font-medium underline text-dele-color dark:text-dark-primary recompensa:text-white">
 								{reserva['fecha']} {(reserva['hora']) + ":00 - " + (reserva['hora'] + 2) + ":00"}
 							</h5>
 							{#if reserva['estado'] === 'reservada'}
@@ -88,13 +88,13 @@
 							{/if}
 
 						</div>
-						<p class="text-black text-sm mt-4 dark:text-white">
+						<p class="text-black text-sm mt-4 dark:text-white recompensa:text-white">
 							Puesto Reservado: {reserva["puesto"]}
 						</p>	
 					</Card>
 				{/each}
 			{:else}
-				<p class="text-4xl text-center text-dele-color mt-5 col-span-3 dark:text-white">Todavía no has hecho ninguna reserva</p>
+				<p class="text-4xl text-center text-dele-color mt-5 col-span-3 dark:text-white recompensa:text-white">Todavía no has hecho ninguna reserva</p>
 			{/if}
 		</div>
 	</TabItem>

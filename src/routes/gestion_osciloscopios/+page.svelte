@@ -204,7 +204,7 @@
 
 <Modal bind:open={deleteModal} size="md" autoclose={false} class="w-full">
 	<form class="flex flex-col space-y-6">
-		<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Eliminar Reserva</h3>
+		<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white recompensa:text-white">Eliminar Reserva</h3>
 		<p>Vas a eliminar una reserva con los siguientes datos:</p>
 		<Label class="space-y-2">
 			<span>NIA:</span>
@@ -225,7 +225,7 @@
 		<p class="font-bold text-xl text-center">Hazlo sólo en caso de error de la reserva</p>
 		<Button
 			type="submit"
-			class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent"
+			class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent recompensa:bg-recompensa-primary hover:recompensa:bg-recompensa-accent"
 			on:click={(ev) => {
 				ev.preventDefault();
 				deleteModal = false;
@@ -235,30 +235,30 @@
 	</form>
 </Modal>
 
-<Modal bind:open={decompleteModal} size="md" autoclose={false} class="w-full">
+<Modal bind:open={decompleteModal} size="md" autoclose={false} class="w-full recompensa:bg-recompensa-secondary">
 	<form class="flex flex-col space-y-6">
-		<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Descompletar Reserva</h3>
+		<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white recompensa:text-white">Descompletar Reserva</h3>
 		<p>Vas a descompletar una reserva con los siguientes datos:</p>
-		<Label class="space-y-2">
+		<Label class="space-y-2 recompensa:text-white">
 			<span>NIA:</span>
 			<Input type="text" id="nia_d" name="nia_d" value={currentReserva['nia']} readonly required />
 		</Label>
-		<Label class="space-y-2">
+		<Label class="space-y-2 recompensa:text-white">
 			<span>Puesto</span>
 			<Input type="text" id="puesto_d" name="puesto_d" value={currentReserva['puesto']} readonly required/>
 		</Label>
-		<Label class="space-y-2">
+		<Label class="space-y-2 recompensa:text-white">
 			<span>Fecha</span>
 			<Input type="text" id="fecha_d" name="fecha_d" value={currentReserva['fecha']} readonly required/>
 		</Label>
-		<Label class="space-y-2">
+		<Label class="space-y-2 recompensa:text-white">
 			<span>Franja Horaria</span>
 			<Input type="text" id="hora_d" name="hora_d" value={(currentReserva['hora']) + ":00 - " + (currentReserva['hora'] + 2) + ":00"} readonly required/>
 		</Label>
-		<p class="font-bold text-xl text-center">Hazlo sólo si has completado una reserva por error</p>
+		<p class="font-bold text-xl text-center recompensa:text-white">Hazlo sólo si has completado una reserva por error</p>
 		<Button
 			type="submit"
-			class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent"
+			class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent recompensa:bg-recompensa-primary hover:recompensa:bg-recompensa-accent"
 			on:click={(ev) => {
 				ev.preventDefault();
 				decompleteModal = false;
@@ -268,22 +268,22 @@
 	</form>
 </Modal>
 
-<Modal bind:open={banModal} size="xs" autoclose={false} class="w-full">
+<Modal bind:open={banModal} size="xs" autoclose={false} class="w-full recompensa:bg-recompensa-secondary">
 	<form class="flex flex-col space-y-6">
-		<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Sancionar Persona</h3>
-		<p>Vas a sancionar a una persona con estos datos:</p>
-		<Label class="space-y-2">
+		<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white recompensa:text-white">Sancionar Persona</h3>
+		<p class="dark:text-white recompensa:text-white">Vas a sancionar a una persona con estos datos:</p>
+		<Label class="space-y-2 recompensa:text-white">
 			<span>NIA:</span>
 			<Input type="text" id="nia_b" name="nia_b" value={currentBanNIA} readonly required />
 		</Label>
-		<Label class="space-y-2">
+		<Label class="space-y-2 recompensa:text-white">
 			<span>Días de Sanción (máx 100):</span>
 			<Input type="text" id="dias_b" name="dias_b" value={currentBanDays} readonly required/>
 		</Label>
-		<p class="font-bold text-xl text-center">Hazlo solo si la persona se merece la sanción (se borrarán sus reservas)</p>
+		<p class="font-bold text-xl text-center recompensa:text-white">Hazlo solo si la persona se merece la sanción (se borrarán sus reservas)</p>
 		<Button
 			type="submit"
-			class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent"
+			class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent recompensa:bg-recompensa-primary hover:recompensa:bg-recompensa-accent"
 			on:click={(ev) => {
 				ev.preventDefault();
 				decompleteModal = false;
@@ -293,19 +293,19 @@
 	</form>
 </Modal>
 
-<Modal bind:open={unbanModal} size="xs" autoclose={false} class="w-full">
+<Modal bind:open={unbanModal} size="xs" autoclose={false} class="w-full recompensa:bg-recompensa-secondary">
 	<form class="flex flex-col space-y-6">
-		<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Sancionar Persona</h3>
-		<p>Vas a levantar la sanción de la persona con el NIA:</p>
-		<Label class="space-y-2">
+		<h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white recompensa:text-white">Sancionar Persona</h3>
+		<p class="dark:text-white recompensa:text-white">Vas a levantar la sanción de la persona con el NIA:</p>
+		<Label class="space-y-2 recompensa:text-white">
 			<span>NIA:</span>
 			<Input type="text" id="nia_ub" name="nia_ub" value={unbanNIA} readonly required />
 		</Label>
 		
-		<p class="font-bold text-xl text-center">Hazlo sólo si te equivocaste al sancionar a la persona (no se recuperarán sus reservas) o si la fecha de fin ha vencido</p>
+		<p class="font-bold text-xl text-center recompensa:text-white">Hazlo sólo si te equivocaste al sancionar a la persona (no se recuperarán sus reservas) o si la fecha de fin ha vencido</p>
 		<Button
 			type="submit"
-			class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent"
+			class="w-full1 bg-green-500 hover:bg-dele-accent dark:bg-dark-primary dark:hover:bg-dark-accent recompensa:bg-recompensa-primary hover:recompensa:bg-recompensa-accent"
 			on:click={(ev) => {
 				ev.preventDefault();
 				unbanModal = false;
@@ -315,45 +315,45 @@
 	</form>
 </Modal>
 
-<h1 class="text-4xl text-center text-dele-color m-5 dark:bg-dark-background dark:text-dark-primary">
+<h1 class="text-4xl text-center text-dele-color m-5 dark:bg-dark-background dark:text-dark-primary recompensa:bg-recompensa-background recompensa:text-recompensa-primary">
 	Gestión de Puestos
 </h1>
-<Tabs tabStyle="underline" contentClass="p-4" class="px-8">
+<Tabs defaultClass="flex flex-coll space-x-2 rtl:space-x-reverse overflow-x-auto" tabStyle="underline" contentClass="p-4" class="px-8">
 	<TabItem
 		open
 		title="Tabla Puestos de Eléctronica"
 		class=""
-		activeClasses="sm:text-base text-xs p-4 text-dele-accent dark:text-dark-accent"
-		inactiveClasses="text-gray-500 hover:text-dele-color p-4 dark:hover:text-dark-primary sm:text-base text-xs"
+		activeClasses="sm:text-base text-xs p-4 text-dele-accent dark:text-dark-accent recompensa:text-recompensa-accent"
+		inactiveClasses="text-gray-500 hover:text-dele-color p-4 dark:hover:text-dark-primary recompensa:text-recompensa-primary hover:recompensa:text-white sm:text-base text-xs"
 		on:focus={() => {
 			form = '';
 		}}
 	>
 		<TableSearch placeholder="Busca por Nombre" hoverable={true} bind:inputValue={searchTerm}>
 			<TableHead>
-				<TableHeadCell>Nombre</TableHeadCell>
-				<TableHeadCell>Nia</TableHeadCell>
-				<TableHeadCell>Puesto</TableHeadCell>
-				<TableHeadCell>Hora</TableHeadCell>
-				<TableHeadCell>Fecha</TableHeadCell>
-				<TableHeadCell>Estado</TableHeadCell>
-				<TableHeadCell>Acciones</TableHeadCell>
+				<TableHeadCell class="recompensa:bg-recompensa-primary recompensa:text-white">Nombre</TableHeadCell>
+				<TableHeadCell class="recompensa:bg-recompensa-primary recompensa:text-white">Nia</TableHeadCell>
+				<TableHeadCell class="recompensa:bg-recompensa-primary recompensa:text-white">Puesto</TableHeadCell>
+				<TableHeadCell class="recompensa:bg-recompensa-primary recompensa:text-white">Hora</TableHeadCell>
+				<TableHeadCell class="recompensa:bg-recompensa-primary recompensa:text-white">Fecha</TableHeadCell>
+				<TableHeadCell class="recompensa:bg-recompensa-primary recompensa:text-white">Estado</TableHeadCell>
+				<TableHeadCell class="recompensa:bg-recompensa-primary recompensa:text-white">Acciones</TableHeadCell>
 			</TableHead>
 			<TableBody tableBodyClass="divide-y">
 				{#if filteredItems != null && filteredItems}
 					{#each filteredItems as item}
 						<TableBodyRow>
-							<TableBodyCell>{item.nombre}</TableBodyCell>
-							<TableBodyCell>{item.nia}</TableBodyCell>
-							<TableBodyCell>{item.puesto}</TableBodyCell>
+							<TableBodyCell class="recompensa:bg-[#e0e0e0]">{item.nombre}</TableBodyCell>
+							<TableBodyCell class="recompensa:bg-[#e0e0e0]">{item.nia}</TableBodyCell>
+							<TableBodyCell class="recompensa:bg-[#e0e0e0]">{item.puesto}</TableBodyCell>
 							{#if item.hora != "La base está al"}
-								<TableBodyCell>{item.hora}:00 - {item.hora + 2}:00</TableBodyCell>
+								<TableBodyCell class="recompensa:bg-[#e0e0e0]">{item.hora}:00 - {item.hora + 2}:00</TableBodyCell>
 							{:else}
-								<TableBodyCell>{item.hora}</TableBodyCell>
+								<TableBodyCell class="recompensa:bg-[#e0e0e0]">{item.hora}</TableBodyCell>
 							{/if}
-							<TableBodyCell>{item.fecha}</TableBodyCell>
-							<TableBodyCell>{item.status.charAt(0).toUpperCase() + item.status.slice(1)}</TableBodyCell>
-							<TableBodyCell>
+							<TableBodyCell class="recompensa:bg-[#e0e0e0]">{item.fecha}</TableBodyCell>
+							<TableBodyCell class="recompensa:bg-[#e0e0e0]">{item.status.charAt(0).toUpperCase() + item.status.slice(1)}</TableBodyCell>
+							<TableBodyCell class="recompensa:bg-[#e0e0e0]">
 								<div class="grid grid-cols-1 xl:grid-cols-2">
 									{#if item.status === "reservada"}
 										<Button class="xl:w-[95%] w-full text-xs lg:text-md text-white bg-red-500 rounded p-1"
@@ -374,8 +374,8 @@
 	<TabItem
 		title="Añadir Sanción"
 		class=""
-		activeClasses="sm:text-base text-xs p-4 text-dele-accent dark:text-dark-accent"
-		inactiveClasses="text-gray-500 hover:text-dele-color p-4 dark:hover:text-dark-primary sm:text-base text-xs"
+		activeClasses="sm:text-base text-xs p-4 text-dele-accent dark:text-dark-accent recompensa:text-recompensa-accent"
+		inactiveClasses="text-gray-500 hover:text-dele-color p-4 dark:hover:text-dark-primary recompensa:text-recompensa-primary hover:recompensa:text-white sm:text-base text-xs"
 		on:focus={() => {
 			form = '';
 		}}
@@ -383,18 +383,18 @@
 		<form>
 			<div class="grid grid-cols-1 w-auto">
 				<div>
-					<Label class="w-4/5 m-auto text-xl text-dele-color"><span>NIA:</span> </Label>
+					<Label class="w-4/5 m-auto text-xl text-dele-color recompensa:text-recompensa-primary"><span>NIA:</span> </Label>
 					<Input type="text" id="nia_ban" name="nia_ban" placeholder="100XXXXXX" pattern={'100[0-9]{6}'} class="w-4/5 m-auto" required />
 				</div>
 				<div>
-					<Label class="w-4/5 m-auto text-xl text-dele-color"><span>Días de Sanción:</span></Label>
+					<Label class="w-4/5 m-auto text-xl text-dele-color recompensa:text-recompensa-primary"><span>Días de Sanción:</span></Label>
 					<Input type="text" id="sancion_ban" name="sancion_ban" required class="w-4/5 m-auto"/>
 				</div>
 			</div>
 			<div class="mt-8 grid grid-cols-1 w-auto place-items-center">
 				<Button
 					on:click={() => {change_ban_modal()}}
-					class="bg-dele-color text-white px-8 py-2 text-xl hover:bg-dele-color dark:bg-dark-primary dark:hover:bg-dark-accent"
+					class="bg-dele-color text-white px-8 py-2 text-xl hover:bg-dele-color dark:bg-dark-primary dark:hover:bg-dark-accent recompensa:bg-recompensa-primary hover:recompensa:bg-recompensa-accent"
 					>
 					Aplicar
 				</Button>
@@ -404,30 +404,30 @@
 	<TabItem
 		title="Blacklist"
 		class=""
-		activeClasses="sm:text-base text-xs p-4 text-dele-accent dark:text-dark-accent"
-		inactiveClasses="text-gray-500 hover:text-dele-color p-4 dark:hover:text-dark-primary sm:text-base text-xs"
+		activeClasses="sm:text-base text-xs p-4 text-dele-accent dark:text-dark-accent recompensa:text-recompensa-accent"
+		inactiveClasses="text-gray-500 hover:text-dele-color p-4 dark:hover:text-dark-primary recompensa:text-recompensa-primary hover:recompensa:text-white sm:text-base text-xs"
 		on:focus={() => {
 			form = '';
 		}}
 	>
 		<TableSearch placeholder="Busca por Nombre" hoverable={true} bind:inputValue={searchTerm}>
 			<TableHead>
-				<TableHeadCell>Nombre</TableHeadCell>
-				<TableHeadCell>Nia</TableHeadCell>
-				<TableHeadCell>Fecha de Inicio</TableHeadCell>
-				<TableHeadCell>Fecha de Final</TableHeadCell>
-				<TableHeadCell>Acciones</TableHeadCell>
+				<TableHeadCell class="recompensa:bg-recompensa-primary recompensa:text-white">Nombre</TableHeadCell>
+				<TableHeadCell class="recompensa:bg-recompensa-primary recompensa:text-white">Nia</TableHeadCell>
+				<TableHeadCell class="recompensa:bg-recompensa-primary recompensa:text-white">Fecha de Inicio</TableHeadCell>
+				<TableHeadCell class="recompensa:bg-recompensa-primary recompensa:text-white">Fecha de Final</TableHeadCell>
+				<TableHeadCell class="recompensa:bg-recompensa-primary recompensa:text-white">Acciones</TableHeadCell>
 			</TableHead>
 			<TableBody tableBodyClass="divide-y">
 				{#if bannedUsers != null && bannedUsers}
 					{#each bannedUsers as user}
 						<TableBodyRow>
-							<TableBodyCell>{user.nombre}</TableBodyCell>
-							<TableBodyCell>{user.nia}</TableBodyCell>
-							<TableBodyCell>{user.start}</TableBodyCell>
-							<TableBodyCell>{user.end}</TableBodyCell>
+							<TableBodyCell class="recompensa:bg-[#e0e0e0]">{user.nombre}</TableBodyCell>
+							<TableBodyCell class="recompensa:bg-[#e0e0e0]">{user.nia}</TableBodyCell>
+							<TableBodyCell class="recompensa:bg-[#e0e0e0]">{user.start}</TableBodyCell>
+							<TableBodyCell class="recompensa:bg-[#e0e0e0]">{user.end}</TableBodyCell>
 							{#if user.nombre != "No se ha podido"}
-								<TableBodyCell>
+								<TableBodyCell class="recompensa:bg-[#e0e0e0]">
 									<Button class="xl:w-[95%] w-full text-xs lg:text-md text-white bg-red-500 rounded p-1"
 										on:click={() => {
 											change_unban_modal(user.nia);
@@ -446,13 +446,13 @@
 
 {#if successToast}
 	<div class="fixed bottom-0 right-0 m-5">
-		<Card class="bg-green-500 dark:text-white text-white dark:bg-green-500">
+		<Card class="bg-green-500 dark:text-white text-white dark:bg-green-500 recompensa:text-white recompensa:bg-green-500">
 			<p class="p-2">Acción realizada con éxito</p>
 		</Card>
 	</div>
 {:else if unSuccessToast}
 	<div class="fixed bottom-0 right-0 m-5">
-		<Card class="bg-red-500 dark:text-white text-white dark:bg-red-500">
+		<Card class="bg-red-500 dark:text-white text-white dark:bg-red-500 recompensa:text-white recompensa:bg-red-500">
 			<p class="p-2">La acción ha fallado</p>
 		</Card>
 	</div>
